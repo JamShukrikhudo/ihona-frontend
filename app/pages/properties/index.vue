@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PropertyFilters } from '~/types/property'
+import type { DealTypeValue } from '~/data/territories'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -8,10 +9,13 @@ const router = useRouter()
 const filters = ref<PropertyFilters>({
   territorySlug: (route.query.territory as string) || undefined,
   propertyType: (route.query.type as any) || undefined,
+  dealType: (route.query.deal as DealTypeValue) || undefined,
   minPrice: route.query.minPrice ? Number(route.query.minPrice) : undefined,
   maxPrice: route.query.maxPrice ? Number(route.query.maxPrice) : undefined,
+  rooms: route.query.rooms ? String(route.query.rooms).split(',').map(Number) : undefined,
   hasGenerator: route.query.hasGenerator === '1',
   hasWifi: route.query.hasWifi === '1',
+  sort: (route.query.sort as PropertyFilters['sort']) || 'newest',
 })
 const page = ref(route.query.page ? Number(route.query.page) : 1)
 
@@ -25,10 +29,13 @@ function syncQuery() {
     query: {
       ...(filters.value.territorySlug ? { territory: filters.value.territorySlug } : {}),
       ...(filters.value.propertyType ? { type: filters.value.propertyType } : {}),
+      ...(filters.value.dealType ? { deal: filters.value.dealType } : {}),
       ...(filters.value.minPrice ? { minPrice: String(filters.value.minPrice) } : {}),
       ...(filters.value.maxPrice ? { maxPrice: String(filters.value.maxPrice) } : {}),
+      ...(filters.value.rooms?.length ? { rooms: filters.value.rooms.join(',') } : {}),
       ...(filters.value.hasGenerator ? { hasGenerator: '1' } : {}),
       ...(filters.value.hasWifi ? { hasWifi: '1' } : {}),
+      ...(filters.value.sort && filters.value.sort !== 'newest' ? { sort: filters.value.sort } : {}),
       ...(page.value > 1 ? { page: String(page.value) } : {}),
     },
   })
@@ -59,12 +66,20 @@ function goToPage(target: number) {
 }
 
 const showMap = ref(false)
+const dealTypeOrAny = computed<DealTypeValue>({
+  get: () => filters.value.dealType || 'rent',
+  set: (v) => (filters.value = { ...filters.value, dealType: v }),
+})
 
 useHead({ title: t('properties.title') })
 </script>
 
 <template>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mb-4">
+      <DealTypeTabs v-model="dealTypeOrAny" />
+    </div>
+
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <div>
         <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{{ t('properties.title') }}</h1>
@@ -73,13 +88,24 @@ useHead({ title: t('properties.title') })
           <span v-if="!live" class="ml-2 text-xs text-slate-400">{{ t('home.sample_data_note') }}</span>
         </p>
       </div>
-      <button
-        type="button"
-        class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-        @click="showMap = !showMap"
-      >
-        {{ showMap ? t('properties.hide_map') : t('properties.show_map') }}
-      </button>
+      <div class="flex items-center gap-2">
+        <select
+          v-model="filters.sort"
+          class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        >
+          <option value="newest">{{ t('properties.sort_newest') }}</option>
+          <option value="price_asc">{{ t('properties.sort_price_asc') }}</option>
+          <option value="price_desc">{{ t('properties.sort_price_desc') }}</option>
+          <option value="area_desc">{{ t('properties.sort_area_desc') }}</option>
+        </select>
+        <button
+          type="button"
+          class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          @click="showMap = !showMap"
+        >
+          {{ showMap ? t('properties.hide_map') : t('properties.show_map') }}
+        </button>
+      </div>
     </div>
 
     <div class="flex flex-col gap-6 sm:flex-row">
@@ -89,7 +115,7 @@ useHead({ title: t('properties.title') })
         <PropertyMap
           v-if="showMap"
           class="mb-6"
-          :points="results.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.rentPeriod ? '#2a80de' : '#16a35c' }))"
+          :points="results.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#16a35c' }))"
           height="360px"
         />
         <PropertyList :properties="results" />

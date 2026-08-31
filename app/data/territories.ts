@@ -24,18 +24,37 @@ export function findTerritoryBySlug(slug: string): Territory | undefined {
   return territories.find((t) => t.slug === slug)
 }
 
-export type PropertyTypeValue = 'apartment' | 'house' | 'guesthouse' | 'hostel' | 'land' | 'commercial' | 'cottage'
+export type PropertyTypeValue = 'apartment' | 'house' | 'land' | 'cottage' | 'commercial' | 'guesthouse' | 'hostel'
+export type DealTypeValue = 'sale' | 'rent'
 
-export const propertyTypes: { value: PropertyTypeValue; label: string; icon: string }[] = [
+// Business priority (see CONTEXT.md + product direction): city housing —
+// buy or rent a flat, house, land, cottage, commercial premises — comes
+// first. Tourism (guesthouse/hostel, always nightly) is a second, smaller
+// section, not mixed into the primary Купить/Снять nav.
+export const cityPropertyTypes: { value: PropertyTypeValue; label: string; icon: string }[] = [
   { value: 'apartment', label: 'Квартира', icon: '🏢' },
   { value: 'house', label: 'Дом', icon: '🏠' },
+  { value: 'land', label: 'Участок', icon: '🗺️' },
+  { value: 'cottage', label: 'Коттедж/дача', icon: '🌲' },
+  { value: 'commercial', label: 'Коммерческая', icon: '🏬' },
+]
+
+export const tourismPropertyTypes: { value: PropertyTypeValue; label: string; icon: string }[] = [
   { value: 'guesthouse', label: 'Гостевой дом', icon: '🏡' },
   { value: 'hostel', label: 'Хостел', icon: '🛏️' },
-  { value: 'land', label: 'Участок', icon: '🗺️' },
-  { value: 'commercial', label: 'Коммерческая', icon: '🏬' },
-  { value: 'cottage', label: 'Коттедж', icon: '🌲' },
+]
+
+export const propertyTypes = [...cityPropertyTypes, ...tourismPropertyTypes]
+
+export const dealTypes: { value: DealTypeValue; label: string }[] = [
+  { value: 'sale', label: 'Купить' },
+  { value: 'rent', label: 'Снять' },
 ]
 
 export function propertyTypeLabel(value: string): string {
   return propertyTypes.find((t) => t.value === value)?.label ?? value
+}
+
+export function isTourismType(value: string): boolean {
+  return tourismPropertyTypes.some((t) => t.value === value)
 }

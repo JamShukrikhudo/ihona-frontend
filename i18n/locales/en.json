@@ -1,8 +1,9 @@
 {
   "nav": {
     "buy": "Buy",
-    "stay": "Stays for tourists",
+    "rent": "Rent",
     "commercial": "Commercial",
+    "tourism": "Tourism",
     "login": "Log in",
     "logout": "Log out",
     "favorites": "Favorites"
@@ -15,18 +16,23 @@
     "see_all": "See all",
     "sample_data_note": "Sample data — live API integration in progress",
     "no_results": "No listings match your filters",
-    "map_title": "Listings on the map"
+    "map_title": "Listings on the map",
+    "tourism_title": "Tourism: guesthouses & hostels",
+    "tourism_subtitle": "Nightly stays for travelers — the Pamirs, the Fann Mountains, and more"
   },
   "search": {
     "territory_placeholder": "City or region",
     "all_territories": "Any region",
     "all_types": "Any type",
+    "city_types": "City real estate",
+    "tourism_types": "Tourism (nightly)",
     "max_price": "Max price, TJS",
     "submit": "Search"
   },
   "filters": {
     "territory": "Region",
     "type": "Property type",
+    "rooms": "Rooms",
     "price": "Price",
     "from": "from",
     "to": "to",
@@ -36,7 +42,11 @@
     "title": "Properties",
     "found": "{count} listings found",
     "show_map": "Show map",
-    "hide_map": "Hide map"
+    "hide_map": "Hide map",
+    "sort_newest": "Newest first",
+    "sort_price_asc": "Price: low to high",
+    "sort_price_desc": "Price: high to low",
+    "sort_area_desc": "Largest area first"
   },
   "territory": {
     "listings_in": "Listings in {name}"

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { territories, propertyTypes } from '~/data/territories'
+import { territories, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
+import type { DealTypeValue } from '~/data/territories'
 
+const props = defineProps<{ dealType: DealTypeValue }>()
 const { t } = useI18n()
 const router = useRouter()
 
@@ -27,6 +29,7 @@ function search() {
   router.push({
     path: '/properties',
     query: {
+      deal: props.dealType,
       ...(selectedTerritorySlug.value ? { territory: selectedTerritorySlug.value } : {}),
       ...(propertyType.value ? { type: propertyType.value } : {}),
       ...(maxPrice.value ? { maxPrice: maxPrice.value } : {}),
@@ -69,7 +72,12 @@ function search() {
       class="rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
     >
       <option value="">{{ t('search.all_types') }}</option>
-      <option v-for="type in propertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+      <optgroup :label="t('search.city_types')">
+        <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+      </optgroup>
+      <optgroup :label="t('search.tourism_types')">
+        <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+      </optgroup>
     </select>
 
     <input

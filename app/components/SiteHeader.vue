@@ -12,9 +12,12 @@ const { t } = useI18n()
       </NuxtLink>
 
       <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
-        <NuxtLink to="/properties?listingType=sale" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.buy') }}</NuxtLink>
-        <NuxtLink to="/properties?rent=night" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.stay') }}</NuxtLink>
-        <NuxtLink to="/properties?type=commercial" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.commercial') }}</NuxtLink>
+        <NuxtLink :to="{ path: '/properties', query: { deal: 'sale' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.buy') }}</NuxtLink>
+        <NuxtLink :to="{ path: '/properties', query: { deal: 'rent' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.rent') }}</NuxtLink>
+        <NuxtLink :to="{ path: '/properties', query: { type: 'commercial' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.commercial') }}</NuxtLink>
+        <NuxtLink :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }" class="text-slate-400 hover:text-brand-700 dark:text-slate-500 dark:hover:text-brand-400">
+          🏔️ {{ t('nav.tourism') }}
+        </NuxtLink>
       </nav>
 
       <div class="ml-auto flex items-center gap-3">

@@ -1,9 +1,10 @@
-import type { PropertyTypeValue } from '~/data/territories'
+import type { DealTypeValue, PropertyTypeValue } from '~/data/territories'
 
 export interface Property {
   id: number
   title: string
   propertyType: PropertyTypeValue
+  dealType: DealTypeValue
   territorySlug: string
   address: string
   lat: number
@@ -27,9 +28,13 @@ export interface Property {
 export interface PropertyFilters {
   territorySlug?: string
   propertyType?: PropertyTypeValue | ''
+  dealType?: DealTypeValue | ''
   minPrice?: number
   maxPrice?: number
+  /** Discrete room-count chips (cian-style): 1/2/3/4/5, 5 meaning "5+". */
+  rooms?: number[]
   hasGenerator?: boolean
   hasWifi?: boolean
   page?: number
+  sort?: 'newest' | 'price_asc' | 'price_desc' | 'area_desc'
 }

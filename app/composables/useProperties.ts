@@ -23,6 +23,7 @@ interface ApiProperty {
   address: string | null
   territory_code: string | null
   property_type: string
+  deal_type: string | null
   price: string | number
   currency: string
   bedrooms: number | null
@@ -51,6 +52,8 @@ function mapApiProperty(api: ApiProperty): Property {
     id: api.id,
     title: api.title,
     propertyType: api.property_type as PropertyTypeValue,
+    dealType: (api.deal_type as Property['dealType']) ?? 'sale',
+    rentPeriod: api.deal_type === 'rent' ? (['guesthouse', 'hostel'].includes(api.property_type) ? 'night' : 'month') : undefined,
     territorySlug: territory?.slug ?? api.territory_code?.toLowerCase() ?? '',
     address: api.address ?? '',
     lat: api.latitude ?? territory?.lat ?? 38.5598,
@@ -83,8 +86,11 @@ export async function useProperties(filters: PropertyFilters = {}): Promise<Prop
       query: {
         territory: filters.territorySlug,
         type: filters.propertyType || undefined,
+        deal_type: filters.dealType || undefined,
         min_price: filters.minPrice,
         max_price: filters.maxPrice,
+        rooms: filters.rooms?.length ? filters.rooms.join(',') : undefined,
+        sort: filters.sort,
         page: filters.page,
       },
     })
@@ -94,8 +100,22 @@ export async function useProperties(filters: PropertyFilters = {}): Promise<Prop
       meta: { currentPage: data.meta.current_page, lastPage: data.meta.last_page, total: data.meta.total },
     }
   } catch {
-    const properties = applyFilters(mockProperties, filters)
+    const properties = sortProperties(applyFilters(mockProperties, filters), filters.sort)
     return { properties, usingLiveData: false, meta: { ...SINGLE_PAGE_META, total: properties.length } }
+  }
+}
+
+function sortProperties(properties: Property[], sort?: PropertyFilters['sort']): Property[] {
+  const sorted = [...properties]
+  switch (sort) {
+    case 'price_asc':
+      return sorted.sort((a, b) => a.price - b.price)
+    case 'price_desc':
+      return sorted.sort((a, b) => b.price - a.price)
+    case 'area_desc':
+      return sorted.sort((a, b) => b.area - a.area)
+    default:
+      return sorted
   }
 }
 
@@ -138,6 +158,12 @@ function applyFilters(properties: Property[], filters: PropertyFilters) {
   return properties.filter((property) => {
     if (filters.territorySlug && property.territorySlug !== filters.territorySlug) return false
     if (filters.propertyType && property.propertyType !== filters.propertyType) return false
+    if (filters.dealType && property.dealType !== filters.dealType) return false
+    if (filters.rooms?.length) {
+      const rooms = property.rooms ?? 0
+      const matches = filters.rooms.some((r) => (r >= 5 ? rooms >= 5 : rooms === r))
+      if (!matches) return false
+    }
     if (filters.minPrice && property.price < filters.minPrice) return false
     if (filters.maxPrice && property.price > filters.maxPrice) return false
     if (filters.hasGenerator && !property.hasGenerator) return false

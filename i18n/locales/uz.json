@@ -1,8 +1,9 @@
 {
   "nav": {
     "buy": "Sotib olish",
-    "stay": "Sayyohlar uchun ijara",
+    "rent": "Ijaraga olish",
     "commercial": "Tijorat",
+    "tourism": "Sayyohlik",
     "login": "Kirish",
     "logout": "Chiqish",
     "favorites": "Sevimlilar"
@@ -15,18 +16,23 @@
     "see_all": "Barchasini ko‘rish",
     "sample_data_note": "Namunaviy ma'lumotlar — API integratsiyasi ishlab chiqilmoqda",
     "no_results": "Filtrlaringizga mos e'lon topilmadi",
-    "map_title": "Xaritadagi obyektlar"
+    "map_title": "Xaritadagi obyektlar",
+    "tourism_title": "Sayyohlik: mehmonxonalar va xostellar",
+    "tourism_subtitle": "Sayohatchilar uchun kechalik turar joy — Pomir, Fan tog‘lari va boshqa yo‘nalishlar"
   },
   "search": {
     "territory_placeholder": "Shahar yoki hudud",
     "all_territories": "Har qanday hudud",
     "all_types": "Har qanday tur",
+    "city_types": "Shahar ko‘chmas mulki",
+    "tourism_types": "Sayyohlik (kechalik)",
     "max_price": "Maks. narx, TJS",
     "submit": "Qidirish"
   },
   "filters": {
     "territory": "Hudud",
     "type": "Obyekt turi",
+    "rooms": "Xonalar",
     "price": "Narx",
     "from": "dan",
     "to": "gacha",
@@ -36,7 +42,11 @@
     "title": "Ko‘chmas mulk obyektlari",
     "found": "Topilgan e'lonlar: {count}",
     "show_map": "Xaritani ko‘rsatish",
-    "hide_map": "Xaritani yashirish"
+    "hide_map": "Xaritani yashirish",
+    "sort_newest": "Avval yangilari",
+    "sort_price_asc": "Avval arzonlari",
+    "sort_price_desc": "Avval qimmatlari",
+    "sort_area_desc": "Avval kattaroq maydon"
   },
   "territory": {
     "listings_in": "{name} hududidagi obyektlar"
