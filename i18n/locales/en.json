@@ -59,7 +59,13 @@
     "location": "Location",
     "contact_agent": "Contact agent",
     "contact_note": "Reach out to confirm details and book a viewing",
-    "similar": "Similar properties"
+    "similar": "Similar properties",
+    "viewing_date": "Date",
+    "viewing_time": "Time",
+    "viewing_submit": "Book a viewing",
+    "viewing_submitting": "Sending…",
+    "viewing_success": "Request sent — an agent will reach out to confirm.",
+    "viewing_error": "Couldn't send the request. Please try again."
   },
   "auth": {
     "login_title": "Log in",

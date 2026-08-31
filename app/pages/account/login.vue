@@ -2,6 +2,7 @@
 const { t } = useI18n()
 const auth = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 
 const email = ref('')
 const password = ref('')
@@ -13,7 +14,8 @@ async function submit() {
   loading.value = true
   try {
     await auth.login(email.value, password.value)
-    router.push('/')
+    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
+    router.push(redirect)
   } catch {
     error.value = t('auth.error')
   } finally {
@@ -62,7 +64,7 @@ useHead({ title: t('auth.login_title') })
 
     <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
       {{ t('auth.no_account') }}
-      <NuxtLink to="/register" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.register_link') }}</NuxtLink>
+      <NuxtLink to="/account/register" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.register_link') }}</NuxtLink>
     </p>
   </div>
 </template>

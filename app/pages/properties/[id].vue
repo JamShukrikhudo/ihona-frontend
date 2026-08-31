@@ -2,7 +2,9 @@
 import { findTerritoryBySlug, propertyTypeLabel } from '~/data/territories'
 
 const route = useRoute()
+const router = useRouter()
 const { t } = useI18n()
+const auth = useAuthStore()
 
 const property = await usePropertyById(Number(route.params.id))
 
@@ -33,6 +35,37 @@ const amenities = computed(() => {
     p.waterSource && { icon: '💧', label: t(`property.water_${p.waterSource}`) },
   ].filter(Boolean) as { icon: string; label: string }[]
 })
+
+const showViewingForm = ref(false)
+const viewingDate = ref('')
+const viewingTime = ref('12:00')
+const viewingState = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
+const viewingError = ref('')
+
+function openViewingForm() {
+  if (!auth.isAuthenticated) {
+    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    return
+  }
+  showViewingForm.value = true
+}
+
+async function submitViewingRequest() {
+  if (!property.value || !viewingDate.value) return
+  viewingState.value = 'submitting'
+  viewingError.value = ''
+  try {
+    await requestViewing(
+      property.value.id,
+      `${viewingDate.value}T${viewingTime.value}:00`,
+      `Просмотр: ${property.value.title}`,
+    )
+    viewingState.value = 'success'
+  } catch {
+    viewingState.value = 'error'
+    viewingError.value = t('property.viewing_error')
+  }
+}
 
 useHead({ title: property.value?.title })
 useSeoMeta({
@@ -131,10 +164,54 @@ useHead({
 
       <aside class="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
-        <button class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700">
-          {{ t('property.contact_agent') }}
-        </button>
-        <p class="mt-3 text-center text-xs text-slate-400">{{ t('property.contact_note') }}</p>
+
+        <template v-if="viewingState === 'success'">
+          <p class="mt-4 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+            ✓ {{ t('property.viewing_success') }}
+          </p>
+        </template>
+
+        <template v-else-if="showViewingForm">
+          <form class="mt-4 flex flex-col gap-3" @submit.prevent="submitViewingRequest">
+            <div>
+              <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
+              <input
+                v-model="viewingDate"
+                type="date"
+                required
+                :min="new Date().toISOString().split('T')[0]"
+                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+              />
+            </div>
+            <div>
+              <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
+              <input
+                v-model="viewingTime"
+                type="time"
+                required
+                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+              />
+            </div>
+            <p v-if="viewingState === 'error'" class="text-sm text-red-600">{{ viewingError }}</p>
+            <button
+              type="submit"
+              :disabled="viewingState === 'submitting'"
+              class="w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+            >
+              {{ viewingState === 'submitting' ? t('property.viewing_submitting') : t('property.viewing_submit') }}
+            </button>
+          </form>
+        </template>
+
+        <template v-else>
+          <button
+            class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
+            @click="openViewingForm"
+          >
+            {{ t('property.contact_agent') }}
+          </button>
+          <p class="mt-3 text-center text-xs text-slate-400">{{ t('property.contact_note') }}</p>
+        </template>
       </aside>
     </div>
 

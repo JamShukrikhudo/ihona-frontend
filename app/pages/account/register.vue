@@ -64,7 +64,7 @@ useHead({ title: t('auth.register_title') })
 
     <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
       {{ t('auth.have_account') }}
-      <NuxtLink to="/login" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.login_link') }}</NuxtLink>
+      <NuxtLink to="/account/login" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.login_link') }}</NuxtLink>
     </p>
   </div>
 </template>

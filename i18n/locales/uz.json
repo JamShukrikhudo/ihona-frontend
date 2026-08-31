@@ -59,7 +59,13 @@
     "location": "Joylashuv",
     "contact_agent": "Agent bilan bog‘lanish",
     "contact_note": "Tafsilotlarni aniqlash va ko‘rikni belgilash uchun bog‘laning",
-    "similar": "O‘xshash obyektlar"
+    "similar": "O‘xshash obyektlar",
+    "viewing_date": "Sana",
+    "viewing_time": "Vaqt",
+    "viewing_submit": "Ko‘rikka yozilish",
+    "viewing_submitting": "Yuborilmoqda…",
+    "viewing_success": "So‘rov yuborildi — agent siz bilan bog‘lanadi.",
+    "viewing_error": "So‘rovni yuborib bo‘lmadi. Qayta urinib ko‘ring."
   },
   "auth": {
     "login_title": "Kirish",
