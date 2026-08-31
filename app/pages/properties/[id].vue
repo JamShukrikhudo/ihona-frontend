@@ -14,7 +14,7 @@ if (!property.value) {
 
 const territory = computed(() => findTerritoryBySlug(property.value!.territorySlug))
 const activeImage = ref(0)
-const similar = property.value ? useSimilarProperties(property.value) : []
+const similar = property.value ? await useSimilarProperties(property.value) : []
 
 const formattedPrice = computed(() => {
   if (!property.value) return ''

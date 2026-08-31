@@ -5,7 +5,16 @@ import type { Property, PropertyFilters, PropertyTypeValue } from '~/types/prope
 interface PropertiesResult {
   properties: Property[]
   usingLiveData: boolean
+  meta: { currentPage: number; lastPage: number; total: number }
 }
+
+interface ApiPaginationMeta {
+  current_page: number
+  last_page: number
+  total: number
+}
+
+const SINGLE_PAGE_META = { currentPage: 1, lastPage: 1, total: 0 }
 
 interface ApiProperty {
   id: number
@@ -70,17 +79,23 @@ function mapApiProperty(api: ApiProperty): Property {
  */
 export async function useProperties(filters: PropertyFilters = {}): Promise<PropertiesResult> {
   try {
-    const data = await apiFetch<{ data: ApiProperty[] }>('/v1/public/properties', {
+    const data = await apiFetch<{ data: ApiProperty[]; meta: ApiPaginationMeta }>('/v1/public/properties', {
       query: {
         territory: filters.territorySlug,
         type: filters.propertyType || undefined,
         min_price: filters.minPrice,
         max_price: filters.maxPrice,
+        page: filters.page,
       },
     })
-    return { properties: data.data.map(mapApiProperty), usingLiveData: true }
+    return {
+      properties: data.data.map(mapApiProperty),
+      usingLiveData: true,
+      meta: { currentPage: data.meta.current_page, lastPage: data.meta.last_page, total: data.meta.total },
+    }
   } catch {
-    return { properties: applyFilters(mockProperties, filters), usingLiveData: false }
+    const properties = applyFilters(mockProperties, filters)
+    return { properties, usingLiveData: false, meta: { ...SINGLE_PAGE_META, total: properties.length } }
   }
 }
 
@@ -97,7 +112,23 @@ export async function usePropertyById(id: number) {
   return data
 }
 
-export function useSimilarProperties(property: Property, limit = 3) {
+/**
+ * Was mock-only regardless of whether the main property came from the live
+ * API — inconsistent on a real property page. Now queries the same
+ * territory live and falls back to the mock list only when that comes back
+ * empty (e.g. the main property itself is a mock one, or the API's down).
+ */
+export async function useSimilarProperties(property: Property, limit = 3): Promise<Property[]> {
+  try {
+    const { properties, usingLiveData } = await useProperties({ territorySlug: property.territorySlug })
+    if (usingLiveData) {
+      const matches = properties.filter((p) => p.id !== property.id)
+      if (matches.length) return matches.slice(0, limit)
+    }
+  } catch {
+    // fall through
+  }
+
   return mockProperties
     .filter((p) => p.id !== property.id && (p.territorySlug === property.territorySlug || p.propertyType === property.propertyType))
     .slice(0, limit)

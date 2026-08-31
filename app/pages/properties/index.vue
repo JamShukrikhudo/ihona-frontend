@@ -13,30 +13,50 @@ const filters = ref<PropertyFilters>({
   hasGenerator: route.query.hasGenerator === '1',
   hasWifi: route.query.hasWifi === '1',
 })
+const page = ref(route.query.page ? Number(route.query.page) : 1)
 
-const { properties, usingLiveData } = await useProperties(filters.value)
+const { properties, usingLiveData, meta } = await useProperties({ ...filters.value, page: page.value })
 const results = ref(properties)
 const live = ref(usingLiveData)
+const pagination = ref(meta)
+
+function syncQuery() {
+  router.replace({
+    query: {
+      ...(filters.value.territorySlug ? { territory: filters.value.territorySlug } : {}),
+      ...(filters.value.propertyType ? { type: filters.value.propertyType } : {}),
+      ...(filters.value.minPrice ? { minPrice: String(filters.value.minPrice) } : {}),
+      ...(filters.value.maxPrice ? { maxPrice: String(filters.value.maxPrice) } : {}),
+      ...(filters.value.hasGenerator ? { hasGenerator: '1' } : {}),
+      ...(filters.value.hasWifi ? { hasWifi: '1' } : {}),
+      ...(page.value > 1 ? { page: String(page.value) } : {}),
+    },
+  })
+}
+
+async function reload() {
+  syncQuery()
+  const result = await useProperties({ ...filters.value, page: page.value })
+  results.value = result.properties
+  live.value = result.usingLiveData
+  pagination.value = result.meta
+}
 
 watch(
   filters,
-  async (value) => {
-    router.replace({
-      query: {
-        ...(value.territorySlug ? { territory: value.territorySlug } : {}),
-        ...(value.propertyType ? { type: value.propertyType } : {}),
-        ...(value.minPrice ? { minPrice: String(value.minPrice) } : {}),
-        ...(value.maxPrice ? { maxPrice: String(value.maxPrice) } : {}),
-        ...(value.hasGenerator ? { hasGenerator: '1' } : {}),
-        ...(value.hasWifi ? { hasWifi: '1' } : {}),
-      },
-    })
-    const result = await useProperties(value)
-    results.value = result.properties
-    live.value = result.usingLiveData
+  () => {
+    page.value = 1
+    reload()
   },
   { deep: true },
 )
+
+function goToPage(target: number) {
+  if (target < 1 || target > pagination.value.lastPage || target === page.value) return
+  page.value = target
+  reload()
+  if (import.meta.client) window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const showMap = ref(false)
 
@@ -49,7 +69,7 @@ useHead({ title: t('properties.title') })
       <div>
         <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{{ t('properties.title') }}</h1>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          {{ t('properties.found', { count: results.length }) }}
+          {{ t('properties.found', { count: pagination.total }) }}
           <span v-if="!live" class="ml-2 text-xs text-slate-400">{{ t('home.sample_data_note') }}</span>
         </p>
       </div>
@@ -73,6 +93,37 @@ useHead({ title: t('properties.title') })
           height="360px"
         />
         <PropertyList :properties="results" />
+
+        <nav v-if="pagination.lastPage > 1" class="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
+          <button
+            type="button"
+            class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            :disabled="pagination.currentPage <= 1"
+            @click="goToPage(pagination.currentPage - 1)"
+          >
+            ←
+          </button>
+          <button
+            v-for="p in pagination.lastPage"
+            :key="p"
+            type="button"
+            class="h-9 w-9 rounded-lg text-sm"
+            :class="p === pagination.currentPage
+              ? 'bg-brand-600 font-semibold text-white'
+              : 'border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
+            @click="goToPage(p)"
+          >
+            {{ p }}
+          </button>
+          <button
+            type="button"
+            class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            :disabled="pagination.currentPage >= pagination.lastPage"
+            @click="goToPage(pagination.currentPage + 1)"
+          >
+            →
+          </button>
+        </nav>
       </div>
     </div>
   </div>
