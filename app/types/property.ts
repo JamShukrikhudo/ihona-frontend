@@ -14,6 +14,7 @@ export interface Property {
   rentPeriod?: 'night' | 'month'
   area: number
   rooms: number | null
+  bathrooms: number | null
   maxGuests: number | null
   altitude: number | null
   hasWifi: boolean

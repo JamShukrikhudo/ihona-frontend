@@ -62,6 +62,7 @@ function mapApiProperty(api: ApiProperty): Property {
     currency: 'TJS',
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
+    bathrooms: api.bathrooms,
     maxGuests: null,
     altitude: null,
     hasWifi: false,

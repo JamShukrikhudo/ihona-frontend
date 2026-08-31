@@ -16,12 +16,46 @@ const territory = computed(() => findTerritoryBySlug(property.value!.territorySl
 const activeImage = ref(0)
 const similar = property.value ? await useSimilarProperties(property.value) : []
 
+function nextImage() {
+  if (!property.value) return
+  activeImage.value = (activeImage.value + 1) % property.value.images.length
+}
+function prevImage() {
+  if (!property.value) return
+  activeImage.value = (activeImage.value - 1 + property.value.images.length) % property.value.images.length
+}
+
 const formattedPrice = computed(() => {
   if (!property.value) return ''
   const price = new Intl.NumberFormat('ru-RU').format(property.value.price)
   return property.value.rentPeriod
     ? `${price} TJS / ${t(`property.rent_${property.value.rentPeriod}`)}`
     : `${price} TJS`
+})
+
+// Price/m² reads oddly for a nightly rate (guesthouse/hostel), so it's
+// shown only for sale and monthly-rent listings, and only when area is known.
+const pricePerSqm = computed(() => {
+  if (!property.value || !property.value.area || property.value.rentPeriod === 'night') return null
+  return new Intl.NumberFormat('ru-RU').format(Math.round(property.value.price / property.value.area))
+})
+
+const dealTypeLabel = computed(() => (property.value?.dealType === 'rent' ? t('property.deal_rent') : t('property.deal_sale')))
+
+const characteristics = computed(() => {
+  if (!property.value) return []
+  const p = property.value
+  return [
+    { label: t('property.deal_type_label'), value: dealTypeLabel.value },
+    { label: t('filters.type'), value: propertyTypeLabel(p.propertyType) },
+    { label: t('property.area'), value: `${p.area} м²` },
+    p.rooms ? { label: t('filters.rooms'), value: String(p.rooms) } : null,
+    p.bathrooms ? { label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
+    p.maxGuests ? { label: t('property.max_guests'), value: String(p.maxGuests) } : null,
+    p.altitude ? { label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
+    territory.value ? { label: t('filters.territory'), value: territory.value.nameRu } : null,
+    { label: t('property.id_label'), value: `№ ${p.id}` },
+  ].filter(Boolean) as { label: string; value: string }[]
 })
 
 const amenities = computed(() => {
@@ -125,18 +159,49 @@ useHead({
 </script>
 
 <template>
-  <div v-if="property" class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-    <NuxtLink to="/properties" class="mb-4 inline-flex items-center gap-1 text-sm text-accent-700 hover:underline dark:text-accent-400">
-      ← {{ t('property.back_to_listings') }}
-    </NuxtLink>
+  <div v-if="property" class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <nav class="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
+      <NuxtLink to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('property.breadcrumb_home') }}</NuxtLink>
+      <span>/</span>
+      <NuxtLink
+        v-if="territory"
+        :to="`/territories/${territory.slug}`"
+        class="hover:text-brand-700 dark:hover:text-brand-400"
+      >
+        {{ territory.nameRu }}
+      </NuxtLink>
+      <span v-if="territory">/</span>
+      <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType) }}</span>
+    </nav>
 
-    <!-- Simplified gallery: main photo + thumbnail strip, no lightbox — -->
-    <!-- matches aura.tj's plainer property page rather than cian's dense -->
-    <!-- multi-tab gallery/floorplan/3D-tour layout. -->
-    <div class="overflow-hidden rounded-2xl bg-slate-100">
-      <img :src="property.images[activeImage]" :alt="property.title" class="h-80 w-full object-cover sm:h-[420px]" />
+    <!-- Gallery: main photo with counter + prev/next controls, thumbnail -->
+    <!-- strip below. No lightbox/floorplan/3D-tour tabs — those need real -->
+    <!-- data (virtual_tour_url etc.) this listing set doesn't have. -->
+    <div class="group relative overflow-hidden rounded-2xl bg-slate-100">
+      <img :src="property.images[activeImage]" :alt="property.title" class="h-80 w-full object-cover sm:h-[460px]" />
+      <template v-if="property.images.length > 1">
+        <button
+          type="button"
+          :aria-label="t('property.gallery_prev')"
+          class="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg text-slate-700 opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
+          @click="prevImage"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          :aria-label="t('property.gallery_next')"
+          class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg text-slate-700 opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
+          @click="nextImage"
+        >
+          ›
+        </button>
+        <span class="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white">
+          {{ t('property.gallery_counter', { current: activeImage + 1, total: property.images.length }) }}
+        </span>
+      </template>
     </div>
-    <div v-if="property.images.length > 1" class="mt-2 flex gap-2">
+    <div v-if="property.images.length > 1" class="mt-2 flex gap-2 overflow-x-auto pb-1">
       <button
         v-for="(img, i) in property.images"
         :key="img"
@@ -151,29 +216,59 @@ useHead({
 
     <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div class="lg:col-span-2">
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">
-          {{ propertyTypeLabel(property.propertyType) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
-        </h1>
-        <p class="mt-1 text-slate-500 dark:text-slate-400">{{ territory?.nameRu }}, {{ property.address }}</p>
-
-        <div class="mt-6 flex flex-wrap gap-4 rounded-xl border border-slate-200 bg-white p-4 text-sm dark:border-slate-800 dark:bg-slate-900">
-          <div><span class="text-slate-400">{{ t('property.area') }}: </span>{{ property.area }} м²</div>
-          <div v-if="property.rooms"><span class="text-slate-400">{{ t('property.rooms') }}: </span>{{ property.rooms }}</div>
-          <div v-if="property.maxGuests"><span class="text-slate-400">{{ t('property.max_guests') }}: </span>{{ property.maxGuests }}</div>
-          <div v-if="property.altitude"><span class="text-slate-400">{{ t('property.altitude') }}: </span>{{ property.altitude }} м</div>
-        </div>
-
-        <p class="mt-6 leading-relaxed text-slate-700 dark:text-slate-300">{{ property.description }}</p>
-
-        <div v-if="amenities.length" class="mt-6 flex flex-wrap gap-3">
+        <div class="flex flex-wrap items-center gap-2">
           <span
-            v-for="amenity in amenities"
-            :key="amenity.label"
-            class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300"
+            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
+            :class="property.dealType === 'rent'
+              ? 'bg-accent-50 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300'
+              : 'bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300'"
           >
-            {{ amenity.icon }} {{ amenity.label }}
+            {{ dealTypeLabel }}
+          </span>
+          <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+            {{ propertyTypeLabel(property.propertyType) }}
           </span>
         </div>
+
+        <h1 class="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
+          {{ propertyTypeLabel(property.propertyType) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
+        </h1>
+        <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
+          <span aria-hidden="true">📍</span> {{ territory?.nameRu }}, {{ property.address }}
+        </p>
+
+        <!-- Price shown here too (not only in the sidebar) so it reads on -->
+        <!-- mobile, where the sidebar renders below the fold. -->
+        <div class="mt-4 flex items-baseline gap-3 lg:hidden">
+          <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+          <p v-if="pricePerSqm" class="text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
+        </div>
+
+        <h2 class="mb-3 mt-8 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.characteristics_title') }}</h2>
+        <dl class="grid grid-cols-1 gap-x-8 gap-y-3 rounded-xl border border-slate-200 bg-white p-5 text-sm sm:grid-cols-2 dark:border-slate-800 dark:bg-slate-900">
+          <div v-for="item in characteristics" :key="item.label" class="flex items-baseline justify-between gap-4 border-b border-dashed border-slate-100 pb-2 sm:border-none sm:pb-0 dark:border-slate-800">
+            <dt class="text-slate-400">{{ item.label }}</dt>
+            <dd class="font-medium text-slate-800 dark:text-slate-200">{{ item.value }}</dd>
+          </div>
+        </dl>
+
+        <template v-if="property.description">
+          <h2 class="mb-3 mt-8 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.description_title') }}</h2>
+          <p class="leading-relaxed text-slate-700 dark:text-slate-300">{{ property.description }}</p>
+        </template>
+
+        <template v-if="amenities.length">
+          <h2 class="mb-3 mt-8 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.amenities_title') }}</h2>
+          <div class="flex flex-wrap gap-3">
+            <span
+              v-for="amenity in amenities"
+              :key="amenity.label"
+              class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300"
+            >
+              {{ amenity.icon }} {{ amenity.label }}
+            </span>
+          </div>
+        </template>
 
         <div class="mt-8">
           <h2 class="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.location') }}</h2>
@@ -181,67 +276,77 @@ useHead({
         </div>
       </div>
 
-      <aside class="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <div class="flex items-start justify-between gap-2">
-          <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
-          <button
-            type="button"
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-lg transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
-            :disabled="togglingFavorite"
-            :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
-            @click="onToggleFavorite"
-          >
-            <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
-          </button>
+      <aside class="h-fit space-y-4 lg:sticky lg:top-20">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+              <p v-if="pricePerSqm" class="mt-0.5 text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
+            </div>
+            <button
+              type="button"
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-lg transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
+              :disabled="togglingFavorite"
+              :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
+              @click="onToggleFavorite"
+            >
+              <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
+            </button>
+          </div>
+
+          <template v-if="viewingState === 'success'">
+            <p class="mt-4 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+              ✓ {{ t('property.viewing_success') }}
+            </p>
+          </template>
+
+          <template v-else-if="showViewingForm">
+            <form class="mt-4 flex flex-col gap-3" @submit.prevent="submitViewingRequest">
+              <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
+                <input
+                  v-model="viewingDate"
+                  type="date"
+                  required
+                  :min="new Date().toISOString().split('T')[0]"
+                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                />
+              </div>
+              <div>
+                <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
+                <input
+                  v-model="viewingTime"
+                  type="time"
+                  required
+                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                />
+              </div>
+              <p v-if="viewingState === 'error'" class="text-sm text-red-600">{{ viewingError }}</p>
+              <button
+                type="submit"
+                :disabled="viewingState === 'submitting'"
+                class="w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+              >
+                {{ viewingState === 'submitting' ? t('property.viewing_submitting') : t('property.viewing_submit') }}
+              </button>
+            </form>
+          </template>
+
+          <template v-else>
+            <button
+              class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
+              @click="openViewingForm"
+            >
+              {{ t('property.contact_agent') }}
+            </button>
+            <p class="mt-3 text-center text-xs text-slate-400">{{ t('property.contact_note') }}</p>
+          </template>
         </div>
 
-        <template v-if="viewingState === 'success'">
-          <p class="mt-4 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
-            ✓ {{ t('property.viewing_success') }}
-          </p>
-        </template>
-
-        <template v-else-if="showViewingForm">
-          <form class="mt-4 flex flex-col gap-3" @submit.prevent="submitViewingRequest">
-            <div>
-              <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
-              <input
-                v-model="viewingDate"
-                type="date"
-                required
-                :min="new Date().toISOString().split('T')[0]"
-                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-              />
-            </div>
-            <div>
-              <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
-              <input
-                v-model="viewingTime"
-                type="time"
-                required
-                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-              />
-            </div>
-            <p v-if="viewingState === 'error'" class="text-sm text-red-600">{{ viewingError }}</p>
-            <button
-              type="submit"
-              :disabled="viewingState === 'submitting'"
-              class="w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
-            >
-              {{ viewingState === 'submitting' ? t('property.viewing_submitting') : t('property.viewing_submit') }}
-            </button>
-          </form>
-        </template>
-
-        <template v-else>
-          <button
-            class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
-            @click="openViewingForm"
-          >
-            {{ t('property.contact_agent') }}
-          </button>
-          <p class="mt-3 text-center text-xs text-slate-400">{{ t('property.contact_note') }}</p>
-        </template>
+        <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-800 dark:border-amber-900/40 dark:bg-amber-900/20 dark:text-amber-200">
+          <p class="font-semibold">⚠️ {{ t('property.safety_title') }}</p>
+          <p class="mt-1 leading-relaxed">{{ t('property.safety_note') }}</p>
+        </div>
       </aside>
     </div>
 
