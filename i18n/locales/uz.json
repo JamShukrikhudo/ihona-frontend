@@ -81,6 +81,8 @@
     "login_subtitle": "Sevimlilarni saqlash va agentlar bilan bog‘lanish uchun kiring",
     "email": "Email",
     "password": "Parol",
+    "password_confirmation": "Parolni tasdiqlang",
+    "password_requirements": "Kamida 12 ta belgi, katta-kichik harflar, raqam va belgi",
     "name": "Ism",
     "loading": "Kirilmoqda…",
     "submit_login": "Kirish",

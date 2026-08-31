@@ -81,6 +81,8 @@
     "login_subtitle": "Барои нигоҳ доштани дӯстдоштаҳо ва тамос бо агентон ворид шавед",
     "email": "Email",
     "password": "Рамз",
+    "password_confirmation": "Рамзро такрор кунед",
+    "password_requirements": "Ҳадди ақал 12 аломат, ҳарфҳои калон ва хурд, рақам ва аломат",
     "name": "Ном",
     "loading": "Воридшавӣ…",
     "submit_login": "Воридшавӣ",

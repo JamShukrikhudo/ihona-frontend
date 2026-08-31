@@ -81,6 +81,8 @@
     "login_subtitle": "Log in to save favorites and contact agents",
     "email": "Email",
     "password": "Password",
+    "password_confirmation": "Confirm password",
+    "password_requirements": "At least 12 characters, upper and lower case, a number, and a symbol",
     "name": "Name",
     "loading": "Signing in…",
     "submit_login": "Log in",
