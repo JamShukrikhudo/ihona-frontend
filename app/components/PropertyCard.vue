@@ -2,10 +2,17 @@
 import { findTerritoryBySlug, propertyTypeLabel } from '~/data/territories'
 import type { Property } from '~/types/property'
 
-const props = defineProps<{ property: Property }>()
+const props = withDefaults(defineProps<{ property: Property; initialFavorited?: boolean }>(), {
+  initialFavorited: false,
+})
 const { t } = useI18n()
+const auth = useAuthStore()
+const router = useRouter()
+const route = useRoute()
 
 const territory = computed(() => findTerritoryBySlug(props.property.territorySlug))
+const favorited = ref(props.initialFavorited)
+const togglingFavorite = ref(false)
 
 const formattedPrice = computed(() => {
   const price = new Intl.NumberFormat('ru-RU').format(props.property.price)
@@ -13,6 +20,22 @@ const formattedPrice = computed(() => {
     ? `${price} TJS / ${t(`property.rent_${props.property.rentPeriod}`)}`
     : `${price} TJS`
 })
+
+async function onToggleFavorite() {
+  if (!auth.isAuthenticated) {
+    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    return
+  }
+  if (togglingFavorite.value) return
+  togglingFavorite.value = true
+  try {
+    favorited.value = await toggleFavorite(props.property.id)
+  } catch {
+    // leave the optimistic state untouched — a transient failure here isn't worth a toast
+  } finally {
+    togglingFavorite.value = false
+  }
+}
 </script>
 
 <template>
@@ -33,6 +56,15 @@ const formattedPrice = computed(() => {
       >
         🏔️ {{ t('property.mountain_view') }}
       </span>
+      <button
+        type="button"
+        class="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-lg shadow transition hover:bg-white disabled:opacity-60"
+        :disabled="togglingFavorite"
+        :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
+        @click.prevent.stop="onToggleFavorite"
+      >
+        <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
+      </button>
     </div>
 
     <div class="flex flex-1 flex-col gap-1.5 py-1">

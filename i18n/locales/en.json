@@ -4,7 +4,8 @@
     "stay": "Stays for tourists",
     "commercial": "Commercial",
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "favorites": "Favorites"
   },
   "home": {
     "title": "Real estate & rentals in Tajikistan",
@@ -65,7 +66,15 @@
     "viewing_submit": "Book a viewing",
     "viewing_submitting": "Sending…",
     "viewing_success": "Request sent — an agent will reach out to confirm.",
-    "viewing_error": "Couldn't send the request. Please try again."
+    "viewing_error": "Couldn't send the request. Please try again.",
+    "favorite": "Add to favorites",
+    "unfavorite": "Remove from favorites"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "loading": "Loading…",
+    "error": "Couldn't load your favorites.",
+    "empty": "You haven't saved any properties yet."
   },
   "auth": {
     "login_title": "Log in",

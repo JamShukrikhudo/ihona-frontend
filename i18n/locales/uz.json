@@ -4,7 +4,8 @@
     "stay": "Sayyohlar uchun ijara",
     "commercial": "Tijorat",
     "login": "Kirish",
-    "logout": "Chiqish"
+    "logout": "Chiqish",
+    "favorites": "Sevimlilar"
   },
   "home": {
     "title": "Tojikistonda ko‘chmas mulk va ijara",
@@ -65,7 +66,15 @@
     "viewing_submit": "Ko‘rikka yozilish",
     "viewing_submitting": "Yuborilmoqda…",
     "viewing_success": "So‘rov yuborildi — agent siz bilan bog‘lanadi.",
-    "viewing_error": "So‘rovni yuborib bo‘lmadi. Qayta urinib ko‘ring."
+    "viewing_error": "So‘rovni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
+    "favorite": "Sevimlilarga qo‘shish",
+    "unfavorite": "Sevimlilardan olib tashlash"
+  },
+  "favorites": {
+    "title": "Sevimlilar",
+    "loading": "Yuklanmoqda…",
+    "error": "Sevimlilarni yuklab bo‘lmadi.",
+    "empty": "Siz hali hech narsani sevimlilarga qo‘shmagansiz."
   },
   "auth": {
     "login_title": "Kirish",

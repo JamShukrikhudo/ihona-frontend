@@ -18,6 +18,13 @@ const { t } = useI18n()
       </nav>
 
       <div class="ml-auto flex items-center gap-3">
+        <NuxtLink
+          v-if="auth.isAuthenticated"
+          to="/favorites"
+          class="hidden text-sm font-medium text-slate-600 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-400 sm:inline"
+        >
+          ♥ {{ t('nav.favorites') }}
+        </NuxtLink>
         <ThemeToggle />
         <LocaleSwitcher />
         <NuxtLink

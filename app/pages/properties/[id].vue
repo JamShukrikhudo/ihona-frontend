@@ -36,6 +36,25 @@ const amenities = computed(() => {
   ].filter(Boolean) as { icon: string; label: string }[]
 })
 
+const favorited = ref(false)
+const togglingFavorite = ref(false)
+
+async function onToggleFavorite() {
+  if (!auth.isAuthenticated) {
+    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    return
+  }
+  if (togglingFavorite.value || !property.value) return
+  togglingFavorite.value = true
+  try {
+    favorited.value = await toggleFavorite(property.value.id)
+  } catch {
+    // transient failure — not worth interrupting the page for
+  } finally {
+    togglingFavorite.value = false
+  }
+}
+
 const showViewingForm = ref(false)
 const viewingDate = ref('')
 const viewingTime = ref('12:00')
@@ -163,7 +182,18 @@ useHead({
       </div>
 
       <aside class="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+        <div class="flex items-start justify-between gap-2">
+          <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+          <button
+            type="button"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-lg transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
+            :disabled="togglingFavorite"
+            :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
+            @click="onToggleFavorite"
+          >
+            <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
+          </button>
+        </div>
 
         <template v-if="viewingState === 'success'">
           <p class="mt-4 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
