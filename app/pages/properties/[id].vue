@@ -4,7 +4,7 @@ import { findTerritoryBySlug, propertyTypeLabel } from '~/data/territories'
 const route = useRoute()
 const { t } = useI18n()
 
-const property = usePropertyById(Number(route.params.id))
+const property = await usePropertyById(Number(route.params.id))
 
 if (!property.value) {
   throw createError({ statusCode: 404, statusMessage: 'Property not found' })
