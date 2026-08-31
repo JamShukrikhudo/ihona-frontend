@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "buy": "Buy",
+    "stay": "Stays for tourists",
+    "commercial": "Commercial",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "home": {
+    "title": "Real estate & rentals in Tajikistan",
+    "hero_title": "Find homes and stays across Tajikistan",
+    "hero_subtitle": "Apartments, houses, guesthouses for tourists and commercial property — from Dushanbe to the Pamirs.",
+    "listings_title": "Current listings",
+    "see_all": "See all",
+    "sample_data_note": "Sample data — live API integration in progress",
+    "no_results": "No listings match your filters",
+    "map_title": "Listings on the map"
+  },
+  "search": {
+    "territory_placeholder": "City or region",
+    "all_territories": "Any region",
+    "all_types": "Any type",
+    "max_price": "Max price, TJS",
+    "submit": "Search"
+  },
+  "filters": {
+    "territory": "Region",
+    "type": "Property type",
+    "price": "Price",
+    "from": "from",
+    "to": "to",
+    "amenities": "Amenities"
+  },
+  "properties": {
+    "title": "Properties",
+    "found": "{count} listings found",
+    "show_map": "Show map",
+    "hide_map": "Hide map"
+  },
+  "territory": {
+    "listings_in": "Listings in {name}"
+  },
+  "property": {
+    "rooms": "rooms",
+    "rent_night": "night",
+    "rent_month": "month",
+    "mountain_view": "mountain view",
+    "area": "Area",
+    "max_guests": "Guests",
+    "altitude": "Altitude",
+    "meters_above_sea": "m above sea level",
+    "generator": "generator",
+    "parking": "parking",
+    "water_mains": "mains water",
+    "water_well": "well",
+    "water_spring": "spring",
+    "water_delivered": "delivered water",
+    "back_to_listings": "Back to listings",
+    "location": "Location",
+    "contact_agent": "Contact agent",
+    "contact_note": "Reach out to confirm details and book a viewing",
+    "similar": "Similar properties"
+  },
+  "auth": {
+    "login_title": "Log in",
+    "login_subtitle": "Log in to save favorites and contact agents",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "loading": "Signing in…",
+    "submit_login": "Log in",
+    "error": "Couldn't log in. Check your details and try again.",
+    "no_account": "No account?",
+    "register_link": "Sign up",
+    "register_title": "Sign up",
+    "register_subtitle": "Create an account to list a property or book a stay",
+    "submit_register": "Sign up",
+    "register_pending": "API-based registration is still being built on the backend.",
+    "have_account": "Already have an account?",
+    "login_link": "Log in"
+  },
+  "footer": {
+    "tagline": "Real estate and tourist rentals across Tajikistan.",
+    "territories": "Regions",
+    "company": "Company",
+    "about": "About",
+    "contacts": "Contact",
+    "currency": "Currency"
+  }
+}

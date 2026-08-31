@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "buy": "Sotib olish",
+    "stay": "Sayyohlar uchun ijara",
+    "commercial": "Tijorat",
+    "login": "Kirish",
+    "logout": "Chiqish"
+  },
+  "home": {
+    "title": "Tojikistonda ko‘chmas mulk va ijara",
+    "hero_title": "Tojikiston bo‘ylab uy va turar joy toping",
+    "hero_subtitle": "Kvartiralar, uylar, sayyohlar uchun mehmonxonalar va tijorat mulki — Dushanbedan Pomirgacha.",
+    "listings_title": "Joriy takliflar",
+    "see_all": "Barchasini ko‘rish",
+    "sample_data_note": "Namunaviy ma'lumotlar — API integratsiyasi ishlab chiqilmoqda",
+    "no_results": "Filtrlaringizga mos e'lon topilmadi",
+    "map_title": "Xaritadagi obyektlar"
+  },
+  "search": {
+    "territory_placeholder": "Shahar yoki hudud",
+    "all_territories": "Har qanday hudud",
+    "all_types": "Har qanday tur",
+    "max_price": "Maks. narx, TJS",
+    "submit": "Qidirish"
+  },
+  "filters": {
+    "territory": "Hudud",
+    "type": "Obyekt turi",
+    "price": "Narx",
+    "from": "dan",
+    "to": "gacha",
+    "amenities": "Qulayliklar"
+  },
+  "properties": {
+    "title": "Ko‘chmas mulk obyektlari",
+    "found": "Topilgan e'lonlar: {count}",
+    "show_map": "Xaritani ko‘rsatish",
+    "hide_map": "Xaritani yashirish"
+  },
+  "territory": {
+    "listings_in": "{name} hududidagi obyektlar"
+  },
+  "property": {
+    "rooms": "xona",
+    "rent_night": "kecha",
+    "rent_month": "oy",
+    "mountain_view": "tog‘ manzarasi",
+    "area": "Maydon",
+    "max_guests": "Mehmonlar",
+    "altitude": "Balandlik",
+    "meters_above_sea": "dengiz sathidan m",
+    "generator": "generator",
+    "parking": "parkovka",
+    "water_mains": "vodoprovod",
+    "water_well": "quduq",
+    "water_spring": "buloq",
+    "water_delivered": "keltirilgan suv",
+    "back_to_listings": "Ro‘yxatga qaytish",
+    "location": "Joylashuv",
+    "contact_agent": "Agent bilan bog‘lanish",
+    "contact_note": "Tafsilotlarni aniqlash va ko‘rikni belgilash uchun bog‘laning",
+    "similar": "O‘xshash obyektlar"
+  },
+  "auth": {
+    "login_title": "Kirish",
+    "login_subtitle": "Sevimlilarni saqlash va agentlar bilan bog‘lanish uchun kiring",
+    "email": "Email",
+    "password": "Parol",
+    "name": "Ism",
+    "loading": "Kirilmoqda…",
+    "submit_login": "Kirish",
+    "error": "Kirib bo‘lmadi. Ma'lumotlarni tekshirib, qayta urinib ko‘ring.",
+    "no_account": "Hisobingiz yo‘qmi?",
+    "register_link": "Ro‘yxatdan o‘tish",
+    "register_title": "Ro‘yxatdan o‘tish",
+    "register_subtitle": "E'lon joylashtirish yoki turar joy band qilish uchun hisob yarating",
+    "submit_register": "Ro‘yxatdan o‘tish",
+    "register_pending": "API orqali ro‘yxatdan o‘tish hali server tomonida ishlab chiqilmoqda.",
+    "have_account": "Hisobingiz bormi?",
+    "login_link": "Kirish"
+  },
+  "footer": {
+    "tagline": "Tojikiston bo‘ylab ko‘chmas mulk va sayyohlik ijarasi.",
+    "territories": "Hududlar",
+    "company": "Kompaniya",
+    "about": "Biz haqimizda",
+    "contacts": "Aloqa",
+    "currency": "Valyuta"
+  }
+}
