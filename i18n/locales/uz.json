@@ -40,6 +40,7 @@
   },
   "properties": {
     "title": "Ko‘chmas mulk obyektlari",
+    "meta_description": "Tojikiston bo‘ylab kvartira, uy, yer, dala hovli va tijorat mulkini sotib olish yoki ijaraga olish — Dushanbe, Xo‘jand, Kulob, Boxtar, Pomir. Rasm, narx va xarita bilan joriy e'lonlar.",
     "found": "Topilgan e'lonlar: {count}",
     "show_map": "Xaritani ko‘rsatish",
     "hide_map": "Xaritani yashirish",
@@ -49,7 +50,8 @@
     "sort_area_desc": "Avval kattaroq maydon"
   },
   "territory": {
-    "listings_in": "{name} hududidagi obyektlar"
+    "listings_in": "{name} hududidagi obyektlar",
+    "meta_description": "{name} hududida mulk sotib olish yoki ijaraga olish: kvartira, uy, yer, tijorat binolari. Rasm va xarita bilan joriy e'lonlar."
   },
   "property": {
     "breadcrumb_home": "Bosh sahifa",

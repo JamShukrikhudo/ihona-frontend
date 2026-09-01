@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nuxtjs/i18n": "^10.6.0",
+    "@nuxtjs/sitemap": "^8.5.0",
     "@pinia/nuxt": "^1.0.2",
     "nuxt": "^4.5.2",
     "pinia": "^4.0.3",

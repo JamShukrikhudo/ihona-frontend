@@ -40,6 +40,7 @@
   },
   "properties": {
     "title": "Properties",
+    "meta_description": "Buy or rent apartments, houses, land, cottages and commercial property across Tajikistan — Dushanbe, Khujand, Kulyab, Bokhtar, the Pamirs. Current listings with photos, price and map.",
     "found": "{count} listings found",
     "show_map": "Show map",
     "hide_map": "Hide map",
@@ -49,7 +50,8 @@
     "sort_area_desc": "Largest area first"
   },
   "territory": {
-    "listings_in": "Listings in {name}"
+    "listings_in": "Listings in {name}",
+    "meta_description": "Buy or rent property in {name}: apartments, houses, land, commercial premises. Current listings with photos and a map."
   },
   "property": {
     "breadcrumb_home": "Home",

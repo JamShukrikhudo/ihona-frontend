@@ -72,6 +72,11 @@ const dealTypeOrAny = computed<DealTypeValue>({
 })
 
 useHead({ title: t('properties.title') })
+useSeoMeta({
+  description: t('properties.meta_description'),
+  ogTitle: t('properties.title'),
+  ogDescription: t('properties.meta_description'),
+})
 </script>
 
 <template>

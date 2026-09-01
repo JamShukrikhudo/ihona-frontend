@@ -10,7 +10,13 @@ if (!territory.value) {
 
 const { properties, usingLiveData } = await useProperties({ territorySlug: territory.value.slug })
 
+const metaDescription = t('territory.meta_description', { name: territory.value.nameRu })
 useHead({ title: territory.value.nameRu })
+useSeoMeta({
+  description: metaDescription,
+  ogTitle: territory.value.nameRu,
+  ogDescription: metaDescription,
+})
 </script>
 
 <template>
