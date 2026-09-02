@@ -26,7 +26,7 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
         </NuxtLink>
       </nav>
 
-      <div class="ml-auto flex items-center gap-3">
+      <div class="ml-auto flex items-center gap-2 sm:gap-3">
         <NuxtLink
           v-if="auth.isAuthenticated"
           to="/favorites"
@@ -35,9 +35,7 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
           <AppIcon name="favorite" class="h-4 w-4 [&>svg]:fill-current" /> {{ t('nav.favorites') }}
         </NuxtLink>
         <ThemeToggle />
-        <div class="hidden md:block">
-          <LocaleSwitcher />
-        </div>
+        <LocaleSwitcher />
         <NuxtLink
           v-if="!auth.isAuthenticated"
           to="/account/login"
@@ -81,8 +79,7 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
         </NuxtLink>
       </nav>
 
-      <div class="mt-4 flex items-center justify-between gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
-        <LocaleSwitcher />
+      <div class="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
         <NuxtLink
           v-if="!auth.isAuthenticated"
           to="/account/login"
