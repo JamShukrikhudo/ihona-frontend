@@ -1,7 +1,9 @@
 <script setup lang="ts">
-// Animated header lockup (design source: ihona-header-logo.zip) — house
+// Animated header lockup (design source: ihona-header-logo1.zip) — house
 // icon scales in, then "ıhona" letters slide in one by one with a colour
-// sweep, settling into ink; hovering turns the letters green.
+// sweep, settling into ink; hovering turns the letters green. House is
+// the small/no-second-peak mark (docs/brand README's 16-24px rule,
+// applied here too as of this revision) — same shape AppMark.vue uses.
 //
 // CSS lives in app/assets/css/main.css, not a scoped <style> block here:
 // this component renders inside layouts/default.vue (SiteHeader/
@@ -17,10 +19,9 @@ const theme = useThemeStore()
 
 <template>
   <span class="ihona-logo" :class="{ 'ihona-logo--dark': theme.dark }">
-    <svg class="ihona-logo__house" viewBox="0 0 66 60" fill="none" stroke="#2E7D5C" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="ihona-logo__house" viewBox="0 0 46 60" fill="none" stroke="#2E7D5C" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 33 L23 13 L42 33" />
       <path d="M10.5 30 L10.5 53 L36.5 53 L36.5 30" />
-      <path d="M50.5 33 L56 24 L61.5 33" stroke="#5FC992" />
     </svg>
     <span class="ihona-logo__letters">
       <span class="ihona-logo__dot">ı</span><span>h</span><span>o</span><span>n</span><span>a</span>

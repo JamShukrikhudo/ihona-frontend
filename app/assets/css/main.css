@@ -60,20 +60,21 @@ html.dark body {
 }
 .ihona-logo__house {
   flex-shrink: 0;
-  width: 1.1em;
-  height: 1em;
+  width: 0.69em;
+  height: 0.9em;
   opacity: 0;
   transform: scale(0.7);
   animation: ihona-house-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 .ihona-logo__letters {
   display: flex;
-  align-items: baseline;
-  margin-left: 0.28em;
+  align-items: center;
+  margin-left: 0.23em;
+  transform: translateY(0.04em);
 }
 .ihona-logo__letters span {
   display: inline-block;
-  font-size: 0.78em;
+  font-size: 0.73em;
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -84,16 +85,16 @@ html.dark body {
 }
 .ihona-logo__dot {
   position: relative;
-  margin-right: 0.03em;
+  margin-right: 0.026em;
 }
 .ihona-logo__dot::after {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0.11em;
-  width: 0.17em;
-  height: 0.17em;
-  border-radius: 0.17em 0.17em 0.17em 0.03em;
+  top: 0.08em;
+  width: 0.21em;
+  height: 0.21em;
+  border-radius: 0.21em 0.21em 0.21em 0.026em;
   background: #2e7d5c;
   transform: translateX(-50%) rotate(45deg);
 }
