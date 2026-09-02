@@ -84,8 +84,14 @@ useSeoMeta({
           :to="`/properties/${property.id}`"
           class="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
         >
-          <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+          <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
             <img :src="property.images[0]" :alt="property.title" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+            <span
+              v-if="property.mountainView"
+              class="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-brand-700 shadow"
+            >
+              <AppIcon name="mountain-view" class="h-3.5 w-3.5" /> {{ t('property.mountain_view') }}
+            </span>
           </div>
           <div class="flex flex-1 flex-col gap-1 p-4">
             <p class="text-lg font-bold text-slate-900 dark:text-slate-50">
@@ -93,6 +99,13 @@ useSeoMeta({
             </p>
             <h3 class="line-clamp-1 text-sm font-semibold text-slate-800 dark:text-slate-200">{{ property.title }}</h3>
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ property.address }}</p>
+            <div class="mt-1 flex flex-wrap gap-2.5 text-xs text-slate-500 dark:text-slate-400">
+              <span v-if="property.hasGenerator" class="inline-flex items-center gap-1"><AppIcon name="generator" class="h-3.5 w-3.5" /> {{ t('property.generator') }}</span>
+              <span v-if="property.hasWifi" class="inline-flex items-center gap-1"><AppIcon name="wifi" class="h-3.5 w-3.5" /> Wi-Fi</span>
+              <span v-if="property.hasParking" class="inline-flex items-center gap-1"><AppIcon name="parking" class="h-3.5 w-3.5" /> {{ t('property.parking') }}</span>
+              <span v-if="property.waterSource" class="inline-flex items-center gap-1"><AppIcon name="water-source" class="h-3.5 w-3.5" /> {{ t(`property.water_${property.waterSource}`) }}</span>
+              <span v-if="property.maxGuests" class="inline-flex items-center gap-1"><AppIcon name="max-guests" class="h-3.5 w-3.5" /> {{ property.maxGuests }}</span>
+            </div>
           </div>
         </NuxtLink>
       </div>
@@ -130,7 +143,7 @@ useSeoMeta({
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.map_title') }}</h2>
       <PropertyMap
-        :points="mockProperties.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#16a35c' }))"
+        :points="mockProperties.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
         :center-lat="38.5598"
         :center-lng="68.787"
         :zoom="6"

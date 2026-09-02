@@ -120,7 +120,7 @@ useSeoMeta({
         <PropertyMap
           v-if="showMap"
           class="mb-6"
-          :points="results.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#16a35c' }))"
+          :points="results.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
           height="360px"
         />
         <PropertyList :properties="results" />

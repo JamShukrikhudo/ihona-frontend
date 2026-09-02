@@ -64,6 +64,22 @@ export default defineNuxtConfig({
     head: {
       titleTemplate: '%s — ihona.tj',
       meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+      link: [
+        // Poppins SemiBold (600) — the "ıhona" wordmark's own font-family
+        // attribute (docs/brand assets) needs it loaded page-wide since the
+        // logo SVG is inlined, not a separate <img> resource.
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap' },
+        // SVG favicon is primary; prefers-color-scheme swaps in the dark-bg
+        // variant automatically. PNGs are the fallback for browsers/clients
+        // that don't support SVG favicons.
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg', media: '(prefers-color-scheme: light)' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon-dark-bg.svg', media: '(prefers-color-scheme: dark)' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '64x64', href: '/favicon-64.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon-180.png' },
+      ],
     },
   },
 

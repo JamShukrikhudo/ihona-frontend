@@ -66,7 +66,7 @@ async function renderMap() {
 
     for (const point of props.points) {
       const pin = document.createElement('div')
-      pin.style.cssText = `width:14px;height:14px;border-radius:50%;background:${point.color ?? '#0f8a4c'};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);`
+      pin.style.cssText = `width:14px;height:14px;border-radius:50%;background:${point.color ?? '#2E7D5C'};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);`
       if (point.label) pin.title = point.label
 
       map.addChild(new YMapMarker({ coordinates: [point.lng, point.lat] }, pin))

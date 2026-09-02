@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* primary: green */
-  --color-brand-50: #ecfdf3;
-  --color-brand-100: #d1fae0;
-  --color-brand-200: #a7f3c6;
-  --color-brand-300: #6ee7a3;
-  --color-brand-400: #34c97a;
-  --color-brand-500: #16a35c;
-  --color-brand-600: #0f8a4c;
-  --color-brand-700: #0c6e3e;
-  --color-brand-800: #0a5732;
-  --color-brand-900: #084327;
+  /* primary: green — anchored on the brand kit's official Изумруд #2E7D5C
+     at 600 (docs/brand/README.txt), rest of the ramp generated at the same
+     hue/saturation (155°, 46%) so every step is a true tint/shade of it. */
+  --color-brand-50: #eef9f4;
+  --color-brand-100: #d4efe4;
+  --color-brand-200: #ade1cb;
+  --color-brand-300: #77cda9;
+  --color-brand-400: #43b786;
+  --color-brand-500: #37956e;
+  --color-brand-600: #2e7d5c;
+  --color-brand-700: #246349;
+  --color-brand-800: #1c4c38;
+  --color-brand-900: #153a2b;
 
   /* secondary: blue */
   --color-accent-50: #eef6ff;
@@ -24,6 +26,7 @@
   --color-accent-700: #164e8c;
 
   --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 html {
