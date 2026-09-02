@@ -38,8 +38,16 @@
 <path d="M320 236c4 4 6 10 6 14" stroke="#8CA37E" stroke-width="2" fill="none"/>
 <polygon points="318,250 342,250 338,270 322,270" fill="#A57B4E"/>
 <ellipse cx="150" cy="272" rx="60" ry="12" fill="#16a35c" opacity="0.3"/><ellipse cx="150" cy="272" rx="60" ry="12" fill="none" stroke="#16a35c" stroke-width="1.5" opacity="0.5"/>
-<rect x="230" y="58" width="34" height="26" rx="1.5" fill="#fff" stroke="#A57B4E" stroke-width="2"/>
-<polygon points="233,80 244,66 251,75 258,63 261,80" fill="#8CA37E"/>
+<rect x="214" y="48" width="56" height="48" rx="2" fill="#fff" stroke="#A57B4E" stroke-width="2.4"/>
+<g transform="translate(242,72)">
+  <rect x="-17" y="-17" width="34" height="34" fill="#A57B4E"/>
+  <rect x="-12" y="-12" width="24" height="24" fill="#C79868" transform="rotate(45)"/>
+  <rect x="-8.5" y="-8.5" width="17" height="17" fill="#EFDBBA"/>
+  <rect x="-6" y="-6" width="12" height="12" fill="#FBF0D8" transform="rotate(45)"/>
+  <circle cx="0" cy="0" r="2.6" fill="#FFFFFF" opacity="0.95"/>
+  <circle cx="-17" cy="-17" r="1.6" fill="#7A5B3A"/><circle cx="17" cy="-17" r="1.6" fill="#7A5B3A"/>
+  <circle cx="-17" cy="17" r="1.6" fill="#7A5B3A"/><circle cx="17" cy="17" r="1.6" fill="#7A5B3A"/>
+</g>
 
 <g transform="translate(20,20)">
   <rect x="0" y="0" width="118" height="26" rx="13" fill="rgba(255,255,255,0.8)"/>

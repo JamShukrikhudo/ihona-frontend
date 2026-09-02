@@ -4,6 +4,10 @@
 <rect x="0" y="250" width="400" height="50" fill="#E4EEDD"/>
 <path d="M0 165 L60 90 L120 150 L190 60 L250 140 L320 100 L400 155 L400 240 L0 240 Z" fill="#8C5A17" opacity="0.28"/><path d="M0 195 L70 140 L140 180 L210 115 L280 175 L400 150 L400 250 L0 250 Z" fill="#0c6e3e" opacity="0.25"/>
 <polygon points="110,170 200,112 290,170" fill="#16a35c"/>
+<line x1="200" y1="112" x2="200" y2="64" stroke="#5F7654" stroke-width="2"/>
+<rect x="200" y="64" width="24" height="4.5" fill="#B5502F"/>
+<rect x="200" y="68.5" width="24" height="6.5" fill="#FBF3E8"/>
+<rect x="200" y="75" width="24" height="4.5" fill="#0a5732"/>
 <rect x="130" y="170" width="140" height="60" fill="#D9C4A3"/>
 <rect x="95" y="216" width="210" height="14" fill="#B79A72"/>
 <line x1="105" y1="230" x2="105" y2="270" stroke="#B79A72" stroke-width="5"/>
