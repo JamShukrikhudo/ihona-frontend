@@ -70,7 +70,12 @@ export default defineNuxtConfig({
         // logo SVG is inlined, not a separate <img> resource.
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap' },
+        // display=block (not swap): the wordmark's dot is a separately
+        // positioned <rect>, calibrated against Poppins' own glyph metrics —
+        // with swap, the fallback font paints first at different metrics and
+        // the fixed-position dot doesn't move with the later glyph swap, so
+        // it visibly drifts off the "ı" until the real font loads.
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=block' },
         // SVG favicon is primary; prefers-color-scheme swaps in the dark-bg
         // variant automatically. PNGs are the fallback for browsers/clients
         // that don't support SVG favicons.
