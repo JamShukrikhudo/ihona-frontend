@@ -9,7 +9,7 @@ const { t } = useI18n()
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
         <div>
-          <AppLogo class="mb-3 text-[22px]" />
+          <AppLogo class="mb-3 text-[56.7px]" />
           <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('footer.tagline') }}</p>
         </div>
         <div>
