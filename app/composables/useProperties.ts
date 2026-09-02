@@ -1,5 +1,5 @@
 import { mockProperties, findPropertyById } from '~/data/mockProperties'
-import { findTerritoryBySlug, territories } from '~/data/territories'
+import { findTerritoryBySlug, placeholderImage, territories } from '~/data/territories'
 import type { Property, PropertyFilters, PropertyTypeValue } from '~/types/property'
 
 interface PropertiesResult {
@@ -35,8 +35,6 @@ interface ApiProperty {
   gallery: { url: string }[]
 }
 
-const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=60'
-
 /**
  * Maps the API's real, storefront-facing shape onto the frontend's Property
  * type. The API deliberately has no has_generator/has_wifi/has_parking/
@@ -71,7 +69,7 @@ function mapApiProperty(api: ApiProperty): Property {
     mountainView: false,
     waterSource: null,
     description: api.description ?? '',
-    images: api.gallery.length ? api.gallery.map((g) => g.url) : [PLACEHOLDER_IMAGE],
+    images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
   }
 }
 

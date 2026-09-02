@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Участок">
+<rect width="400" height="300" rx="16" fill="#EEEBDD"/>
+
+<rect x="0" y="120" width="400" height="180" fill="#E4EEDD"/>
+
+<polygon points="60,268 340,268 296,150 108,150" fill="none" stroke="#0c6e3e" stroke-width="2.4" stroke-dasharray="9 7"/>
+<g stroke="#8C5A17" stroke-width="3" stroke-linecap="round">
+  <line x1="60" y1="268" x2="60" y2="244"/>
+  <line x1="340" y1="268" x2="340" y2="244"/>
+  <line x1="108" y1="150" x2="108" y2="128"/>
+  <line x1="296" y1="150" x2="296" y2="128"/>
+</g>
+<polygon points="60,244 78,244 60,231" fill="#E5A13A"/>
+<polygon points="340,244 322,244 340,231" fill="#E5A13A"/>
+<polygon points="108,128 126,128 108,115" fill="#E5A13A"/>
+<polygon points="296,128 278,128 296,115" fill="#E5A13A"/>
+<line x1="82" y1="282" x2="316" y2="282" stroke="#0a5732" stroke-width="1.4"/>
+<line x1="82" y1="277" x2="82" y2="287" stroke="#0a5732" stroke-width="1.4"/>
+<line x1="316" y1="277" x2="316" y2="287" stroke="#0a5732" stroke-width="1.4"/>
+<text x="199" y="278" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#0a5732">15 × 20 м</text>
+<g transform="translate(300,168)">
+  <line x1="0" y1="0" x2="0" y2="46" stroke="#B79A72" stroke-width="3"/>
+  <rect x="0" y="0" width="34" height="22" fill="#fff" stroke="#0c6e3e" stroke-width="1.6"/>
+  <line x1="7" y1="8" x2="27" y2="8" stroke="#16a35c" stroke-width="2.4"/>
+  <line x1="7" y1="14" x2="21" y2="14" stroke="#16a35c" stroke-width="2.4"/>
+</g>
+<circle cx="130" cy="200" r="10" fill="#8CA37E"/>
+<circle cx="148" cy="212" r="7" fill="#5F7654"/>
+
+<g transform="translate(20,20)">
+  <rect x="0" y="0" width="92.19999999999999" height="26" rx="13" fill="rgba(255,255,255,0.75)"/>
+  <g transform="translate(13,5) scale(0.68)" fill="none" stroke="#0c6e3e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="1" stroke-dasharray="2.6 2.6"/></g>
+  <text x="38" y="17.5" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#0a5732">Участок</text>
+</g>
+</svg>

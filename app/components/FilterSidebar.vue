@@ -68,11 +68,11 @@ const showRooms = computed(() => filters.value.propertyType !== 'land' && filter
       <h3 class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('filters.amenities') }}</h3>
       <label class="mb-1.5 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
         <input v-model="filters.hasGenerator" type="checkbox" class="accent-brand-600" />
-        ⚡ {{ t('property.generator') }}
+        <AppIcon name="generator" class="h-4 w-4" /> {{ t('property.generator') }}
       </label>
       <label class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
         <input v-model="filters.hasWifi" type="checkbox" class="accent-brand-600" />
-        📶 Wi-Fi
+        <AppIcon name="wifi" class="h-4 w-4" /> Wi-Fi
       </label>
     </div>
   </aside>

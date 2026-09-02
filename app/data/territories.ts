@@ -58,3 +58,10 @@ export function propertyTypeLabel(value: string): string {
 export function isTourismType(value: string): boolean {
   return tourismPropertyTypes.some((t) => t.value === value)
 }
+
+// Branded flat-illustration fallback for a listing with no real photos yet
+// (all live listings, currently — see docs/handoffs on the empty gallery
+// column). One per property type, recoloured to the site's brand green.
+export function placeholderImage(type: string): string {
+  return `/images/placeholders/${type}-placeholder.svg`
+}

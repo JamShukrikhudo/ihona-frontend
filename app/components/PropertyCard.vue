@@ -52,18 +52,18 @@ async function onToggleFavorite() {
       />
       <span
         v-if="property.mountainView"
-        class="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-brand-700 shadow"
+        class="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-brand-700 shadow"
       >
-        🏔️ {{ t('property.mountain_view') }}
+        <AppIcon name="mountain-view" class="h-3.5 w-3.5" /> {{ t('property.mountain_view') }}
       </span>
       <button
         type="button"
-        class="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-lg shadow transition hover:bg-white disabled:opacity-60"
+        class="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow transition hover:bg-white disabled:opacity-60"
         :disabled="togglingFavorite"
         :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
         @click.prevent.stop="onToggleFavorite"
       >
-        <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
+        <AppIcon name="favorite" class="h-4.5 w-4.5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
       </button>
     </div>
 
@@ -81,11 +81,11 @@ async function onToggleFavorite() {
       <p class="mt-1 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">{{ property.description }}</p>
 
       <div class="mt-auto flex flex-wrap gap-3 pt-2 text-xs text-slate-500 dark:text-slate-400">
-        <span v-if="property.hasGenerator">⚡ {{ t('property.generator') }}</span>
-        <span v-if="property.hasWifi">📶 Wi-Fi</span>
-        <span v-if="property.hasParking">🚗 {{ t('property.parking') }}</span>
-        <span v-if="property.waterSource">💧 {{ t(`property.water_${property.waterSource}`) }}</span>
-        <span v-if="property.maxGuests">👥 {{ property.maxGuests }}</span>
+        <span v-if="property.hasGenerator" class="inline-flex items-center gap-1"><AppIcon name="generator" class="h-3.5 w-3.5" /> {{ t('property.generator') }}</span>
+        <span v-if="property.hasWifi" class="inline-flex items-center gap-1"><AppIcon name="wifi" class="h-3.5 w-3.5" /> Wi-Fi</span>
+        <span v-if="property.hasParking" class="inline-flex items-center gap-1"><AppIcon name="parking" class="h-3.5 w-3.5" /> {{ t('property.parking') }}</span>
+        <span v-if="property.waterSource" class="inline-flex items-center gap-1"><AppIcon name="water-source" class="h-3.5 w-3.5" /> {{ t(`property.water_${property.waterSource}`) }}</span>
+        <span v-if="property.maxGuests" class="inline-flex items-center gap-1"><AppIcon name="max-guests" class="h-3.5 w-3.5" /> {{ property.maxGuests }}</span>
         <span v-if="property.altitude">{{ property.altitude }} {{ t('property.meters_above_sea') }}</span>
       </div>
     </div>

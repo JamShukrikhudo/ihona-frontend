@@ -62,11 +62,11 @@ const amenities = computed(() => {
   if (!property.value) return []
   const p = property.value
   return [
-    p.hasWifi && { icon: '📶', label: 'Wi-Fi' },
-    p.hasGenerator && { icon: '⚡', label: t('property.generator') },
-    p.hasParking && { icon: '🚗', label: t('property.parking') },
-    p.mountainView && { icon: '🏔️', label: t('property.mountain_view') },
-    p.waterSource && { icon: '💧', label: t(`property.water_${p.waterSource}`) },
+    p.hasWifi && { icon: 'wifi', label: 'Wi-Fi' },
+    p.hasGenerator && { icon: 'generator', label: t('property.generator') },
+    p.hasParking && { icon: 'parking', label: t('property.parking') },
+    p.mountainView && { icon: 'mountain-view', label: t('property.mountain_view') },
+    p.waterSource && { icon: 'water-source', label: t(`property.water_${p.waterSource}`) },
   ].filter(Boolean) as { icon: string; label: string }[]
 })
 
@@ -234,7 +234,7 @@ useHead({
           {{ propertyTypeLabel(property.propertyType) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
         </h1>
         <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
-          <span aria-hidden="true">📍</span> {{ territory?.nameRu }}, {{ property.address }}
+          <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territory?.nameRu }}, {{ property.address }}
         </p>
 
         <!-- Price shown here too (not only in the sidebar) so it reads on -->
@@ -265,7 +265,7 @@ useHead({
               :key="amenity.label"
               class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300"
             >
-              {{ amenity.icon }} {{ amenity.label }}
+              <AppIcon :name="amenity.icon" class="h-4 w-4" /> {{ amenity.label }}
             </span>
           </div>
         </template>
@@ -285,18 +285,18 @@ useHead({
             </div>
             <button
               type="button"
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-lg transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
               :disabled="togglingFavorite"
               :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
               @click="onToggleFavorite"
             >
-              <span :class="favorited ? 'text-red-500' : 'text-slate-400'">{{ favorited ? '♥' : '♡' }}</span>
+              <AppIcon name="favorite" class="h-5 w-5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
             </button>
           </div>
 
           <template v-if="viewingState === 'success'">
-            <p class="mt-4 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
-              ✓ {{ t('property.viewing_success') }}
+            <p class="mt-4 flex items-center gap-1.5 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+              <AppIcon name="verified" class="h-4 w-4" /> {{ t('property.viewing_success') }}
             </p>
           </template>
 

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Коттедж / дача">
+<rect width="400" height="300" rx="16" fill="#E9EFE1"/>
+<path d="M0 150 L45 105 L95 138 L150 75 L205 130 L265 95 L330 145 L400 118 L400 230 L0 230 Z" fill="#D6E2CB" opacity="0.55"/>
+<rect x="0" y="240" width="400" height="60" fill="#E4EEDD"/>
+
+<polygon points="130,168 200,118 270,168" fill="#5F7654"/>
+<rect x="150" y="168" width="100" height="80" fill="#D9C4A3"/>
+<line x1="150" y1="188" x2="250" y2="188" stroke="#B79A72" stroke-width="2"/>
+<line x1="150" y1="208" x2="250" y2="208" stroke="#B79A72" stroke-width="2"/>
+<line x1="150" y1="228" x2="250" y2="228" stroke="#B79A72" stroke-width="2"/>
+<rect x="184" y="210" width="26" height="38" fill="#0c6e3e"/>
+<rect x="158" y="180" width="20" height="20" fill="#F3D9A6" stroke="#B79A72" stroke-width="1.4"/>
+<rect x="222" y="180" width="20" height="20" fill="#F3D9A6" stroke="#B79A72" stroke-width="1.4"/>
+<rect x="120" y="240" width="160" height="10" fill="#B79A72"/>
+<circle cx="80" cy="220" r="26" fill="#8CA37E"/>
+<rect x="75" y="220" width="10" height="26" fill="#B79A72"/>
+<circle cx="312" cy="228" r="20" fill="#5F7654"/>
+<rect x="308" y="228" width="8" height="20" fill="#B79A72"/>
+<g stroke="#B79A72" stroke-width="3">
+  <line x1="40" y1="264" x2="40" y2="248"/><line x1="55" y1="264" x2="55" y2="248"/>
+  <line x1="70" y1="264" x2="70" y2="248"/><line x1="85" y1="264" x2="85" y2="248"/>
+</g>
+<line x1="35" y1="252" x2="90" y2="252" stroke="#B79A72" stroke-width="2.4"/>
+<g fill="#5F7654"><circle cx="330" cy="270" r="4"/><circle cx="342" cy="270" r="4"/><circle cx="354" cy="270" r="4"/></g>
+
+<g transform="translate(20,20)">
+  <rect x="0" y="0" width="138.39999999999998" height="26" rx="13" fill="rgba(255,255,255,0.75)"/>
+  <g transform="translate(13,5) scale(0.68)" fill="none" stroke="#0c6e3e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l5-5 5 5"/><circle cx="16" cy="9" r="4"/></g>
+  <text x="38" y="17.5" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#0a5732">Коттедж / дача</text>
+</g>
+</svg>

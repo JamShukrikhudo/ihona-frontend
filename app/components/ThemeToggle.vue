@@ -11,7 +11,6 @@ onMounted(() => theme.restore())
     :aria-label="theme.dark ? 'Светлая тема' : 'Тёмная тема'"
     @click="theme.toggle()"
   >
-    <span v-if="theme.dark">☀️</span>
-    <span v-else>🌙</span>
+    <AppIcon name="dark-mode" class="h-4.5 w-4.5" />
   </button>
 </template>

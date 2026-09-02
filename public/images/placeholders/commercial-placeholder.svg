@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Коммерческая">
+<rect width="400" height="300" rx="16" fill="#F4E8ED"/>
+<path d="M0 150 L45 105 L95 138 L150 75 L205 130 L265 95 L330 145 L400 118 L400 230 L0 230 Z" fill="#EAD0DC" opacity="0.55"/>
+<rect x="0" y="255" width="400" height="45" fill="#E2DCD3"/><line x1="0" y1="255" x2="400" y2="255" stroke="#C9C0B2" stroke-width="2"/>
+
+<rect x="100" y="112" width="200" height="143" fill="#16a35c"/>
+<rect x="94" y="100" width="212" height="16" fill="#0a5732"/>
+<rect x="118" y="102" width="60" height="7" rx="3" fill="#E5A13A"/>
+<polygon points="100,150 122,150 114,170 94,170" fill="#0c6e3e"/><polygon points="122,150 144,150 136,170 116,170" fill="#E5A13A"/><polygon points="144,150 166,150 158,170 138,170" fill="#0c6e3e"/><polygon points="166,150 188,150 180,170 160,170" fill="#E5A13A"/><polygon points="188,150 210,150 202,170 182,170" fill="#0c6e3e"/><polygon points="210,150 232,150 224,170 204,170" fill="#E5A13A"/><polygon points="232,150 254,150 246,170 226,170" fill="#0c6e3e"/><polygon points="254,150 276,150 268,170 248,170" fill="#E5A13A"/><polygon points="276,150 298,150 290,170 270,170" fill="#0c6e3e"/>
+<rect x="112" y="172" width="176" height="62" fill="#F0E6D8" opacity="0.9"/>
+<line x1="112" y1="172" x2="112" y2="234" stroke="#0a5732" stroke-width="2.4"/>
+<line x1="288" y1="172" x2="288" y2="234" stroke="#0a5732" stroke-width="2.4"/>
+<line x1="163" y1="172" x2="163" y2="234" stroke="#0a5732" stroke-width="1.6"/>
+<line x1="237" y1="172" x2="237" y2="234" stroke="#0a5732" stroke-width="1.6"/>
+<rect x="180" y="200" width="40" height="34" fill="#0a5732"/>
+<circle cx="213" cy="217" r="2" fill="#E5A13A"/>
+<circle cx="60" cy="238" r="16" fill="#8CA37E"/>
+<rect x="56" y="238" width="8" height="17" fill="#B79A72"/>
+
+<g transform="translate(20,20)">
+  <rect x="0" y="0" width="125.19999999999999" height="26" rx="13" fill="rgba(255,255,255,0.75)"/>
+  <g transform="translate(13,5) scale(0.68)" fill="none" stroke="#0c6e3e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l2-5h14l2 5"/><rect x="9.3" y="13.2" width="5.4" height="6.8"/></g>
+  <text x="38" y="17.5" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#0a5732">Коммерческая</text>
+</g>
+</svg>

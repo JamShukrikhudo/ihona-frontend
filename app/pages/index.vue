@@ -52,7 +52,7 @@ useSeoMeta({
             :to="{ path: '/properties', query: { deal: dealType, type: type.value } }"
             class="flex items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-white/25"
           >
-            <span>{{ type.icon }}</span>{{ type.label }}
+            <AppIcon :name="type.value" class="h-4 w-4" />{{ type.label }}
           </NuxtLink>
         </div>
 
@@ -108,7 +108,9 @@ useSeoMeta({
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-5 flex items-center justify-between">
           <div>
-            <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">🏔️ {{ t('home.tourism_title') }}</h2>
+            <h2 class="inline-flex items-center gap-1.5 text-lg font-bold text-slate-900 dark:text-slate-100">
+              <AppIcon name="mountain-view" class="h-4.5 w-4.5" /> {{ t('home.tourism_title') }}
+            </h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('home.tourism_subtitle') }}</p>
           </div>
           <NuxtLink

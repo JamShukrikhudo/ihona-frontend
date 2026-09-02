@@ -15,8 +15,8 @@ const { t } = useI18n()
         <NuxtLink :to="{ path: '/properties', query: { deal: 'sale' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.buy') }}</NuxtLink>
         <NuxtLink :to="{ path: '/properties', query: { deal: 'rent' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.rent') }}</NuxtLink>
         <NuxtLink :to="{ path: '/properties', query: { type: 'commercial' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.commercial') }}</NuxtLink>
-        <NuxtLink :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }" class="text-slate-400 hover:text-brand-700 dark:text-slate-500 dark:hover:text-brand-400">
-          🏔️ {{ t('nav.tourism') }}
+        <NuxtLink :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }" class="inline-flex items-center gap-1 text-slate-400 hover:text-brand-700 dark:text-slate-500 dark:hover:text-brand-400">
+          <AppIcon name="mountain-view" class="h-4 w-4" /> {{ t('nav.tourism') }}
         </NuxtLink>
       </nav>
 
@@ -24,9 +24,9 @@ const { t } = useI18n()
         <NuxtLink
           v-if="auth.isAuthenticated"
           to="/favorites"
-          class="hidden text-sm font-medium text-slate-600 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-400 sm:inline"
+          class="hidden items-center gap-1 text-sm font-medium text-slate-600 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-400 sm:inline-flex"
         >
-          ♥ {{ t('nav.favorites') }}
+          <AppIcon name="favorite" class="h-4 w-4 [&>svg]:fill-current" /> {{ t('nav.favorites') }}
         </NuxtLink>
         <ThemeToggle />
         <LocaleSwitcher />
