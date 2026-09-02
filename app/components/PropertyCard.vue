@@ -87,7 +87,7 @@ async function onToggleFavorite() {
         <span v-if="property.rentPeriod" class="text-[13px] text-slate-500 dark:text-slate-400">/{{ t(`property.rent_${property.rentPeriod}`) }}</span>
       </div>
 
-      <h3 class="line-clamp-1 text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200">{{ property.title }}</h3>
+      <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200">{{ property.title }}</h3>
 
       <div class="flex flex-wrap gap-3 border-y border-slate-100 py-2.5 text-[13px] text-slate-600 dark:border-slate-800 dark:text-slate-300">
         <span v-if="property.rooms" class="inline-flex items-center gap-1.5">
@@ -102,7 +102,7 @@ async function onToggleFavorite() {
       </div>
 
       <p class="flex items-center gap-1.5 text-[13px] text-slate-500 dark:text-slate-400">
-        <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="truncate">{{ territory?.nameRu }}, {{ property.address }}</span>
+        <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territory?.nameRu }}, {{ property.address }}</span>
       </p>
 
       <p v-if="publishedLabel" class="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
