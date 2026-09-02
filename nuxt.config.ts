@@ -28,6 +28,21 @@ export default defineNuxtConfig({
       // Yandex Maps JS API v3 key (https://developer.tech.yandex.ru/services).
       // PropertyMap renders a static placeholder when this is unset.
       yandexMapsApiKey: process.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '',
+      // Pre-launch guard: unset/false means the catalog isn't ready for
+      // search traffic yet — every response gets a noindex header and
+      // robots.txt disallows crawling entirely (see server/routes/robots.txt.ts
+      // and the routeRules block below). Flip with
+      // `Environment=NUXT_PUBLIC_LAUNCHED=true` in the systemd unit + restart
+      // once the site is ready to be found.
+      launched: process.env.NUXT_PUBLIC_LAUNCHED === 'true',
+    },
+  },
+
+  routeRules: {
+    '/**': {
+      headers: {
+        'X-Robots-Tag': process.env.NUXT_PUBLIC_LAUNCHED === 'true' ? 'all' : 'noindex, nofollow',
+      },
     },
   },
 
