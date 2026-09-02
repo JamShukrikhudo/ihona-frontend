@@ -6,9 +6,8 @@ const { t } = useI18n()
 <template>
   <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
     <div class="mx-auto flex max-w-7xl items-center gap-6 px-4 py-3 sm:px-6 lg:px-8">
-      <NuxtLink to="/" class="flex items-center gap-1">
-        <AppLogo />
-        <span class="text-xl font-bold text-accent-600 dark:text-accent-400">.tj</span>
+      <NuxtLink to="/" class="flex items-center">
+        <AppLogo class="h-11" />
       </NuxtLink>
 
       <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">

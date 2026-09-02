@@ -12,5 +12,5 @@ const markup = computed(() => (theme.dark ? whiteLockup : emeraldLockup))
 </script>
 
 <template>
-  <span class="inline-block h-8 w-auto [&>svg]:h-full [&>svg]:w-auto" v-html="markup" />
+  <span class="inline-block w-auto [&>svg]:h-full [&>svg]:w-auto" v-html="markup" />
 </template>
