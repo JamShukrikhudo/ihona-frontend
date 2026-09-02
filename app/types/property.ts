@@ -24,6 +24,8 @@ export interface Property {
   waterSource: 'mains' | 'well' | 'spring' | 'delivered' | null
   description: string
   images: string[]
+  /** ISO 8601, from the API's published_at — null for mock data. */
+  publishedAt: string | null
 }
 
 export interface PropertyFilters {

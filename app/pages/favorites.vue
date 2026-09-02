@@ -32,7 +32,7 @@ useHead({ title: t('favorites.title') })
     <p v-if="loading" class="mt-6 text-sm text-slate-500 dark:text-slate-400">{{ t('favorites.loading') }}</p>
     <p v-else-if="loadError" class="mt-6 text-sm text-red-600">{{ t('favorites.error') }}</p>
     <p v-else-if="!properties.length" class="mt-6 text-sm text-slate-500 dark:text-slate-400">{{ t('favorites.empty') }}</p>
-    <div v-else class="mt-6 flex flex-col gap-4">
+    <div v-else class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
       <PropertyCard v-for="property in properties" :key="property.id" :property="property" :initial-favorited="true" />
     </div>
   </div>

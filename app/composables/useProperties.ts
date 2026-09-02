@@ -32,6 +32,7 @@ interface ApiProperty {
   latitude: number | null
   longitude: number | null
   features: string[] | null
+  published_at: string | null
   gallery: { url: string }[]
 }
 
@@ -70,6 +71,7 @@ function mapApiProperty(api: ApiProperty): Property {
     waterSource: null,
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
+    publishedAt: api.published_at,
   }
 }
 

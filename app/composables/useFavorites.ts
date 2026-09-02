@@ -19,6 +19,7 @@ interface ApiFavoriteProperty {
   area_sqft: string | number | null
   latitude: number | null
   longitude: number | null
+  published_at: string | null
   gallery: { url: string }[]
 }
 
@@ -63,5 +64,6 @@ export async function fetchFavorites(): Promise<Property[]> {
     waterSource: null,
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
+    publishedAt: api.published_at,
   }))
 }
