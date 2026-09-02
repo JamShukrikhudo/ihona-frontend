@@ -1,16 +1,29 @@
 <script setup lang="ts">
-// Inlines the brand kit's lockup (docs/brand/README.txt) — emerald mark on
-// light backgrounds, white mark on dark, swapped from the same theme store
-// ThemeToggle uses. Inlined (not <img>) so the "ıhona" wordmark's own
-// font-family="Poppins…" resolves against the page's loaded Poppins
-// instead of falling back silently the way an external SVG resource would.
-import emeraldLockup from '~/assets/logo/ihona-lockup-emerald.svg?raw'
-import whiteLockup from '~/assets/logo/ihona-lockup-white.svg?raw'
-
+// Animated header lockup (design source: ihona-header-logo.zip) — house
+// icon scales in, then "ıhona" letters slide in one by one with a colour
+// sweep, settling into ink; hovering turns the letters green.
+//
+// CSS lives in app/assets/css/main.css, not a scoped <style> block here:
+// this component renders inside layouts/default.vue (SiteHeader/
+// SiteFooter), and Nuxt code-splits a layout-only component's scoped CSS
+// into a chunk that's injected by JS during hydration rather than linked
+// in the SSR'd <head> — a real, measured gap (checked the built output:
+// the stylesheet was only reachable via a modulepreloaded JS chunk, not a
+// <link rel="stylesheet">), which would show the logo unstyled/unanimated
+// on first paint. Global CSS is already synchronously linked from the
+// start, so it doesn't have that gap.
 const theme = useThemeStore()
-const markup = computed(() => (theme.dark ? whiteLockup : emeraldLockup))
 </script>
 
 <template>
-  <span class="inline-block w-auto [&>svg]:h-full [&>svg]:w-auto" v-html="markup" />
+  <span class="ihona-logo" :class="{ 'ihona-logo--dark': theme.dark }">
+    <svg class="ihona-logo__house" viewBox="0 0 66 60" fill="none" stroke="#2E7D5C" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 33 L23 13 L42 33" />
+      <path d="M10.5 30 L10.5 53 L36.5 53 L36.5 30" />
+      <path d="M50.5 33 L56 24 L61.5 33" stroke="#5FC992" />
+    </svg>
+    <span class="ihona-logo__letters">
+      <span class="ihona-logo__dot">ı</span><span>h</span><span>o</span><span>n</span><span>a</span>
+    </span>
+  </span>
 </template>

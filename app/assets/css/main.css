@@ -50,3 +50,124 @@ body {
 html.dark body {
   @apply bg-slate-950 text-slate-100;
 }
+
+/* AppLogo.vue — see that file for why this is global CSS, not scoped. */
+.ihona-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  font-family: var(--font-display);
+}
+.ihona-logo__house {
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1em;
+  opacity: 0;
+  transform: scale(0.7);
+  animation: ihona-house-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.ihona-logo__letters {
+  display: flex;
+  align-items: baseline;
+  margin-left: 0.28em;
+}
+.ihona-logo__letters span {
+  display: inline-block;
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  opacity: 0;
+  transform: translateX(0.5em);
+  animation: ihona-letter-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  transition: color 0.3s ease;
+}
+.ihona-logo__dot {
+  position: relative;
+  margin-right: 0.03em;
+}
+.ihona-logo__dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.11em;
+  width: 0.17em;
+  height: 0.17em;
+  border-radius: 0.17em 0.17em 0.17em 0.03em;
+  background: #2e7d5c;
+  transform: translateX(-50%) rotate(45deg);
+}
+.ihona-logo__letters span:nth-child(1) {
+  animation-delay: 0.35s;
+}
+.ihona-logo__letters span:nth-child(2) {
+  animation-delay: 0.47s;
+}
+.ihona-logo__letters span:nth-child(3) {
+  animation-delay: 0.59s;
+}
+.ihona-logo__letters span:nth-child(4) {
+  animation-delay: 0.71s;
+}
+.ihona-logo__letters span:nth-child(5) {
+  animation-delay: 0.83s;
+}
+.ihona-logo:hover .ihona-logo__letters span {
+  color: #2e7d5c !important;
+}
+
+@keyframes ihona-house-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes ihona-letter-in {
+  0% {
+    opacity: 0;
+    transform: translateX(0.5em);
+    color: #5fc992;
+  }
+  55% {
+    opacity: 1;
+    transform: translateX(0);
+    color: #5fc992;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    color: #1b2a23;
+  }
+}
+/* Light-mode settle colour (#1b2a23, near-black) is invisible on a dark
+   surface (1.35:1 contrast, measured) — dark mode settles into a light
+   ink instead. */
+.ihona-logo--dark .ihona-logo__letters span {
+  animation-name: ihona-letter-in-dark;
+}
+@keyframes ihona-letter-in-dark {
+  0% {
+    opacity: 0;
+    transform: translateX(0.5em);
+    color: #5fc992;
+  }
+  55% {
+    opacity: 1;
+    transform: translateX(0);
+    color: #5fc992;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    color: #f1f5f5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ihona-logo__house,
+  .ihona-logo__letters span {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
