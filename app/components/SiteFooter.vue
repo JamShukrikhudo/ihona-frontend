@@ -9,7 +9,7 @@ const { t } = useI18n()
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
         <div>
-          <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">ihona.tj</h3>
+          <AppLogo class="mb-3 h-8" />
           <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('footer.tagline') }}</p>
         </div>
         <div>
@@ -34,8 +34,8 @@ const { t } = useI18n()
           <p class="text-sm text-slate-500 dark:text-slate-400">TJS — Сомони</p>
         </div>
       </div>
-      <p class="mt-8 border-t border-slate-100 pt-6 text-xs text-slate-400 dark:border-slate-800">
-        © {{ new Date().getFullYear() }} ihona.tj
+      <p class="mt-8 flex items-center gap-1.5 border-t border-slate-100 pt-6 text-xs text-slate-400 dark:border-slate-800">
+        <AppMark class="h-3.5" /> © {{ new Date().getFullYear() }} ihona.tj
       </p>
     </div>
   </footer>
