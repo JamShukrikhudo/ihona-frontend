@@ -1,3 +1,4 @@
+import { placeholderImage } from '~/data/territories'
 import type { Property } from '~/types/property'
 
 interface FavoriteToggleResponse {
@@ -10,16 +11,16 @@ interface ApiFavoriteProperty {
   description: string | null
   address: string | null
   property_type: string
+  deal_type: string | null
   price: string | number
   currency: string
   bedrooms: number | null
+  bathrooms: number | null
   area_sqft: string | number | null
   latitude: number | null
   longitude: number | null
   gallery: { url: string }[]
 }
-
-const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=60'
 
 /**
  * POST /v1/real-estate/properties/:id/favorite toggles; the authenticated-
@@ -42,6 +43,8 @@ export async function fetchFavorites(): Promise<Property[]> {
     id: api.id,
     title: api.title,
     propertyType: api.property_type as Property['propertyType'],
+    dealType: (api.deal_type as Property['dealType']) ?? 'sale',
+    rentPeriod: api.deal_type === 'rent' ? (['guesthouse', 'hostel'].includes(api.property_type) ? 'night' : 'month') : undefined,
     territorySlug: '',
     address: api.address ?? '',
     lat: api.latitude ?? 38.5598,
@@ -50,6 +53,7 @@ export async function fetchFavorites(): Promise<Property[]> {
     currency: 'TJS',
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
+    bathrooms: api.bathrooms,
     maxGuests: null,
     altitude: null,
     hasWifi: false,
@@ -58,6 +62,6 @@ export async function fetchFavorites(): Promise<Property[]> {
     mountainView: false,
     waterSource: null,
     description: api.description ?? '',
-    images: api.gallery.length ? api.gallery.map((g) => g.url) : [PLACEHOLDER_IMAGE],
+    images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
   }))
 }
