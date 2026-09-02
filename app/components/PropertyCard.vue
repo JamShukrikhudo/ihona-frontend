@@ -52,7 +52,7 @@ async function onToggleFavorite() {
     :to="`/properties/${property.id}`"
     class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_8px_24px_rgba(0,0,0,.05)] transition hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(0,0,0,.09)] dark:bg-slate-900"
   >
-    <div class="relative aspect-[32/19] overflow-hidden bg-slate-100">
+    <div class="relative aspect-[32/19] overflow-hidden bg-slate-100 dark:bg-slate-800">
       <img
         :src="property.images[0]"
         :alt="property.title"
@@ -91,13 +91,13 @@ async function onToggleFavorite() {
 
       <div class="flex flex-wrap gap-3 border-y border-slate-100 py-2.5 text-[13px] text-slate-600 dark:border-slate-800 dark:text-slate-300">
         <span v-if="property.rooms" class="inline-flex items-center gap-1.5">
-          <AppIcon name="bedroom" class="h-3.5 w-3.5 text-slate-400" /> {{ property.rooms }} {{ t('property.rooms') }}
+          <AppIcon name="bedroom" class="h-3.5 w-3.5" /> {{ property.rooms }} {{ t('property.rooms') }}
         </span>
         <span class="inline-flex items-center gap-1.5">
-          <AppIcon name="area" class="h-3.5 w-3.5 text-slate-400" /> {{ areaLabel }}
+          <AppIcon name="area" class="h-3.5 w-3.5" /> {{ areaLabel }}
         </span>
         <span v-if="property.maxGuests" class="inline-flex items-center gap-1.5">
-          <AppIcon name="max-guests" class="h-3.5 w-3.5 text-slate-400" /> {{ property.maxGuests }}
+          <AppIcon name="max-guests" class="h-3.5 w-3.5" /> {{ property.maxGuests }}
         </span>
       </div>
 
