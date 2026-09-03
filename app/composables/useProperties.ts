@@ -32,18 +32,22 @@ interface ApiProperty {
   latitude: number | null
   longitude: number | null
   features: string[] | null
+  has_generator: boolean
+  has_wifi: boolean
+  has_parking: boolean
+  mountain_view: string | null
+  altitude: number | null
+  water_source: string | null
+  max_guests: number | null
   published_at: string | null
   gallery: { url: string }[]
 }
 
-/**
- * Maps the API's real, storefront-facing shape onto the frontend's Property
- * type. The API deliberately has no has_generator/has_wifi/has_parking/
- * mountain_view/altitude/water_source/max_guests — those columns don't
- * exist on real_estate_properties (a known, out-of-scope schema-drift bug —
- * see the host's docs/handoffs). Live-API properties always render those as
- * absent, only mock properties still show them.
- */
+// Tourism types always price nightly rather than monthly — used both for
+// rentPeriod below and could grow to gate other nightly-only UI later.
+const NIGHTLY_TYPES = ['guesthouse', 'hostel', 'hunting-lodge']
+
+/** Maps the API's real, storefront-facing shape onto the frontend's Property type. */
 function mapApiProperty(api: ApiProperty): Property {
   const territory = api.territory_code ? territories.find((t) => t.code === api.territory_code) : undefined
 
@@ -52,7 +56,7 @@ function mapApiProperty(api: ApiProperty): Property {
     title: api.title,
     propertyType: api.property_type as PropertyTypeValue,
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',
-    rentPeriod: api.deal_type === 'rent' ? (['guesthouse', 'hostel'].includes(api.property_type) ? 'night' : 'month') : undefined,
+    rentPeriod: api.deal_type === 'rent' ? (NIGHTLY_TYPES.includes(api.property_type) ? 'night' : 'month') : undefined,
     territorySlug: territory?.slug ?? api.territory_code?.toLowerCase() ?? '',
     address: api.address ?? '',
     lat: api.latitude ?? territory?.lat ?? 38.5598,
@@ -62,13 +66,13 @@ function mapApiProperty(api: ApiProperty): Property {
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
-    maxGuests: null,
-    altitude: null,
-    hasWifi: false,
-    hasGenerator: false,
-    hasParking: false,
-    mountainView: false,
-    waterSource: null,
+    maxGuests: api.max_guests,
+    altitude: api.altitude,
+    hasWifi: api.has_wifi,
+    hasGenerator: api.has_generator,
+    hasParking: api.has_parking,
+    mountainView: api.mountain_view !== null,
+    waterSource: api.water_source as Property['waterSource'],
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
     publishedAt: api.published_at,

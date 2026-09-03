@@ -35,14 +35,23 @@ export function territoryName(slug: string | undefined, t: (key: string) => stri
   return t(`territory_names.${slug}`)
 }
 
-export type PropertyTypeValue = 'apartment' | 'house' | 'land' | 'cottage' | 'commercial' | 'guesthouse' | 'hostel'
+export type PropertyTypeValue =
+  | 'apartment'
+  | 'house'
+  | 'land'
+  | 'cottage'
+  | 'commercial'
+  | 'guesthouse'
+  | 'hostel'
+  | 'hunting-lodge'
 export type DealTypeValue = 'sale' | 'rent'
 
 // Business priority (see CONTEXT.md + product direction): city housing —
 // buy or rent a flat, house, land, cottage, commercial premises — comes
-// first. Tourism (guesthouse/hostel, always nightly) is a second, smaller
-// section, not mixed into the primary Купить/Снять nav. Labels live in
-// i18n under `property_type.<value>` — see propertyTypeLabel().
+// first. Tourism (guesthouse/hostel/hunting-lodge, always nightly) is a
+// second, smaller section, not mixed into the primary Купить/Снять nav.
+// Labels live in i18n under `property_type.<value>` — see
+// propertyTypeLabel().
 export const cityPropertyTypes: { value: PropertyTypeValue; icon: string }[] = [
   { value: 'apartment', icon: '🏢' },
   { value: 'house', icon: '🏠' },
@@ -54,6 +63,7 @@ export const cityPropertyTypes: { value: PropertyTypeValue; icon: string }[] = [
 export const tourismPropertyTypes: { value: PropertyTypeValue; icon: string }[] = [
   { value: 'guesthouse', icon: '🏡' },
   { value: 'hostel', icon: '🛏️' },
+  { value: 'hunting-lodge', icon: '🏕️' },
 ]
 
 export const propertyTypes = [...cityPropertyTypes, ...tourismPropertyTypes]

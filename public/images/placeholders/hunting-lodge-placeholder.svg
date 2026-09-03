@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-label="Охотничий домик">
+<rect width="400" height="300" rx="16" fill="#E7EFE4"/>
+
+<polygon points="0,175 90,70 160,150 230,55 300,145 400,90 400,240 0,240" fill="#5F7654" opacity="0.3"/>
+<polygon points="0,205 70,150 150,195 240,120 320,190 400,160 400,250 0,250" fill="#246349" opacity="0.28"/>
+
+<rect x="0" y="248" width="400" height="52" fill="#D9C4A3" opacity="0.5"/>
+<line x1="0" y1="248" x2="400" y2="248" stroke="#8C5A17" stroke-width="1.5" opacity="0.4"/>
+
+<g fill="#246349">
+  <polygon points="55,210 75,160 95,210"/>
+  <polygon points="60,222 75,182 90,222"/>
+  <polygon points="315,215 335,168 355,215"/>
+  <polygon points="320,226 335,188 350,226"/>
+</g>
+<rect x="70" y="210" width="10" height="14" fill="#5F4632"/>
+<rect x="330" y="215" width="10" height="14" fill="#5F4632"/>
+
+<polygon points="120,150 200,95 280,150" fill="#5F4632"/>
+<rect x="118" y="150" width="164" height="8" fill="#4A3625"/>
+<rect x="135" y="158" width="130" height="72" fill="#8C6844"/>
+<line x1="135" y1="172" x2="265" y2="172" stroke="#6B4E30" stroke-width="2.5"/>
+<line x1="135" y1="186" x2="265" y2="186" stroke="#6B4E30" stroke-width="2.5"/>
+<line x1="135" y1="200" x2="265" y2="200" stroke="#6B4E30" stroke-width="2.5"/>
+<line x1="135" y1="214" x2="265" y2="214" stroke="#6B4E30" stroke-width="2.5"/>
+<rect x="184" y="192" width="32" height="38" fill="#2E2115"/>
+<rect x="148" y="170" width="20" height="18" fill="#F3D9A6" stroke="#4A3625" stroke-width="1.4"/>
+<rect x="232" y="170" width="20" height="18" fill="#F3D9A6" stroke="#4A3625" stroke-width="1.4"/>
+<rect x="196" y="98" width="10" height="26" fill="#4A3625"/>
+<path d="M206 98c4-6 0-11 4-17" fill="none" stroke="#B7C4BC" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+
+<g fill="none" stroke="#8C5A17" stroke-width="2.2" stroke-linecap="round">
+  <path d="M175 152c3-6 3-10 0-14"/>
+  <path d="M225 152c-3-6-3-10 0-14"/>
+</g>
+</svg>

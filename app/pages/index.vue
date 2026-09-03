@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { territories, territoryName, cityPropertyTypes } from '~/data/territories'
+import { territories, territoryName, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
 import { mockProperties } from '~/data/mockProperties'
 import type { DealTypeValue } from '~/data/territories'
 
@@ -20,9 +20,12 @@ const cityFeatured = computed(() =>
   allFeatured.filter((p) => cityPropertyTypes.some((t) => t.value === p.propertyType)).slice(0, 8),
 )
 
-const { properties: tourismStays } = await useProperties({ dealType: 'rent', propertyType: 'guesthouse' })
-const { properties: tourismHostels } = await useProperties({ dealType: 'rent', propertyType: 'hostel' })
-const tourismFeatured = computed(() => [...tourismStays, ...tourismHostels].slice(0, 3))
+// Derived from the same allFeatured fetch above (no separate request) —
+// covers every tourism type (guesthouse/hostel/hunting-lodge) automatically
+// rather than needing a manual useProperties() call added per type.
+const tourismFeatured = computed(() =>
+  allFeatured.filter((p) => tourismPropertyTypes.some((t) => t.value === p.propertyType)).slice(0, 3),
+)
 
 useHead({ title: t('home.title') })
 useSeoMeta({

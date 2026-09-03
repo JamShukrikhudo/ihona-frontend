@@ -19,9 +19,18 @@ interface ApiFavoriteProperty {
   area_sqft: string | number | null
   latitude: number | null
   longitude: number | null
+  has_generator: boolean
+  has_wifi: boolean
+  has_parking: boolean
+  mountain_view: string | null
+  altitude: number | null
+  water_source: string | null
+  max_guests: number | null
   published_at: string | null
   gallery: { url: string }[]
 }
+
+const NIGHTLY_TYPES = ['guesthouse', 'hostel', 'hunting-lodge']
 
 /**
  * POST /v1/real-estate/properties/:id/favorite toggles; the authenticated-
@@ -45,7 +54,7 @@ export async function fetchFavorites(): Promise<Property[]> {
     title: api.title,
     propertyType: api.property_type as Property['propertyType'],
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',
-    rentPeriod: api.deal_type === 'rent' ? (['guesthouse', 'hostel'].includes(api.property_type) ? 'night' : 'month') : undefined,
+    rentPeriod: api.deal_type === 'rent' ? (NIGHTLY_TYPES.includes(api.property_type) ? 'night' : 'month') : undefined,
     territorySlug: '',
     address: api.address ?? '',
     lat: api.latitude ?? 38.5598,
@@ -55,13 +64,13 @@ export async function fetchFavorites(): Promise<Property[]> {
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
-    maxGuests: null,
-    altitude: null,
-    hasWifi: false,
-    hasGenerator: false,
-    hasParking: false,
-    mountainView: false,
-    waterSource: null,
+    maxGuests: api.max_guests,
+    altitude: api.altitude,
+    hasWifi: api.has_wifi,
+    hasGenerator: api.has_generator,
+    hasParking: api.has_parking,
+    mountainView: api.mountain_view !== null,
+    waterSource: api.water_source as Property['waterSource'],
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
     publishedAt: api.published_at,

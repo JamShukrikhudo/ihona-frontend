@@ -45,7 +45,8 @@
     "cottage": "Коттеҷ",
     "commercial": "Тиҷоратӣ",
     "guesthouse": "Хонаи меҳмонӣ",
-    "hostel": "Хостел"
+    "hostel": "Хостел",
+    "hunting-lodge": "Кулбаи шикор"
   },
   "territory_names": {
     "dushanbe": "Душанбе",
@@ -105,6 +106,8 @@
     "water_well": "чоҳи об",
     "water_spring": "чашма",
     "water_delivered": "оби овардашуда",
+    "water_river": "дарё",
+    "water_other": "манбаи дигар",
     "back_to_listings": "Бозгашт ба рӯйхат",
     "location": "Ҷойгиршавӣ",
     "contact_agent": "Тамос бо агент",

@@ -45,7 +45,8 @@
     "cottage": "Коттедж/дача",
     "commercial": "Коммерческая",
     "guesthouse": "Гостевой дом",
-    "hostel": "Хостел"
+    "hostel": "Хостел",
+    "hunting-lodge": "Охотничий домик"
   },
   "territory_names": {
     "dushanbe": "Душанбе",
@@ -105,6 +106,8 @@
     "water_well": "скважина",
     "water_spring": "родник",
     "water_delivered": "привозная вода",
+    "water_river": "река",
+    "water_other": "другой источник",
     "back_to_listings": "К списку объектов",
     "location": "Расположение",
     "contact_agent": "Связаться с агентом",

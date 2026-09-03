@@ -21,7 +21,10 @@ export interface Property {
   hasGenerator: boolean
   hasParking: boolean
   mountainView: boolean
-  waterSource: 'mains' | 'well' | 'spring' | 'delivered' | null
+  // mains/delivered: mock data only. well/river/spring/other match the
+  // Filament PropertyResource's actual water_source Select options — the
+  // set live listings can carry.
+  waterSource: 'mains' | 'well' | 'river' | 'spring' | 'delivered' | 'other' | null
   description: string
   images: string[]
   /** ISO 8601, from the API's published_at — null for mock data. */

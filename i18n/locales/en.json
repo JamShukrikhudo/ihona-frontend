@@ -45,7 +45,8 @@
     "cottage": "Cottage",
     "commercial": "Commercial",
     "guesthouse": "Guesthouse",
-    "hostel": "Hostel"
+    "hostel": "Hostel",
+    "hunting-lodge": "Hunting lodge"
   },
   "territory_names": {
     "dushanbe": "Dushanbe",
@@ -105,6 +106,8 @@
     "water_well": "well",
     "water_spring": "spring",
     "water_delivered": "delivered water",
+    "water_river": "river",
+    "water_other": "other source",
     "back_to_listings": "Back to listings",
     "location": "Location",
     "contact_agent": "Contact agent",

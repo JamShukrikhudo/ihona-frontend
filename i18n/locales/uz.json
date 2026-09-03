@@ -45,7 +45,8 @@
     "cottage": "Dala hovli",
     "commercial": "Tijorat",
     "guesthouse": "Mehmonxona",
-    "hostel": "Xostel"
+    "hostel": "Xostel",
+    "hunting-lodge": "Ov uychasi"
   },
   "territory_names": {
     "dushanbe": "Dushanbe",
@@ -105,6 +106,8 @@
     "water_well": "quduq",
     "water_spring": "buloq",
     "water_delivered": "keltirilgan suv",
+    "water_river": "daryo",
+    "water_other": "boshqa manba",
     "back_to_listings": "Ro‘yxatga qaytish",
     "location": "Joylashuv",
     "contact_agent": "Agent bilan bog‘lanish",
