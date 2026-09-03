@@ -10,9 +10,14 @@ const { t } = useI18n()
 // third tab here at all.
 const dealType = ref<DealTypeValue>('rent')
 
-const { properties: allFeatured } = await useProperties({ dealType: dealType.value })
+// Not filtered by the buy/rent toggle above: several city types in the
+// current catalog only carry listings under one deal type (land/house/
+// cottage are sale-only, no rentals exist yet), so gating this fetch by
+// `dealType` was hiding whole property types from the homepage. The
+// toggle still drives the search bar and the shortcut/see-all links below.
+const { properties: allFeatured } = await useProperties({})
 const cityFeatured = computed(() =>
-  allFeatured.filter((p) => cityPropertyTypes.some((t) => t.value === p.propertyType)).slice(0, 6),
+  allFeatured.filter((p) => cityPropertyTypes.some((t) => t.value === p.propertyType)).slice(0, 8),
 )
 
 const { properties: tourismStays } = await useProperties({ dealType: 'rent', propertyType: 'guesthouse' })
@@ -77,7 +82,7 @@ useSeoMeta({
         </NuxtLinkLocale>
       </div>
 
-      <div v-if="cityFeatured.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div v-if="cityFeatured.length" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <PropertyCard v-for="property in cityFeatured" :key="property.id" :property="property" />
       </div>
       <p v-else class="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
