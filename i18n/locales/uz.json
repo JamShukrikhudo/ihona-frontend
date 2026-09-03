@@ -120,6 +120,13 @@
     "viewing_submitting": "Yuborilmoqda…",
     "viewing_success": "So‘rov yuborildi — agent siz bilan bog‘lanadi.",
     "viewing_error": "So‘rovni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
+    "booking_cta": "Bron qilish",
+    "booking_note": "Uy egasi so‘rovdan keyin bronni tasdiqlaydi",
+    "booking_checkin": "Kelish",
+    "booking_checkout": "Ketish",
+    "booking_guests": "Mehmonlar",
+    "booking_submit": "Bron so‘rovini yuborish",
+    "booking_success": "Bron so‘rovi yuborildi — uy egasi tez orada tasdiqlaydi.",
     "favorite": "Sevimlilarga qo‘shish",
     "unfavorite": "Sevimlilardan olib tashlash"
   },

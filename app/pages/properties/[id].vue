@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { findTerritoryBySlug, propertyTypeLabel, territoryName } from '~/data/territories'
+import { findTerritoryBySlug, propertyTypeLabel, territoryName, isTourismType } from '~/data/territories'
 
 const route = useRoute()
 const router = useRouter()
@@ -101,9 +101,18 @@ async function onToggleFavorite() {
   }
 }
 
+// Tourism types (guesthouse/hostel/hunting-lodge) book a night range +
+// guest count instead of requesting a single viewing-appointment slot —
+// same request/host-confirms flow underneath (POST .../viewings), just a
+// different form shape. See useViewings.ts.
+const isBooking = computed(() => (property.value ? isTourismType(property.value.propertyType) : false))
+
 const showViewingForm = ref(false)
 const viewingDate = ref('')
 const viewingTime = ref('12:00')
+const checkIn = ref('')
+const checkOut = ref('')
+const guestsCount = ref(1)
 const viewingState = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
 const viewingError = ref('')
 
@@ -116,15 +125,27 @@ function openViewingForm() {
 }
 
 async function submitViewingRequest() {
-  if (!property.value || !viewingDate.value) return
+  if (!property.value) return
   viewingState.value = 'submitting'
   viewingError.value = ''
   try {
-    await requestViewing(
-      property.value.id,
-      `${viewingDate.value}T${viewingTime.value}:00`,
-      `Просмотр: ${property.value.title}`,
-    )
+    if (isBooking.value) {
+      if (!checkIn.value || !checkOut.value) return
+      await requestViewing(
+        property.value.id,
+        `${checkIn.value}T14:00:00`,
+        `Бронирование: ${property.value.title}`,
+        `${checkOut.value}T12:00:00`,
+        guestsCount.value,
+      )
+    } else {
+      if (!viewingDate.value) return
+      await requestViewing(
+        property.value.id,
+        `${viewingDate.value}T${viewingTime.value}:00`,
+        `Просмотр: ${property.value.title}`,
+      )
+    }
     viewingState.value = 'success'
   } catch {
     viewingState.value = 'error'
@@ -320,38 +341,77 @@ useHead({
 
           <template v-if="viewingState === 'success'">
             <p class="mt-4 flex items-center gap-1.5 rounded-lg bg-brand-50 p-3 text-sm text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
-              <AppIcon name="verified" class="h-4 w-4" /> {{ t('property.viewing_success') }}
+              <AppIcon name="verified" class="h-4 w-4" /> {{ isBooking ? t('property.booking_success') : t('property.viewing_success') }}
             </p>
           </template>
 
           <template v-else-if="showViewingForm">
             <form class="mt-4 flex flex-col gap-3" @submit.prevent="submitViewingRequest">
-              <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
-                <input
-                  v-model="viewingDate"
-                  type="date"
-                  required
-                  :min="new Date().toISOString().split('T')[0]"
-                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                />
-              </div>
-              <div>
-                <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
-                <input
-                  v-model="viewingTime"
-                  type="time"
-                  required
-                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                />
-              </div>
+              <template v-if="isBooking">
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkin') }}</label>
+                    <input
+                      v-model="checkIn"
+                      type="date"
+                      required
+                      :min="new Date().toISOString().split('T')[0]"
+                      class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkout') }}</label>
+                    <input
+                      v-model="checkOut"
+                      type="date"
+                      required
+                      :min="checkIn || new Date().toISOString().split('T')[0]"
+                      class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_guests') }}</label>
+                  <input
+                    v-model.number="guestsCount"
+                    type="number"
+                    min="1"
+                    :max="property.maxGuests ?? 100"
+                    required
+                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                  />
+                </div>
+              </template>
+              <template v-else>
+                <div>
+                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
+                  <input
+                    v-model="viewingDate"
+                    type="date"
+                    required
+                    :min="new Date().toISOString().split('T')[0]"
+                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
+                  <input
+                    v-model="viewingTime"
+                    type="time"
+                    required
+                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                  />
+                </div>
+              </template>
               <p v-if="viewingState === 'error'" class="text-sm text-red-600">{{ viewingError }}</p>
               <button
                 type="submit"
                 :disabled="viewingState === 'submitting'"
                 class="w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
               >
-                {{ viewingState === 'submitting' ? t('property.viewing_submitting') : t('property.viewing_submit') }}
+                {{ viewingState === 'submitting'
+                  ? t('property.viewing_submitting')
+                  : (isBooking ? t('property.booking_submit') : t('property.viewing_submit')) }}
               </button>
             </form>
           </template>
@@ -361,9 +421,9 @@ useHead({
               class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
               @click="openViewingForm"
             >
-              {{ t('property.contact_agent') }}
+              {{ isBooking ? t('property.booking_cta') : t('property.contact_agent') }}
             </button>
-            <p class="mt-3 text-center text-xs text-slate-400">{{ t('property.contact_note') }}</p>
+            <p class="mt-3 text-center text-xs text-slate-400">{{ isBooking ? t('property.booking_note') : t('property.contact_note') }}</p>
           </template>
         </div>
 

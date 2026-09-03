@@ -120,6 +120,13 @@
     "viewing_submitting": "Sending…",
     "viewing_success": "Request sent — an agent will reach out to confirm.",
     "viewing_error": "Couldn't send the request. Please try again.",
+    "booking_cta": "Book now",
+    "booking_note": "The host will confirm your booking after you request it",
+    "booking_checkin": "Check-in",
+    "booking_checkout": "Check-out",
+    "booking_guests": "Guests",
+    "booking_submit": "Send booking request",
+    "booking_success": "Booking request sent — the host will confirm it shortly.",
     "favorite": "Add to favorites",
     "unfavorite": "Remove from favorites"
   },
