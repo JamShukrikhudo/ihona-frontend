@@ -43,17 +43,28 @@ const pricePerSqm = computed(() => {
 
 const dealTypeLabel = computed(() => (property.value?.dealType === 'rent' ? t('property.deal_rent') : t('property.deal_sale')))
 
+// Primary "at a glance" facts — icon-card row shown right under the
+// gallery, cian/avito-style. Only the fields this catalog actually
+// populates (no floor/floor count, living/kitchen area, bathrooms —
+// none of those exist as columns yet, see docs/handoffs).
+const vitals = computed(() => {
+  if (!property.value) return []
+  const p = property.value
+  return [
+    { icon: 'area', label: t('property.area'), value: `${p.area} м²` },
+    p.rooms ? { icon: 'bedroom', label: t('filters.rooms'), value: String(p.rooms) } : null,
+    p.maxGuests ? { icon: 'max-guests', label: t('property.max_guests'), value: String(p.maxGuests) } : null,
+    p.altitude ? { icon: 'altitude', label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
+  ].filter(Boolean) as { icon: string; label: string; value: string }[]
+})
+
+// Remaining metadata that doesn't fit the icon-card row above.
 const characteristics = computed(() => {
   if (!property.value) return []
   const p = property.value
   return [
     { label: t('property.deal_type_label'), value: dealTypeLabel.value },
     { label: t('filters.type'), value: propertyTypeLabel(p.propertyType, t) },
-    { label: t('property.area'), value: `${p.area} м²` },
-    p.rooms ? { label: t('filters.rooms'), value: String(p.rooms) } : null,
-    p.bathrooms ? { label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
-    p.maxGuests ? { label: t('property.max_guests'), value: String(p.maxGuests) } : null,
-    p.altitude ? { label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
     territory.value ? { label: t('filters.territory'), value: territoryName(territory.value.slug, t) } : null,
     { label: t('property.id_label'), value: p.reference },
   ].filter(Boolean) as { label: string; value: string }[]
@@ -213,6 +224,22 @@ useHead({
       >
         <img :src="img" class="h-full w-full object-cover" :alt="`${property.title} ${i + 1}`" />
       </button>
+    </div>
+
+    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div
+        v-for="stat in vitals"
+        :key="stat.label"
+        class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+      >
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400">
+          <AppIcon :name="stat.icon" class="h-5 w-5" />
+        </span>
+        <div class="min-w-0">
+          <p class="truncate text-xs text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
+          <p class="truncate text-base font-semibold text-slate-900 dark:text-slate-100">{{ stat.value }}</p>
+        </div>
+      </div>
     </div>
 
     <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
