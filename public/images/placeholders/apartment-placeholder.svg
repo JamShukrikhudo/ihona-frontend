@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Квартира">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-label="Квартира">
 <rect width="400" height="300" rx="16" fill="#F4E8ED"/>
 <path d="M0 150 L45 105 L95 138 L150 75 L205 130 L265 95 L330 145 L400 118 L400 230 L0 230 Z" fill="#EAD0DC" opacity="0.55"/>
 <rect x="0" y="248" width="400" height="52" fill="#B79A72" opacity="0.35"/><line x1="0" y1="248" x2="400" y2="248" stroke="#B79A72" stroke-width="1.5" opacity="0.5"/>
@@ -12,9 +12,4 @@
 <circle cx="345" cy="238" r="18" fill="#8CA37E"/>
 <rect x="342" y="238" width="6" height="14" fill="#B79A72"/>
 
-<g transform="translate(20,20)">
-  <rect x="0" y="0" width="98.8" height="26" rx="13" fill="rgba(255,255,255,0.75)"/>
-  <g transform="translate(13,5) scale(0.68)" fill="none" stroke="#246349" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><rect x="8" y="6" width="2.6" height="2.6"/><rect x="13.4" y="6" width="2.6" height="2.6"/></g>
-  <text x="38" y="17.5" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#1C4C38">Квартира</text>
-</g>
 </svg>
