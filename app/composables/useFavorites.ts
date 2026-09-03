@@ -15,6 +15,7 @@ interface ApiFavoriteProperty {
   deal_type: string | null
   price: string | number
   currency: string
+  price_usd: number | null
   bedrooms: number | null
   bathrooms: number | null
   area_sqft: string | number | null
@@ -64,9 +65,14 @@ export async function fetchFavorites(): Promise<Property[]> {
     lng: api.longitude ?? 68.787,
     price: Number(api.price),
     currency: 'TJS',
+    priceUsd: api.price_usd,
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
+    // Not returned by this endpoint's resource yet — mock data only, see useProperties.ts.
+    floor: null,
+    totalFloors: null,
+    ceilingHeight: null,
     maxGuests: api.max_guests,
     altitude: api.altitude,
     hasWifi: api.has_wifi,

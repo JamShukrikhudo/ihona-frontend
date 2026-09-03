@@ -13,10 +13,17 @@ export interface Property {
   lng: number
   price: number
   currency: 'TJS'
+  /** Live-converted USD equivalent (see currency-context's OpenExchangeRateApiProvider on the host) — null if the rate was unreachable. */
+  priceUsd: number | null
   rentPeriod?: 'night' | 'month'
   area: number
   rooms: number | null
   bathrooms: number | null
+  /** Apartment-only, mock data only — no `floor`/`total_floors` column on the host yet. */
+  floor: number | null
+  totalFloors: number | null
+  /** Apartment-only, mock data only — no `ceiling_height` column on the host yet. */
+  ceilingHeight: number | null
   maxGuests: number | null
   altitude: number | null
   hasWifi: boolean

@@ -27,6 +27,7 @@ interface ApiProperty {
   deal_type: string | null
   price: string | number
   currency: string
+  price_usd: number | null
   bedrooms: number | null
   bathrooms: number | null
   area_sqft: string | number | null
@@ -66,9 +67,15 @@ function mapApiProperty(api: ApiProperty): Property {
     lng: api.longitude ?? territory?.lng ?? 68.787,
     price: Number(api.price),
     currency: 'TJS',
+    priceUsd: api.price_usd,
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
+    // Not returned by PublicPropertyResource yet — no floor/total_floors/
+    // ceiling_height column on real_estate_properties. Mock data only.
+    floor: null,
+    totalFloors: null,
+    ceilingHeight: null,
     maxGuests: api.max_guests,
     altitude: api.altitude,
     hasWifi: api.has_wifi,

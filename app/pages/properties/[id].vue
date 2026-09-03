@@ -34,6 +34,10 @@ const formattedPrice = computed(() => {
     : `${price} TJS`
 })
 
+const formattedPriceUsd = computed(() =>
+  property.value?.priceUsd != null ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(property.value.priceUsd) : null,
+)
+
 // Price/m² reads oddly for a nightly rate (guesthouse/hostel), so it's
 // shown only for sale and monthly-rent listings, and only when area is known.
 const pricePerSqm = computed(() => {
@@ -44,15 +48,20 @@ const pricePerSqm = computed(() => {
 const dealTypeLabel = computed(() => (property.value?.dealType === 'rent' ? t('property.deal_rent') : t('property.deal_sale')))
 
 // Primary "at a glance" facts — icon-card row shown right under the
-// gallery, cian/avito-style. Only the fields this catalog actually
-// populates (no floor/floor count, living/kitchen area, bathrooms —
-// none of those exist as columns yet, see docs/handoffs).
+// gallery, cian/avito-style. Living/kitchen area still has no column on
+// the host (see docs/handoffs); floor/total floors/ceiling height are
+// apartment-only and mock-data-only for now (no column either, see
+// useProperties.ts's mapApiProperty).
 const vitals = computed(() => {
   if (!property.value) return []
   const p = property.value
+  const isApartment = p.propertyType === 'apartment'
   return [
     { icon: 'area', label: t('property.area'), value: `${p.area} м²` },
     p.rooms ? { icon: 'bedroom', label: t('filters.rooms'), value: String(p.rooms) } : null,
+    isApartment && p.bathrooms ? { icon: 'bathroom', label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
+    isApartment && p.floor ? { icon: 'floor', label: t('property.floor'), value: t('property.floor_of_total', { floor: p.floor, total: p.totalFloors ?? '—' }) } : null,
+    isApartment && p.ceilingHeight ? { icon: 'ceiling-height', label: t('property.ceiling_height'), value: `${p.ceilingHeight} м` } : null,
     p.maxGuests ? { icon: 'max-guests', label: t('property.max_guests'), value: String(p.maxGuests) } : null,
     p.altitude ? { icon: 'altitude', label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
   ].filter(Boolean) as { icon: string; label: string; value: string }[]
@@ -287,6 +296,7 @@ useHead({
         <!-- mobile, where the sidebar renders below the fold. -->
         <div class="mt-4 flex items-baseline gap-3 lg:hidden">
           <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+          <p v-if="formattedPriceUsd" class="text-sm text-slate-400">≈ ${{ formattedPriceUsd }}</p>
           <p v-if="pricePerSqm" class="text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
         </div>
 
@@ -326,6 +336,7 @@ useHead({
           <div class="flex items-start justify-between gap-2">
             <div>
               <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+              <p v-if="formattedPriceUsd" class="mt-0.5 text-sm text-slate-400">≈ ${{ formattedPriceUsd }}</p>
               <p v-if="pricePerSqm" class="mt-0.5 text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
             </div>
             <button

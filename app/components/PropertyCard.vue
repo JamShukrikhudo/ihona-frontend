@@ -16,6 +16,9 @@ const favorited = ref(props.initialFavorited)
 const togglingFavorite = ref(false)
 
 const formattedPrice = computed(() => new Intl.NumberFormat('ru-RU').format(props.property.price))
+const formattedPriceUsd = computed(() =>
+  props.property.priceUsd !== null ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(props.property.priceUsd) : null,
+)
 
 // Land has no separate building — area_sqft *is* the plot, so a sotka
 // (100 m², the unit Tajik land listings actually use) is a real, direct
@@ -87,6 +90,7 @@ async function onToggleFavorite() {
         <span class="text-[22px] font-bold tracking-tight text-slate-900 dark:text-slate-50">{{ formattedPrice }} TJS</span>
         <span v-if="property.rentPeriod" class="text-[13px] text-slate-500 dark:text-slate-400">/{{ t(`property.rent_${property.rentPeriod}`) }}</span>
       </div>
+      <p v-if="formattedPriceUsd" class="-mt-1.5 text-[13px] text-slate-400 dark:text-slate-500">≈ ${{ formattedPriceUsd }}</p>
 
       <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200">{{ property.title }}</h3>
 
@@ -99,6 +103,9 @@ async function onToggleFavorite() {
         </span>
         <span v-if="property.maxGuests" class="inline-flex items-center gap-1.5">
           <AppIcon name="max-guests" class="h-3.5 w-3.5" /> {{ property.maxGuests }}
+        </span>
+        <span v-if="property.propertyType === 'apartment' && property.floor" class="inline-flex items-center gap-1.5">
+          <AppIcon name="floor" class="h-3.5 w-3.5" /> {{ t('property.floor_of_total', { floor: property.floor, total: property.totalFloors ?? '—' }) }}
         </span>
       </div>
 
