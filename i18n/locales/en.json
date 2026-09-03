@@ -38,6 +38,24 @@
     "to": "to",
     "amenities": "Amenities"
   },
+  "property_type": {
+    "apartment": "Apartment",
+    "house": "House",
+    "land": "Land",
+    "cottage": "Cottage",
+    "commercial": "Commercial",
+    "guesthouse": "Guesthouse",
+    "hostel": "Hostel"
+  },
+  "territory_names": {
+    "dushanbe": "Dushanbe",
+    "khujand": "Khujand",
+    "bokhtar": "Bokhtar",
+    "kulyab": "Kulyab",
+    "pamir": "Pamir (GBAO)",
+    "tursunzade": "Tursunzade",
+    "vahdat": "Vahdat"
+  },
   "properties": {
     "title": "Properties",
     "meta_description": "Buy or rent apartments, houses, land, cottages and commercial property across Tajikistan — Dushanbe, Khujand, Kulyab, Bokhtar, the Pamirs. Current listings with photos, price and map.",

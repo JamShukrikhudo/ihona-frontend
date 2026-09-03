@@ -38,6 +38,24 @@
     "to": "gacha",
     "amenities": "Qulayliklar"
   },
+  "property_type": {
+    "apartment": "Kvartira",
+    "house": "Uy",
+    "land": "Yer uchastkasi",
+    "cottage": "Dala hovli",
+    "commercial": "Tijorat",
+    "guesthouse": "Mehmonxona",
+    "hostel": "Xostel"
+  },
+  "territory_names": {
+    "dushanbe": "Dushanbe",
+    "khujand": "Xo‘jand",
+    "bokhtar": "Boxtar",
+    "kulyab": "Kulob",
+    "pamir": "Pomir (GBAO)",
+    "tursunzade": "Tursunzoda",
+    "vahdat": "Vahdat"
+  },
   "properties": {
     "title": "Ko‘chmas mulk obyektlari",
     "meta_description": "Tojikiston bo‘ylab kvartira, uy, yer, dala hovli va tijorat mulkini sotib olish yoki ijaraga olish — Dushanbe, Xo‘jand, Kulob, Boxtar, Pomir. Rasm, narx va xarita bilan joriy e'lonlar.",

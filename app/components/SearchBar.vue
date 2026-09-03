@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { territories, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
+import { territories, territoryName, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
 import type { DealTypeValue } from '~/data/territories'
 
 const props = defineProps<{ dealType: DealTypeValue }>()
@@ -15,7 +15,7 @@ const maxPrice = ref('')
 const suggestions = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return territories
-  return territories.filter((t) => t.nameRu.toLowerCase().includes(q) || t.name.toLowerCase().includes(q))
+  return territories.filter((territory) => territoryName(territory.slug, t).toLowerCase().includes(q))
 })
 
 const selectedTerritorySlug = ref('')
@@ -58,12 +58,12 @@ function search() {
         class="absolute z-10 mt-1 w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800"
       >
         <li
-          v-for="t2 in suggestions"
-          :key="t2.slug"
+          v-for="territory in suggestions"
+          :key="territory.slug"
           class="cursor-pointer px-3 py-2 text-sm text-slate-700 hover:bg-brand-50 dark:text-slate-200 dark:hover:bg-slate-700"
-          @mousedown.prevent="selectTerritory(t2.slug, t2.nameRu)"
+          @mousedown.prevent="selectTerritory(territory.slug, territoryName(territory.slug, t))"
         >
-          {{ t2.nameRu }}
+          {{ territoryName(territory.slug, t) }}
         </li>
       </ul>
     </div>
@@ -74,10 +74,10 @@ function search() {
     >
       <option value="">{{ t('search.all_types') }}</option>
       <optgroup :label="t('search.city_types')">
-        <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+        <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
       </optgroup>
       <optgroup :label="t('search.tourism_types')">
-        <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+        <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
       </optgroup>
     </select>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { territoryName } from '~/data/territories'
+
 const route = useRoute()
 const { t } = useI18n()
 
@@ -10,11 +12,12 @@ if (!territory.value) {
 
 const { properties, usingLiveData } = await useProperties({ territorySlug: territory.value.slug })
 
-const metaDescription = t('territory.meta_description', { name: territory.value.nameRu })
-useHead({ title: territory.value.nameRu })
+const name = territoryName(territory.value.slug, t)
+const metaDescription = t('territory.meta_description', { name })
+useHead({ title: name })
 useSeoMeta({
   description: metaDescription,
-  ogTitle: territory.value.nameRu,
+  ogTitle: name,
   ogDescription: metaDescription,
 })
 </script>
@@ -22,7 +25,7 @@ useSeoMeta({
 <template>
   <div v-if="territory" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">
-      {{ t('territory.listings_in', { name: territory.nameRu }) }}
+      {{ t('territory.listings_in', { name: territoryName(territory.slug, t) }) }}
     </h1>
     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
       {{ t('properties.found', { count: properties.length }) }}

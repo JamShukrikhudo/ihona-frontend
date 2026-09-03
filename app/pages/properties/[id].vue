@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { findTerritoryBySlug, propertyTypeLabel } from '~/data/territories'
+import { findTerritoryBySlug, propertyTypeLabel, territoryName } from '~/data/territories'
 
 const route = useRoute()
 const router = useRouter()
@@ -48,13 +48,13 @@ const characteristics = computed(() => {
   const p = property.value
   return [
     { label: t('property.deal_type_label'), value: dealTypeLabel.value },
-    { label: t('filters.type'), value: propertyTypeLabel(p.propertyType) },
+    { label: t('filters.type'), value: propertyTypeLabel(p.propertyType, t) },
     { label: t('property.area'), value: `${p.area} м²` },
     p.rooms ? { label: t('filters.rooms'), value: String(p.rooms) } : null,
     p.bathrooms ? { label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
     p.maxGuests ? { label: t('property.max_guests'), value: String(p.maxGuests) } : null,
     p.altitude ? { label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
-    territory.value ? { label: t('filters.territory'), value: territory.value.nameRu } : null,
+    territory.value ? { label: t('filters.territory'), value: territoryName(territory.value.slug, t) } : null,
     { label: t('property.id_label'), value: `№ ${p.id}` },
   ].filter(Boolean) as { label: string; value: string }[]
 })
@@ -145,7 +145,7 @@ useHead({
         address: {
           '@type': 'PostalAddress',
           streetAddress: property.value?.address,
-          addressLocality: territory.value?.nameRu,
+          addressLocality: territoryName(territory.value?.slug, t),
           addressCountry: 'TJ',
         },
         offers: {
@@ -169,10 +169,10 @@ useHead({
         :to="`/territories/${territory.slug}`"
         class="hover:text-brand-700 dark:hover:text-brand-400"
       >
-        {{ territory.nameRu }}
+        {{ territoryName(territory.slug, t) }}
       </NuxtLinkLocale>
       <span v-if="territory">/</span>
-      <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType) }}</span>
+      <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType, t) }}</span>
     </nav>
 
     <!-- Gallery: main photo with counter + prev/next controls, thumbnail -->
@@ -227,15 +227,15 @@ useHead({
             {{ dealTypeLabel }}
           </span>
           <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-            {{ propertyTypeLabel(property.propertyType) }}
+            {{ propertyTypeLabel(property.propertyType, t) }}
           </span>
         </div>
 
         <h1 class="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
-          {{ propertyTypeLabel(property.propertyType) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
+          {{ propertyTypeLabel(property.propertyType, t) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
         </h1>
         <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
-          <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territory?.nameRu }}, {{ property.address }}
+          <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
         </p>
 
         <!-- Price shown here too (not only in the sidebar) so it reads on -->

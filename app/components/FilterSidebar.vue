@@ -31,10 +31,10 @@ const showRooms = computed(() => filters.value.propertyType !== 'land' && filter
       >
         <option value="">{{ t('search.all_types') }}</option>
         <optgroup :label="t('search.city_types')">
-          <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+          <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
         </optgroup>
         <optgroup :label="t('search.tourism_types')">
-          <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ type.label }}</option>
+          <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
         </optgroup>
       </select>
     </div>

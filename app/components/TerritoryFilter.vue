@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { territories } from '~/data/territories'
+import { territories, territoryName } from '~/data/territories'
 
 const modelValue = defineModel<string>({ default: '' })
 const { t } = useI18n()
@@ -18,7 +18,7 @@ const { t } = useI18n()
         class="accent-brand-600"
         @change="modelValue = territory.slug"
       />
-      {{ territory.nameRu }}
+      {{ territoryName(territory.slug, t) }}
     </label>
   </div>
 </template>

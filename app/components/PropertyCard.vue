@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { findTerritoryBySlug, propertyTypeLabel } from '~/data/territories'
+import { findTerritoryBySlug, propertyTypeLabel, territoryName } from '~/data/territories'
 import type { Property } from '~/types/property'
 
 const props = withDefaults(defineProps<{ property: Property; initialFavorited?: boolean }>(), {
@@ -62,7 +62,7 @@ async function onToggleFavorite() {
       />
       <div class="absolute left-2.5 top-2.5 flex flex-wrap gap-1.5">
         <span class="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow">
-          <AppIcon :name="property.propertyType" class="h-3.5 w-3.5 text-brand-600" /> {{ propertyTypeLabel(property.propertyType) }}
+          <AppIcon :name="property.propertyType" class="h-3.5 w-3.5 text-brand-600" /> {{ propertyTypeLabel(property.propertyType, t) }}
         </span>
         <span
           v-if="property.mountainView"
@@ -103,7 +103,7 @@ async function onToggleFavorite() {
       </div>
 
       <p class="flex items-center gap-1.5 text-[13px] text-slate-500 dark:text-slate-400">
-        <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territory?.nameRu }}, {{ property.address }}</span>
+        <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territoryName(territory?.slug, t) }}, {{ property.address }}</span>
       </p>
 
       <p v-if="publishedLabel" class="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">

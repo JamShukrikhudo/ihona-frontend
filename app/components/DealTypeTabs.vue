@@ -3,6 +3,11 @@ import { dealTypes } from '~/data/territories'
 import type { DealTypeValue } from '~/data/territories'
 
 const modelValue = defineModel<DealTypeValue>({ required: true })
+const { t } = useI18n()
+
+// dealTypes only carries 'sale'/'rent' — same labels the nav already uses
+// (nav.buy/nav.rent), so this reuses them rather than adding a duplicate key.
+const dealTypeLabel = (value: DealTypeValue): string => t(value === 'sale' ? 'nav.buy' : 'nav.rent')
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const modelValue = defineModel<DealTypeValue>({ required: true })
         : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
       @click="modelValue = deal.value"
     >
-      {{ deal.label }}
+      {{ dealTypeLabel(deal.value) }}
     </button>
   </div>
 </template>

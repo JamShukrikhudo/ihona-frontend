@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { territories, cityPropertyTypes } from '~/data/territories'
+import { territories, territoryName, cityPropertyTypes } from '~/data/territories'
 import { mockProperties } from '~/data/mockProperties'
 import type { DealTypeValue } from '~/data/territories'
 
@@ -57,7 +57,7 @@ useSeoMeta({
             :to="{ path: '/properties', query: { deal: dealType, type: type.value } }"
             class="flex items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-white/25"
           >
-            <AppIcon :name="type.value" class="h-4 w-4" />{{ type.label }}
+            <AppIcon :name="type.value" class="h-4 w-4" />{{ t(`property_type.${type.value}`) }}
           </NuxtLinkLocale>
         </div>
 
@@ -68,7 +68,7 @@ useSeoMeta({
             :to="`/territories/${territory.slug}`"
             class="rounded-full border border-white/30 px-3 py-1 text-sm text-white/90 hover:bg-white/10"
           >
-            {{ territory.nameRu }}
+            {{ territoryName(territory.slug, t) }}
           </NuxtLinkLocale>
         </div>
       </div>

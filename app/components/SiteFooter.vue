@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { territories } from '~/data/territories'
+import { territories, territoryName } from '~/data/territories'
 
 const { t } = useI18n()
 </script>
@@ -17,7 +17,7 @@ const { t } = useI18n()
           <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-400">
             <li v-for="territory in territories" :key="territory.slug">
               <NuxtLinkLocale :to="`/territories/${territory.slug}`" class="hover:text-brand-700 dark:hover:text-brand-400">
-                {{ territory.nameRu }}
+                {{ territoryName(territory.slug, t) }}
               </NuxtLinkLocale>
             </li>
           </ul>
