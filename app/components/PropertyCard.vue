@@ -53,7 +53,7 @@ async function onToggleFavorite() {
     :to="`/properties/${property.id}`"
     class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_8px_24px_rgba(0,0,0,.05)] transition hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(0,0,0,.09)] dark:bg-slate-900"
   >
-    <div class="relative aspect-[32/19] overflow-hidden bg-slate-100 dark:bg-slate-800">
+    <div class="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
       <img
         :src="property.images[0]"
         :alt="property.title"
@@ -82,7 +82,7 @@ async function onToggleFavorite() {
       </button>
     </div>
 
-    <div class="flex flex-1 flex-col gap-2.5 p-4">
+    <div class="flex flex-1 flex-col gap-2 p-4">
       <div class="flex flex-wrap items-baseline gap-2">
         <span class="text-[22px] font-bold tracking-tight text-slate-900 dark:text-slate-50">{{ formattedPrice }} TJS</span>
         <span v-if="property.rentPeriod" class="text-[13px] text-slate-500 dark:text-slate-400">/{{ t(`property.rent_${property.rentPeriod}`) }}</span>
@@ -102,17 +102,21 @@ async function onToggleFavorite() {
         </span>
       </div>
 
-      <p class="flex items-center gap-1.5 text-[13px] text-slate-500 dark:text-slate-400">
-        <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territoryName(territory?.slug, t) }}, {{ property.address }}</span>
-      </p>
-
-      <div v-if="publishedLabel || property.viewsCount > 0" class="flex items-center justify-between gap-2 text-xs text-slate-400 dark:text-slate-500">
-        <p v-if="publishedLabel" class="flex items-center gap-1.5">
-          <AppIcon name="calendar" class="h-3.5 w-3.5 shrink-0" /> {{ publishedLabel }}
+      <!-- Location/published/views grouped tightly as one "meta" cluster,
+           distinct from the sections around it, instead of every line
+           carrying the same gap as if they were unrelated facts. -->
+      <div class="flex flex-col gap-1">
+        <p class="flex items-center gap-1.5 text-[13px] text-slate-500 dark:text-slate-400">
+          <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territoryName(territory?.slug, t) }}, {{ property.address }}</span>
         </p>
-        <p v-if="property.viewsCount > 0" class="flex items-center gap-1.5">
-          <AppIcon name="eye" class="h-3.5 w-3.5 shrink-0" /> {{ t('property.views_count', { count: property.viewsCount }) }}
-        </p>
+        <div v-if="publishedLabel || property.viewsCount > 0" class="flex items-center justify-between gap-2 text-xs text-slate-400 dark:text-slate-500">
+          <p v-if="publishedLabel" class="flex items-center gap-1.5">
+            <AppIcon name="calendar" class="h-3.5 w-3.5 shrink-0" /> {{ publishedLabel }}
+          </p>
+          <p v-if="property.viewsCount > 0" class="flex items-center gap-1.5">
+            <AppIcon name="eye" class="h-3.5 w-3.5 shrink-0" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+          </p>
+        </div>
       </div>
 
       <div v-if="property.hasWifi || property.hasGenerator || property.hasParking || property.waterSource || property.altitude" class="mt-auto flex flex-wrap gap-3 pt-1 text-xs text-slate-500 dark:text-slate-400">
