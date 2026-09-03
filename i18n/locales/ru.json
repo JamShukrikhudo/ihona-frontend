@@ -136,6 +136,7 @@
     "password": "Пароль",
     "password_confirmation": "Повторите пароль",
     "password_requirements": "Минимум 12 символов, заглавные и строчные буквы, цифра и символ",
+    "password_mismatch": "Пароли не совпадают.",
     "name": "Имя",
     "loading": "Входим…",
     "submit_login": "Войти",
@@ -147,7 +148,9 @@
     "submit_register": "Зарегистрироваться",
     "register_pending": "Регистрация через API пока в разработке на стороне сервера.",
     "have_account": "Уже есть аккаунт?",
-    "login_link": "Войти"
+    "login_link": "Войти",
+    "toast_welcome_back": "С возвращением, {name}!",
+    "toast_welcome_new": "Добро пожаловать, {name}!"
   },
   "footer": {
     "tagline": "Недвижимость и туристическая аренда по всему Таджикистану.",

@@ -136,6 +136,7 @@
     "password": "Рамз",
     "password_confirmation": "Рамзро такрор кунед",
     "password_requirements": "Ҳадди ақал 12 аломат, ҳарфҳои калон ва хурд, рақам ва аломат",
+    "password_mismatch": "Рамзҳо мувофиқат намекунанд.",
     "name": "Ном",
     "loading": "Воридшавӣ…",
     "submit_login": "Воридшавӣ",
@@ -147,7 +148,9 @@
     "submit_register": "Бақайдгирӣ",
     "register_pending": "Бақайдгирии тавассути API ҳанӯз дар ҷониби сервер таҳия мешавад.",
     "have_account": "Ҳисоб доред?",
-    "login_link": "Воридшавӣ"
+    "login_link": "Воридшавӣ",
+    "toast_welcome_back": "Хуш омадед, {name}!",
+    "toast_welcome_new": "Хуш омадед, {name}!"
   },
   "footer": {
     "tagline": "Амволи ғайриманқул ва иҷораи сайёҳӣ дар саросари Тоҷикистон.",

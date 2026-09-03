@@ -136,6 +136,7 @@
     "password": "Password",
     "password_confirmation": "Confirm password",
     "password_requirements": "At least 12 characters, upper and lower case, a number, and a symbol",
+    "password_mismatch": "Passwords don't match.",
     "name": "Name",
     "loading": "Signing in…",
     "submit_login": "Log in",
@@ -147,7 +148,9 @@
     "submit_register": "Sign up",
     "register_pending": "API-based registration is still being built on the backend.",
     "have_account": "Already have an account?",
-    "login_link": "Log in"
+    "login_link": "Log in",
+    "toast_welcome_back": "Welcome back, {name}!",
+    "toast_welcome_new": "Welcome, {name}!"
   },
   "footer": {
     "tagline": "Real estate and tourist rentals across Tajikistan.",

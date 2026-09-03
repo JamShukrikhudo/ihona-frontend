@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const auth = useAuthStore()
+const toast = useToastStore()
 const router = useRouter()
 const route = useRoute()
 const localePath = useLocalePath()
@@ -15,6 +16,7 @@ async function submit() {
   loading.value = true
   try {
     await auth.login(email.value, password.value)
+    toast.show(t('auth.toast_welcome_back', { name: auth.user?.name ?? email.value }))
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : localePath('/')
     router.push(redirect)
   } catch {
@@ -38,6 +40,7 @@ useHead({ title: t('auth.login_title') })
         <input
           v-model="email"
           type="email"
+          autocomplete="email"
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />
@@ -47,6 +50,7 @@ useHead({ title: t('auth.login_title') })
         <input
           v-model="password"
           type="password"
+          autocomplete="current-password"
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />

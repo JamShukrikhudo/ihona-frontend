@@ -16,4 +16,5 @@ useHead({ htmlAttrs: { class: computed(() => (theme.dark ? 'dark' : '')) } })
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <AppToast />
 </template>

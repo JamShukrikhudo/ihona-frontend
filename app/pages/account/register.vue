@@ -5,6 +5,7 @@
 // a symbol (jetstream-bridge's FortifyServiceProvider).
 const { t } = useI18n()
 const auth = useAuthStore()
+const toast = useToastStore()
 const router = useRouter()
 const route = useRoute()
 const localePath = useLocalePath()
@@ -20,12 +21,25 @@ interface ValidationErrorBody {
   message?: string
   errors?: Record<string, string[]>
 }
+interface RegisterResponse {
+  plainTextToken: string
+  user: { id: number; name: string; email: string }
+}
 
 async function submit() {
   error.value = ''
+
+  // Caught server-side too (password_confirmation validation), but that
+  // round-trip is pure waste for a mismatch anyone can see before
+  // submitting — check it here first.
+  if (password.value !== passwordConfirmation.value) {
+    error.value = t('auth.password_mismatch')
+    return
+  }
+
   loading.value = true
   try {
-    const res = await apiFetch<{ plainTextToken: string }>('/v1/auth/register', {
+    const res = await apiFetch<RegisterResponse>('/v1/auth/register', {
       method: 'POST',
       body: {
         name: name.value,
@@ -34,8 +48,8 @@ async function submit() {
         password_confirmation: passwordConfirmation.value,
       },
     })
-    auth.token = res.plainTextToken
-    if (import.meta.client) localStorage.setItem('ihona_token', res.plainTextToken)
+    auth.setSession(res.plainTextToken, res.user)
+    toast.show(t('auth.toast_welcome_new', { name: res.user.name }))
 
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : localePath('/')
     router.push(redirect)
@@ -62,6 +76,7 @@ useHead({ title: t('auth.register_title') })
         <input
           v-model="name"
           type="text"
+          autocomplete="name"
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />
@@ -71,6 +86,7 @@ useHead({ title: t('auth.register_title') })
         <input
           v-model="email"
           type="email"
+          autocomplete="email"
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />
@@ -80,6 +96,7 @@ useHead({ title: t('auth.register_title') })
         <input
           v-model="password"
           type="password"
+          autocomplete="new-password"
           required
           minlength="12"
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
@@ -91,6 +108,7 @@ useHead({ title: t('auth.register_title') })
         <input
           v-model="passwordConfirmation"
           type="password"
+          autocomplete="new-password"
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />

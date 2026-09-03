@@ -18,13 +18,21 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(email: string, password: string) {
-      const { plainTextToken } = await apiFetch<{ plainTextToken: string }>('/v1/auth/token', {
+      const res = await apiFetch<{ plainTextToken: string; user: User }>('/v1/auth/token', {
         method: 'POST',
         body: { email, password },
       })
-      this.token = plainTextToken
+      this.setSession(res.plainTextToken, res.user)
+    },
+
+    // Both /v1/auth/token and /v1/auth/register return the same
+    // {plainTextToken, user} shape — one place to apply it and persist the
+    // token, instead of each call site duplicating the localStorage write.
+    setSession(token: string, user: User) {
+      this.token = token
+      this.user = user
       if (import.meta.client) {
-        localStorage.setItem('ihona_token', plainTextToken)
+        localStorage.setItem('ihona_token', token)
       }
     },
 
