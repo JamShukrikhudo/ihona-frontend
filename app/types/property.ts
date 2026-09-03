@@ -29,6 +29,12 @@ export interface Property {
   images: string[]
   /** ISO 8601, from the API's published_at — null for mock data. */
   publishedAt: string | null
+  /**
+   * Deduped per-visitor-per-day on the backend (see
+   * Property::recordView()) — only incremented by loading the property's
+   * own detail page, not by appearing in a list. 0 for mock data.
+   */
+  viewsCount: number
 }
 
 export interface PropertyFilters {

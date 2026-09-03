@@ -237,6 +237,9 @@ useHead({
         <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
           <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
         </p>
+        <p v-if="property.viewsCount > 0" class="mt-1 flex items-center gap-1 text-sm text-slate-400 dark:text-slate-500">
+          <AppIcon name="eye" class="h-4 w-4" aria-hidden="true" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+        </p>
 
         <!-- Price shown here too (not only in the sidebar) so it reads on -->
         <!-- mobile, where the sidebar renders below the fold. -->

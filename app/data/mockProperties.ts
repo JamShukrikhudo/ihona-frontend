@@ -28,6 +28,7 @@ export const mockProperties: Property[] = [
     description:
       'Светлая трёхкомнатная квартира с ремонтом, рядом парк Рудаки и деловой центр. Тёплые полы, новая проводка, панорамные окна.',
     publishedAt: null,
+    viewsCount: 0,
     images: [
       'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=70',
       'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=70',
@@ -59,6 +60,7 @@ export const mockProperties: Property[] = [
     description:
       'Традиционный памирский дом для туристов и треккеров, панорама на хребет. Тёплая кухня, отдельные гостевые комнаты, солнечная терраса.',
     publishedAt: null,
+    viewsCount: 0,
     images: [
       'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=1200&q=70',
       'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=70',
@@ -88,6 +90,7 @@ export const mockProperties: Property[] = [
     waterSource: 'mains',
     description: 'Бюджетное размещение в двух шагах от базара Панчшанбе, общая кухня и терраса.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200&q=70'],
   },
   {
@@ -113,6 +116,7 @@ export const mockProperties: Property[] = [
     waterSource: 'well',
     description: 'Двухэтажный коттедж с садом, баней и собственным источником воды.',
     publishedAt: null,
+    viewsCount: 0,
     images: [
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=70',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=70',
@@ -141,6 +145,7 @@ export const mockProperties: Property[] = [
     waterSource: 'mains',
     description: 'Торговая точка с отдельным входом и складским помещением.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=70'],
   },
   {
@@ -166,6 +171,7 @@ export const mockProperties: Property[] = [
     waterSource: null,
     description: 'Ровный участок с подведённым электричеством, документы готовы.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=70'],
   },
   {
@@ -191,6 +197,7 @@ export const mockProperties: Property[] = [
     waterSource: 'mains',
     description: 'Семейный дом с фруктовым садом и отдельным гостевым флигелем.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=70'],
   },
   {
@@ -217,6 +224,7 @@ export const mockProperties: Property[] = [
     waterSource: 'mains',
     description: 'Компактная студия после ремонта, вся мебель и техника включены. Сдаётся помесячно.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=70'],
   },
   {
@@ -243,6 +251,7 @@ export const mockProperties: Property[] = [
     waterSource: 'spring',
     description: 'Простое, тёплое жильё у озера — печь, генератор по вечерам, завтрак включён.',
     publishedAt: null,
+    viewsCount: 0,
     images: ['https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1200&q=70'],
   },
   {
@@ -268,6 +277,7 @@ export const mockProperties: Property[] = [
     waterSource: 'mains',
     description: 'Апартаменты в новом жилом комплексе с консьержем и подземным паркингом.',
     publishedAt: null,
+    viewsCount: 0,
     images: [
       'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=1200&q=70',
       'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1200&q=70',

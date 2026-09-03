@@ -91,6 +91,7 @@
     "published_today": "Bugun joylandi",
     "published_yesterday": "Kecha joylandi",
     "published_days_ago": "{count} kun oldin joylandi",
+    "views_count": "{count} ko‘rish",
     "sotka": "sotix",
     "rooms": "xona",
     "rent_night": "kecha",

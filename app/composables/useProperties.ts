@@ -39,6 +39,7 @@ interface ApiProperty {
   altitude: number | null
   water_source: string | null
   max_guests: number | null
+  views_count: number
   published_at: string | null
   gallery: { url: string }[]
 }
@@ -76,6 +77,7 @@ function mapApiProperty(api: ApiProperty): Property {
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
     publishedAt: api.published_at,
+    viewsCount: api.views_count,
   }
 }
 

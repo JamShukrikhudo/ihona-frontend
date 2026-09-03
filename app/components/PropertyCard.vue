@@ -106,9 +106,14 @@ async function onToggleFavorite() {
         <AppIcon name="location-pin" class="h-3.5 w-3.5 shrink-0" /> <span class="min-w-0 truncate">{{ territoryName(territory?.slug, t) }}, {{ property.address }}</span>
       </p>
 
-      <p v-if="publishedLabel" class="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-        <AppIcon name="calendar" class="h-3.5 w-3.5 shrink-0" /> {{ publishedLabel }}
-      </p>
+      <div v-if="publishedLabel || property.viewsCount > 0" class="flex items-center justify-between gap-2 text-xs text-slate-400 dark:text-slate-500">
+        <p v-if="publishedLabel" class="flex items-center gap-1.5">
+          <AppIcon name="calendar" class="h-3.5 w-3.5 shrink-0" /> {{ publishedLabel }}
+        </p>
+        <p v-if="property.viewsCount > 0" class="flex items-center gap-1.5">
+          <AppIcon name="eye" class="h-3.5 w-3.5 shrink-0" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+        </p>
+      </div>
 
       <div v-if="property.hasWifi || property.hasGenerator || property.hasParking || property.waterSource || property.altitude" class="mt-auto flex flex-wrap gap-3 pt-1 text-xs text-slate-500 dark:text-slate-400">
         <span v-if="property.hasGenerator" class="inline-flex items-center gap-1"><AppIcon name="generator" class="h-3.5 w-3.5" /> {{ t('property.generator') }}</span>

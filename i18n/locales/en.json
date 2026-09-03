@@ -91,6 +91,7 @@
     "published_today": "Published today",
     "published_yesterday": "Published yesterday",
     "published_days_ago": "Published {count} days ago",
+    "views_count": "{count} views",
     "sotka": "sotka",
     "rooms": "rooms",
     "rent_night": "night",
