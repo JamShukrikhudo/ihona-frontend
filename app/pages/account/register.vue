@@ -7,6 +7,7 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 
 const name = ref('')
 const email = ref('')
@@ -36,7 +37,7 @@ async function submit() {
     auth.token = res.plainTextToken
     if (import.meta.client) localStorage.setItem('ihona_token', res.plainTextToken)
 
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
+    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : localePath('/')
     router.push(redirect)
   } catch (err: unknown) {
     const body = (err as { data?: ValidationErrorBody })?.data
@@ -108,7 +109,7 @@ useHead({ title: t('auth.register_title') })
 
     <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
       {{ t('auth.have_account') }}
-      <NuxtLink to="/account/login" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.login_link') }}</NuxtLink>
+      <NuxtLinkLocale to="/account/login" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.login_link') }}</NuxtLinkLocale>
     </p>
   </div>
 </template>

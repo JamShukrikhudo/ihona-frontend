@@ -46,25 +46,25 @@ useSeoMeta({
         <!-- above the territory chips so it reads as the main path, not -->
         <!-- tourism. -->
         <div class="mt-6 flex flex-wrap gap-2">
-          <NuxtLink
+          <NuxtLinkLocale
             v-for="type in cityPropertyTypes"
             :key="type.value"
             :to="{ path: '/properties', query: { deal: dealType, type: type.value } }"
             class="flex items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-white/25"
           >
             <AppIcon :name="type.value" class="h-4 w-4" />{{ type.label }}
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
 
         <div class="mt-4 flex flex-wrap gap-2">
-          <NuxtLink
+          <NuxtLinkLocale
             v-for="territory in territories"
             :key="territory.slug"
             :to="`/territories/${territory.slug}`"
             class="rounded-full border border-white/30 px-3 py-1 text-sm text-white/90 hover:bg-white/10"
           >
             {{ territory.nameRu }}
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
       </div>
     </section>
@@ -72,9 +72,9 @@ useSeoMeta({
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div class="mb-6 flex items-center justify-between">
         <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.listings_title') }}</h2>
-        <NuxtLink :to="{ path: '/properties', query: { deal: dealType } }" class="text-sm font-medium text-accent-600 hover:underline">
+        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: dealType } }" class="text-sm font-medium text-accent-600 hover:underline">
           {{ t('home.see_all') }}
-        </NuxtLink>
+        </NuxtLinkLocale>
       </div>
 
       <div v-if="cityFeatured.length" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -97,12 +97,12 @@ useSeoMeta({
             </h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('home.tourism_subtitle') }}</p>
           </div>
-          <NuxtLink
+          <NuxtLinkLocale
             :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }"
             class="text-sm font-medium text-accent-600 hover:underline"
           >
             {{ t('home.see_all') }}
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">

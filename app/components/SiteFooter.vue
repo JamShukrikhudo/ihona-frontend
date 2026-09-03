@@ -16,17 +16,17 @@ const { t } = useI18n()
           <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.territories') }}</h3>
           <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-400">
             <li v-for="territory in territories" :key="territory.slug">
-              <NuxtLink :to="`/territories/${territory.slug}`" class="hover:text-brand-700 dark:hover:text-brand-400">
+              <NuxtLinkLocale :to="`/territories/${territory.slug}`" class="hover:text-brand-700 dark:hover:text-brand-400">
                 {{ territory.nameRu }}
-              </NuxtLink>
+              </NuxtLinkLocale>
             </li>
           </ul>
         </div>
         <div>
           <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.company') }}</h3>
           <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-400">
-            <li><NuxtLink to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.about') }}</NuxtLink></li>
-            <li><NuxtLink to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.contacts') }}</NuxtLink></li>
+            <li><NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.about') }}</NuxtLinkLocale></li>
+            <li><NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.contacts') }}</NuxtLinkLocale></li>
           </ul>
         </div>
         <div>

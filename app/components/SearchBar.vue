@@ -5,6 +5,7 @@ import type { DealTypeValue } from '~/data/territories'
 const props = defineProps<{ dealType: DealTypeValue }>()
 const { t } = useI18n()
 const router = useRouter()
+const localePath = useLocalePath()
 
 const query = ref('')
 const showSuggestions = ref(false)
@@ -27,7 +28,7 @@ function selectTerritory(slug: string, label: string) {
 
 function search() {
   router.push({
-    path: '/properties',
+    path: localePath('/properties'),
     query: {
       deal: props.dealType,
       ...(selectedTerritorySlug.value ? { territory: selectedTerritorySlug.value } : {}),

@@ -9,6 +9,7 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 
 const territory = computed(() => findTerritoryBySlug(props.property.territorySlug))
 const favorited = ref(props.initialFavorited)
@@ -32,7 +33,7 @@ const publishedLabel = computed(() => formatPublishedAgo(props.property.publishe
 
 async function onToggleFavorite() {
   if (!auth.isAuthenticated) {
-    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    router.push({ path: localePath('/account/login'), query: { redirect: route.fullPath } })
     return
   }
   if (togglingFavorite.value) return
@@ -48,7 +49,7 @@ async function onToggleFavorite() {
 </script>
 
 <template>
-  <NuxtLink
+  <NuxtLinkLocale
     :to="`/properties/${property.id}`"
     class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_8px_24px_rgba(0,0,0,.05)] transition hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(0,0,0,.09)] dark:bg-slate-900"
   >
@@ -117,5 +118,5 @@ async function onToggleFavorite() {
         <span v-if="property.altitude">{{ property.altitude }} {{ t('property.meters_above_sea') }}</span>
       </div>
     </div>
-  </NuxtLink>
+  </NuxtLinkLocale>
 </template>

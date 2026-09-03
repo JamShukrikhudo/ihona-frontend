@@ -5,6 +5,7 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const property = await usePropertyById(Number(route.params.id))
 
@@ -75,7 +76,7 @@ const togglingFavorite = ref(false)
 
 async function onToggleFavorite() {
   if (!auth.isAuthenticated) {
-    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    router.push({ path: localePath('/account/login'), query: { redirect: route.fullPath } })
     return
   }
   if (togglingFavorite.value || !property.value) return
@@ -97,7 +98,7 @@ const viewingError = ref('')
 
 function openViewingForm() {
   if (!auth.isAuthenticated) {
-    router.push({ path: '/account/login', query: { redirect: route.fullPath } })
+    router.push({ path: localePath('/account/login'), query: { redirect: route.fullPath } })
     return
   }
   showViewingForm.value = true
@@ -161,15 +162,15 @@ useHead({
 <template>
   <div v-if="property" class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
     <nav class="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
-      <NuxtLink to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('property.breadcrumb_home') }}</NuxtLink>
+      <NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('property.breadcrumb_home') }}</NuxtLinkLocale>
       <span>/</span>
-      <NuxtLink
+      <NuxtLinkLocale
         v-if="territory"
         :to="`/territories/${territory.slug}`"
         class="hover:text-brand-700 dark:hover:text-brand-400"
       >
         {{ territory.nameRu }}
-      </NuxtLink>
+      </NuxtLinkLocale>
       <span v-if="territory">/</span>
       <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType) }}</span>
     </nav>

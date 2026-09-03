@@ -3,9 +3,10 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 
 if (!auth.isAuthenticated) {
-  await navigateTo({ path: '/account/login', query: { redirect: route.fullPath } })
+  await navigateTo({ path: localePath('/account/login'), query: { redirect: route.fullPath } })
 }
 
 const properties = ref<Awaited<ReturnType<typeof fetchFavorites>>>([])
