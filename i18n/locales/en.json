@@ -165,6 +165,7 @@
     "company": "Company",
     "about": "About",
     "contacts": "Contact",
-    "currency": "Currency"
+    "currency": "Currency",
+    "scroll_to_top": "Back to top"
   }
 }
