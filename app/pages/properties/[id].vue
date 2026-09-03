@@ -226,18 +226,12 @@ useHead({
       </button>
     </div>
 
-    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-      <div
-        v-for="stat in vitals"
-        :key="stat.label"
-        class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
-      >
-        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400">
-          <AppIcon :name="stat.icon" class="h-5 w-5" />
-        </span>
+    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
+      <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
+        <AppIcon :name="stat.icon" class="h-8 w-8 shrink-0 text-slate-400 dark:text-slate-500" />
         <div class="min-w-0">
-          <p class="truncate text-xs text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
-          <p class="truncate text-base font-semibold text-slate-900 dark:text-slate-100">{{ stat.value }}</p>
+          <p class="truncate text-sm text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
+          <p class="truncate text-lg font-bold text-slate-900 dark:text-slate-100">{{ stat.value }}</p>
         </div>
       </div>
     </div>
@@ -275,8 +269,7 @@ useHead({
           <p v-if="pricePerSqm" class="text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
         </div>
 
-        <h2 class="mb-3 mt-8 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.characteristics_title') }}</h2>
-        <dl class="grid grid-cols-1 gap-x-8 gap-y-3 rounded-xl border border-slate-200 bg-white p-5 text-sm sm:grid-cols-2 dark:border-slate-800 dark:bg-slate-900">
+        <dl class="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 rounded-xl border border-slate-200 bg-white p-5 text-sm sm:grid-cols-2 dark:border-slate-800 dark:bg-slate-900">
           <div v-for="item in characteristics" :key="item.label" class="flex items-baseline justify-between gap-4 border-b border-dashed border-slate-100 pb-2 sm:border-none sm:pb-0 dark:border-slate-800">
             <dt class="text-slate-400">{{ item.label }}</dt>
             <dd class="font-medium text-slate-800 dark:text-slate-200">{{ item.value }}</dd>
