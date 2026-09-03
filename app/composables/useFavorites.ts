@@ -7,6 +7,7 @@ interface FavoriteToggleResponse {
 
 interface ApiFavoriteProperty {
   id: number
+  reference: string
   title: string
   description: string | null
   address: string | null
@@ -52,6 +53,7 @@ export async function fetchFavorites(): Promise<Property[]> {
   const res = await apiFetch<{ data: ApiFavoriteProperty[] }>('/v1/real-estate/properties/favorites')
   return res.data.map((api) => ({
     id: api.id,
+    reference: api.reference,
     title: api.title,
     propertyType: api.property_type as Property['propertyType'],
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',

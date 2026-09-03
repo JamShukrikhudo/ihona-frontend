@@ -2,6 +2,8 @@ import type { DealTypeValue, PropertyTypeValue } from '~/data/territories'
 
 export interface Property {
   id: number
+  /** Human-readable listing number ("IH-2026-00015") — see Property::reference() on the host. */
+  reference: string
   title: string
   propertyType: PropertyTypeValue
   dealType: DealTypeValue

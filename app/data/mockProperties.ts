@@ -6,6 +6,7 @@ import type { Property } from '~/types/property'
 export const mockProperties: Property[] = [
   {
     id: 1,
+    reference: 'IH-2026-00001',
     title: 'Просторная квартира в центре Душанбе',
     propertyType: 'apartment',
     dealType: 'sale',
@@ -37,6 +38,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 2,
+    reference: 'IH-2026-00002',
     title: 'Гостевой дом с видом на Памир',
     propertyType: 'guesthouse',
     dealType: 'rent',
@@ -68,6 +70,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 3,
+    reference: 'IH-2026-00003',
     title: 'Хостел для путешественников',
     propertyType: 'hostel',
     dealType: 'rent',
@@ -95,6 +98,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 4,
+    reference: 'IH-2026-00004',
     title: 'Загородный коттедж у водохранилища',
     propertyType: 'cottage',
     dealType: 'sale',
@@ -124,6 +128,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 5,
+    reference: 'IH-2026-00005',
     title: 'Коммерческое помещение под магазин',
     propertyType: 'commercial',
     dealType: 'sale',
@@ -150,6 +155,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 6,
+    reference: 'IH-2026-00006',
     title: 'Участок под строительство',
     propertyType: 'land',
     dealType: 'sale',
@@ -176,6 +182,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 7,
+    reference: 'IH-2026-00007',
     title: 'Дом с садом в Кулябе',
     propertyType: 'house',
     dealType: 'sale',
@@ -202,6 +209,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 8,
+    reference: 'IH-2026-00008',
     title: 'Уютная студия рядом с парком Рудаки — в аренду',
     propertyType: 'apartment',
     dealType: 'rent',
@@ -229,6 +237,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 9,
+    reference: 'IH-2026-00009',
     title: 'Хижина для треккеров в Фанских горах',
     propertyType: 'guesthouse',
     dealType: 'rent',
@@ -256,6 +265,7 @@ export const mockProperties: Property[] = [
   },
   {
     id: 10,
+    reference: 'IH-2026-00010',
     title: 'Апартаменты бизнес-класса',
     propertyType: 'apartment',
     dealType: 'sale',

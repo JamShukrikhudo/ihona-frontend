@@ -18,6 +18,7 @@ const SINGLE_PAGE_META = { currentPage: 1, lastPage: 1, total: 0 }
 
 interface ApiProperty {
   id: number
+  reference: string
   title: string
   description: string | null
   address: string | null
@@ -54,6 +55,7 @@ function mapApiProperty(api: ApiProperty): Property {
 
   return {
     id: api.id,
+    reference: api.reference,
     title: api.title,
     propertyType: api.property_type as PropertyTypeValue,
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',

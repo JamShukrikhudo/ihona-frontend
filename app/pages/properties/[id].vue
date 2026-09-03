@@ -55,7 +55,7 @@ const characteristics = computed(() => {
     p.maxGuests ? { label: t('property.max_guests'), value: String(p.maxGuests) } : null,
     p.altitude ? { label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
     territory.value ? { label: t('filters.territory'), value: territoryName(territory.value.slug, t) } : null,
-    { label: t('property.id_label'), value: `№ ${p.id}` },
+    { label: t('property.id_label'), value: p.reference },
   ].filter(Boolean) as { label: string; value: string }[]
 })
 
