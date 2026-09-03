@@ -1,29 +1,47 @@
 import { defineStore } from 'pinia'
 
+// Cookie (not localStorage): localStorage is client-only, so the server
+// always rendered light on first paint and only flipped to dark after
+// hydration ran ThemeToggle's onMounted restore() — a visible flash on
+// every load for anyone who'd chosen dark. A cookie is readable during SSR,
+// so the very first response already carries the right class.
+function themeCookie() {
+  return useCookie<'dark' | 'light' | null>('ihona_theme', {
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: 'lax',
+  })
+}
+
 export const useThemeStore = defineStore('theme', {
-  state: () => ({
-    dark: false,
-  }),
+  state: () => {
+    const cookie = themeCookie()
+    const dark = cookie.value
+      ? cookie.value === 'dark'
+      // No cookie yet (first-ever visit): fall back to the OS preference.
+      // Only resolvable client-side, so SSR still renders light this one
+      // time — the client sets the cookie below, so it's correct on every
+      // request after.
+      : import.meta.client && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+    return { dark }
+  },
 
   actions: {
-    restore() {
-      if (!import.meta.client) return
-      const saved = localStorage.getItem('ihona_theme')
-      this.dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
-      this.apply()
-    },
-
     toggle() {
       this.dark = !this.dark
-      if (import.meta.client) {
-        localStorage.setItem('ihona_theme', this.dark ? 'dark' : 'light')
-      }
-      this.apply()
+      this.persist()
     },
 
-    apply() {
-      if (!import.meta.client) return
-      document.documentElement.classList.toggle('dark', this.dark)
+    // Writes a first-ever visitor's resolved OS-preference into the
+    // cookie so subsequent SSR requests render the right theme too.
+    restore() {
+      if (import.meta.client && themeCookie().value === null) {
+        this.persist()
+      }
+    },
+
+    persist() {
+      themeCookie().value = this.dark ? 'dark' : 'light'
     },
   },
 })

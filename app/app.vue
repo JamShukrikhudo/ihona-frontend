@@ -4,6 +4,12 @@
 // i18n.baseUrl set in nuxt.config.ts to produce absolute URLs.
 const localeHead = useLocaleHead({ addSeoAttributes: true })
 useHead(localeHead)
+
+// Reactive so it's part of the actual SSR'd <html> tag (theme's cookie is
+// readable server-side) rather than a client-only classList.toggle() after
+// hydration, which is what used to cause a flash of the wrong theme.
+const theme = useThemeStore()
+useHead({ htmlAttrs: { class: computed(() => (theme.dark ? 'dark' : '')) } })
 </script>
 
 <template>

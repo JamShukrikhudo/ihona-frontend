@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const theme = useThemeStore()
-
-onMounted(() => theme.restore())
 </script>
 
 <template>
@@ -11,6 +9,6 @@ onMounted(() => theme.restore())
     :aria-label="theme.dark ? 'Светлая тема' : 'Тёмная тема'"
     @click="theme.toggle()"
   >
-    <AppIcon name="dark-mode" class="h-4.5 w-4.5" />
+    <AppIcon :name="theme.dark ? 'light-mode' : 'dark-mode'" class="h-4.5 w-4.5" />
   </button>
 </template>
