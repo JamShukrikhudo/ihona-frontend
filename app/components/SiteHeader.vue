@@ -2,6 +2,16 @@
 const auth = useAuthStore()
 const { t } = useI18n()
 const route = useRoute()
+const localePath = useLocalePath()
+
+// NuxtLinkLocale is a no-op when you're already on "/" (Vue Router doesn't
+// re-navigate to the current route) — so scrolled down on the homepage,
+// clicking the logo did nothing. Scroll to top ourselves in that case.
+function onLogoClick() {
+  if (route.path === localePath('/')) {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
 
 // The nav links + locale switcher + login/favorites don't fit next to the
 // full-size logo below md — collapsed into this panel instead of squeezing
@@ -13,7 +23,7 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
 <template>
   <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
     <div class="mx-auto flex max-w-7xl items-center gap-6 px-4 py-3 sm:px-6 lg:px-8">
-      <NuxtLinkLocale to="/" class="flex items-center">
+      <NuxtLinkLocale to="/" class="flex items-center" @click="onLogoClick">
         <AppLogo class="text-[56.7px]" />
       </NuxtLinkLocale>
 
