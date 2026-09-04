@@ -17,6 +17,13 @@ const passwordConfirmation = ref('')
 const error = ref('')
 const loading = ref(false)
 
+// Maps to a real Spatie role on the backend (identity-core-api's
+// AuthTokenController::INTENT_TO_ROLE) — 'tourist' has no distinct
+// permission role and resolves to 'buyer' there, but is kept as its own
+// option here since it's a real, distinct persona for this market.
+const SIGNUP_INTENTS = ['buyer', 'landlord', 'seller', 'tenant', 'tourist'] as const
+const signupIntent = ref<(typeof SIGNUP_INTENTS)[number]>('buyer')
+
 interface ValidationErrorBody {
   message?: string
   errors?: Record<string, string[]>
@@ -46,6 +53,7 @@ async function submit() {
         email: email.value,
         password: password.value,
         password_confirmation: passwordConfirmation.value,
+        signup_intent: signupIntent.value,
       },
     })
     auth.setSession(res.plainTextToken, res.user)
@@ -80,6 +88,15 @@ useHead({ title: t('auth.register_title') })
           required
           class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
         />
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('auth.intent_label') }}</label>
+        <select
+          v-model="signupIntent"
+          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        >
+          <option v-for="intent in SIGNUP_INTENTS" :key="intent" :value="intent">{{ t(`auth.intent_${intent}`) }}</option>
+        </select>
       </div>
       <div>
         <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('auth.email') }}</label>
