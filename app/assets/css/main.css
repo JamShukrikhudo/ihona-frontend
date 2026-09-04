@@ -99,7 +99,11 @@ html.dark body {
   width: 0.21em;
   height: 0.21em;
   border-radius: 0.21em 0.21em 0.21em 0.026em;
-  background: #2e7d5c;
+  /* Wood-toned, matching the mark's mid ring (#96652E) — a UI-green dot
+     sitting right against a wood mark read as two unrelated brand colours
+     touching. Hover still uses site green (below), so that accent isn't lost,
+     just reserved for the interactive moment instead of the resting state. */
+  background: #96652E;
   transform: translateX(-50%) rotate(45deg);
 }
 .ihona-logo__letters span:nth-child(1) {
@@ -141,12 +145,14 @@ html.dark body {
   100% {
     opacity: 1;
     transform: translateX(0);
-    color: #1b2a23;
+    color: #2B2118;
   }
 }
-/* Light-mode settle colour (#1b2a23, near-black) is invisible on a dark
-   surface (1.35:1 contrast, measured) — dark mode settles into a light
-   ink instead. */
+/* Settle colours are warm near-black/near-white (not neutral grey) to match
+   the wood-toned mark's own palette — #2B2118 echoes the mark's darkest
+   ring, #F5EFE4 (below) echoes its cream centre glow. Light-mode settle is
+   invisible on a dark surface (measured), so dark mode settles into the
+   light one instead. */
 .ihona-logo--dark .ihona-logo__letters span {
   animation-name: ihona-letter-in-dark;
 }
@@ -164,7 +170,7 @@ html.dark body {
   100% {
     opacity: 1;
     transform: translateX(0);
-    color: #f1f5f5;
+    color: #F5EFE4;
   }
 }
 
