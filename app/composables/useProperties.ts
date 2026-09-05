@@ -108,6 +108,9 @@ export async function useProperties(filters: PropertyFilters = {}): Promise<Prop
         rooms: filters.rooms?.length ? filters.rooms.join(',') : undefined,
         sort: filters.sort,
         page: filters.page,
+        bbox: filters.bbox
+          ? [filters.bbox.minLng, filters.bbox.minLat, filters.bbox.maxLng, filters.bbox.maxLat].join(',')
+          : undefined,
       },
     })
     return {

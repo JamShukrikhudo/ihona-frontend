@@ -58,4 +58,6 @@ export interface PropertyFilters {
   hasWifi?: boolean
   page?: number
   sort?: 'newest' | 'price_asc' | 'price_desc' | 'area_desc'
+  /** Map viewport rectangle for the "search this area" flow (cian-style). */
+  bbox?: { minLat: number; minLng: number; maxLat: number; maxLng: number }
 }

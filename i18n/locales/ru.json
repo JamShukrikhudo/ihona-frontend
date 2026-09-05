@@ -63,6 +63,7 @@
     "found": "Найдено объявлений: {count}",
     "show_map": "Показать карту",
     "hide_map": "Скрыть карту",
+    "search_this_area": "Искать в этой области",
     "sort_newest": "Сначала новые",
     "sort_price_asc": "Сначала дешевле",
     "sort_price_desc": "Сначала дороже",

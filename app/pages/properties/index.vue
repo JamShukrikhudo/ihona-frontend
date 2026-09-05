@@ -71,6 +71,33 @@ const dealTypeOrAny = computed<DealTypeValue>({
   set: (v) => (filters.value = { ...filters.value, dealType: v }),
 })
 
+// List <-> map hover/click sync (cian-style): hovering a card highlights its
+// pin and vice versa; clicking a pin jumps to that listing.
+const activePropertyId = ref<number | null>(null)
+const localePath = useLocalePath()
+
+function onMarkerClick(id: number | string) {
+  router.push(localePath(`/properties/${id}`))
+}
+
+// "Search this area": the map reports its viewport once panning/zooming
+// settles (Yandex's own actionend event — no manual debounce needed). Rather
+// than auto-refetching on every pan (which would spam the backend), a button
+// appears and the user opts in.
+const pendingBounds = ref<PropertyFilters['bbox']>(undefined)
+const boundsChanged = ref(false)
+
+function onBoundsChange(bounds: NonNullable<PropertyFilters['bbox']>) {
+  pendingBounds.value = bounds
+  boundsChanged.value = true
+}
+
+function searchThisArea() {
+  if (!pendingBounds.value) return
+  filters.value = { ...filters.value, bbox: pendingBounds.value }
+  boundsChanged.value = false
+}
+
 useHead({ title: t('properties.title') })
 useSeoMeta({
   description: t('properties.meta_description'),
@@ -117,13 +144,54 @@ useSeoMeta({
       <FilterSidebar v-model="filters" />
 
       <div class="flex-1">
+        <!-- Below lg, the map renders as a block above the list (current -->
+        <!-- behaviour) — there's no room for a real side-by-side split on a -->
+        <!-- small screen. At lg+ with the map on, this becomes a genuine -->
+        <!-- synced split view: list | sticky map, same grid convention as -->
+        <!-- properties/[id].vue's content/aside layout. -->
         <PropertyMap
           v-if="showMap"
-          class="mb-6"
-          :points="results.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+          class="mb-6 lg:hidden"
+          :points="results.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+          :active-id="activePropertyId"
           height="360px"
+          @marker-click="onMarkerClick"
+          @marker-hover="activePropertyId = Number($event)"
+          @marker-leave="activePropertyId = null"
+          @bounds-change="onBoundsChange"
         />
-        <PropertyList :properties="results" />
+
+        <div v-if="showMap" class="hidden gap-6 lg:grid lg:grid-cols-3">
+          <div class="lg:col-span-2">
+            <PropertyList
+              :properties="results"
+              :active-id="activePropertyId"
+              @card-hover="activePropertyId = $event"
+              @card-leave="activePropertyId = null"
+            />
+          </div>
+          <aside class="h-fit space-y-3 lg:sticky lg:top-20">
+            <PropertyMap
+              :points="results.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+              :active-id="activePropertyId"
+              height="520px"
+              @marker-click="onMarkerClick"
+              @marker-hover="activePropertyId = Number($event)"
+              @marker-leave="activePropertyId = null"
+              @bounds-change="onBoundsChange"
+            />
+            <button
+              v-if="boundsChanged"
+              type="button"
+              class="w-full rounded-lg bg-brand-600 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+              @click="searchThisArea"
+            >
+              {{ t('properties.search_this_area') }}
+            </button>
+          </aside>
+        </div>
+
+        <PropertyList v-if="!showMap" :properties="results" />
 
         <nav v-if="pagination.lastPage > 1" class="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
           <button
