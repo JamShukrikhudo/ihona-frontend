@@ -18,11 +18,30 @@ const filters = ref<PropertyFilters>({
   sort: (route.query.sort as PropertyFilters['sort']) || 'newest',
 })
 const page = ref(route.query.page ? Number(route.query.page) : 1)
+const PAGE_SIZE = 24
 
-const { properties, usingLiveData, meta } = await useProperties({ ...filters.value, page: page.value })
-const results = ref(properties)
+// Loaded once, filtered instantly on the client from then on — the same
+// "no request per filter change" idea as ymaps v2.1's ObjectManager.setFilter(),
+// adapted to our stack: v3 has no ObjectManager, so this is a plain reactive
+// filter over an in-memory array instead. Only sane at our actual listing
+// count (tens to low hundreds); useAllProperties() pages through the API's
+// 60-per-page cap to fetch everything up front.
+const { properties: allProperties, usingLiveData } = await useAllProperties()
 const live = ref(usingLiveData)
-const pagination = ref(meta)
+
+const filteredSorted = computed(() => sortProperties(applyFilters(allProperties, filters.value), filters.value.sort))
+const pagination = computed(() => ({
+  currentPage: page.value,
+  lastPage: Math.max(1, Math.ceil(filteredSorted.value.length / PAGE_SIZE)),
+  total: filteredSorted.value.length,
+}))
+const results = computed(() => filteredSorted.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE))
+
+// Every filtered listing's pin, regardless of the current page — so panning/
+// zooming the map isn't limited to whatever page the list happens to be on.
+const mapPoints = computed(() =>
+  filteredSorted.value.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' })),
+)
 
 function syncQuery() {
   router.replace({
@@ -41,19 +60,11 @@ function syncQuery() {
   })
 }
 
-async function reload() {
-  syncQuery()
-  const result = await useProperties({ ...filters.value, page: page.value })
-  results.value = result.properties
-  live.value = result.usingLiveData
-  pagination.value = result.meta
-}
-
 watch(
   filters,
   () => {
     page.value = 1
-    reload()
+    syncQuery()
   },
   { deep: true },
 )
@@ -61,7 +72,7 @@ watch(
 function goToPage(target: number) {
   if (target < 1 || target > pagination.value.lastPage || target === page.value) return
   page.value = target
-  reload()
+  syncQuery()
   if (import.meta.client) window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -81,9 +92,10 @@ function onMarkerClick(id: number | string) {
 }
 
 // "Search this area": the map reports its viewport once panning/zooming
-// settles (Yandex's own actionend event — no manual debounce needed). Rather
-// than auto-refetching on every pan (which would spam the backend), a button
-// appears and the user opts in.
+// settles (Yandex's own actionend event — no manual debounce needed).
+// Everything's already loaded client-side, so applying this is instant too
+// (see applyFilters' bbox check) — the button is still opt-in rather than
+// live-while-dragging so the list/pins don't jump around mid-pan.
 const pendingBounds = ref<PropertyFilters['bbox']>(undefined)
 const boundsChanged = ref(false)
 
@@ -163,7 +175,7 @@ useSeoMeta({
           </div>
           <aside class="order-1 h-fit space-y-3 lg:order-2 lg:sticky lg:top-20">
             <PropertyMap
-              :points="results.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+              :points="mapPoints"
               :active-id="activePropertyId"
               height="420px"
               @marker-click="onMarkerClick"

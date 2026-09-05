@@ -124,7 +124,37 @@ export async function useProperties(filters: PropertyFilters = {}): Promise<Prop
   }
 }
 
-function sortProperties(properties: Property[], sort?: PropertyFilters['sort']): Property[] {
+/**
+ * Fetches every live listing (paging through the API's page_size=60 cap in
+ * parallel once the first page reveals last_page) so the catalog page can
+ * filter instantly on the client — cian's setFilter()-style "no request per
+ * filter change" pattern, adapted to our own map/list stack rather than
+ * ymaps' v2.1-only ObjectManager. Only sane at our actual scale (tens to
+ * low hundreds of listings, not cian's own 10,000+); falls back to
+ * mockProperties, matching useProperties()'s existing behaviour.
+ */
+export async function useAllProperties(): Promise<{ properties: Property[]; usingLiveData: boolean }> {
+  try {
+    const pageSize = 60
+    const first = await apiFetch<{ data: ApiProperty[]; meta: ApiPaginationMeta }>('/v1/public/properties', {
+      query: { page: 1, page_size: pageSize },
+    })
+    const all = [...first.data]
+    if (first.meta.last_page > 1) {
+      const rest = await Promise.all(
+        Array.from({ length: first.meta.last_page - 1 }, (_, i) =>
+          apiFetch<{ data: ApiProperty[] }>('/v1/public/properties', { query: { page: i + 2, page_size: pageSize } }),
+        ),
+      )
+      for (const page of rest) all.push(...page.data)
+    }
+    return { properties: all.map(mapApiProperty), usingLiveData: true }
+  } catch {
+    return { properties: mockProperties, usingLiveData: false }
+  }
+}
+
+export function sortProperties(properties: Property[], sort?: PropertyFilters['sort']): Property[] {
   const sorted = [...properties]
   switch (sort) {
     case 'price_asc':
@@ -173,7 +203,7 @@ export async function useSimilarProperties(property: Property, limit = 3): Promi
     .slice(0, limit)
 }
 
-function applyFilters(properties: Property[], filters: PropertyFilters) {
+export function applyFilters(properties: Property[], filters: PropertyFilters) {
   return properties.filter((property) => {
     if (filters.territorySlug && property.territorySlug !== filters.territorySlug) return false
     if (filters.propertyType && property.propertyType !== filters.propertyType) return false
@@ -187,6 +217,13 @@ function applyFilters(properties: Property[], filters: PropertyFilters) {
     if (filters.maxPrice && property.price > filters.maxPrice) return false
     if (filters.hasGenerator && !property.hasGenerator) return false
     if (filters.hasWifi && !property.hasWifi) return false
+    // "Search this area": everything's already loaded client-side, so the
+    // map's reported viewport is just one more local predicate — no request
+    // to the backend's bbox param needed here.
+    if (filters.bbox) {
+      const { minLat, maxLat, minLng, maxLng } = filters.bbox
+      if (property.lat < minLat || property.lat > maxLat || property.lng < minLng || property.lng > maxLng) return false
+    }
     return true
   })
 }
