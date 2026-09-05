@@ -8,7 +8,16 @@ export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
   devtools: { enabled: true },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', '@nuxtjs/sitemap'],
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n', '@nuxtjs/sitemap', 'nuxt-gtag'],
+
+  // GA4 pageview/session tracking. nuxt-gtag already tracks SPA route
+  // changes automatically (Nuxt's client-side navigation wouldn't otherwise
+  // fire a pageview per page). Loads only when an ID is actually set, so a
+  // dev checkout with no NUXT_PUBLIC_GA4_ID env var doesn't send anything.
+  gtag: {
+    id: process.env.NUXT_PUBLIC_GA4_ID || '',
+    enabled: Boolean(process.env.NUXT_PUBLIC_GA4_ID),
+  },
 
   site: {
     url: 'https://ihona.tj',
