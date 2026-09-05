@@ -15,6 +15,7 @@ if (!property.value) {
 
 const territory = computed(() => findTerritoryBySlug(property.value!.territorySlug))
 const activeImage = ref(0)
+const lightboxOpen = ref(false)
 const similar = property.value ? await useSimilarProperties(property.value) : []
 
 function nextImage() {
@@ -24,6 +25,43 @@ function nextImage() {
 function prevImage() {
   if (!property.value) return
   activeImage.value = (activeImage.value - 1 + property.value.images.length) % property.value.images.length
+}
+
+const sideThumbnails = computed(() => (property.value && property.value.images.length >= 3 ? property.value.images.slice(1, 5) : []))
+
+function openLightbox(index: number) {
+  activeImage.value = index
+  lightboxOpen.value = true
+}
+
+function onLightboxKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') lightboxOpen.value = false
+  if (e.key === 'ArrowRight') nextImage()
+  if (e.key === 'ArrowLeft') prevImage()
+}
+
+const lightboxEl = ref<HTMLElement | null>(null)
+watch(lightboxOpen, (open) => {
+  if (open) nextTick(() => lightboxEl.value?.focus())
+})
+
+const publishedLabel = computed(() => formatPublishedAgo(property.value?.publishedAt ?? null, t))
+
+const shareCopied = ref(false)
+async function onShare() {
+  if (!property.value) return
+  const shareData = { title: property.value.title, url: `https://ihona.tj/properties/${property.value.id}` }
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData)
+    } catch {
+      // user cancelled the native share sheet — not an error
+    }
+    return
+  }
+  await navigator.clipboard.writeText(shareData.url)
+  shareCopied.value = true
+  setTimeout(() => (shareCopied.value = false), 2000)
 }
 
 const formattedPrice = computed(() => {
@@ -133,6 +171,12 @@ function openViewingForm() {
   showViewingForm.value = true
 }
 
+const contactCardEl = ref<HTMLElement | null>(null)
+function onMobileBarCta() {
+  openViewingForm()
+  contactCardEl.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
 async function submitViewingRequest() {
   if (!property.value) return
   viewingState.value = 'submitting'
@@ -201,7 +245,7 @@ useHead({
 </script>
 
 <template>
-  <div v-if="property" class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+  <div v-if="property" class="mx-auto max-w-6xl px-4 py-8 pb-24 sm:px-6 lg:px-8 lg:pb-8">
     <nav class="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
       <NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('property.breadcrumb_home') }}</NuxtLinkLocale>
       <span>/</span>
@@ -216,45 +260,96 @@ useHead({
       <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType, t) }}</span>
     </nav>
 
-    <!-- Gallery: main photo with counter + prev/next controls, thumbnail -->
-    <!-- strip below. No lightbox/floorplan/3D-tour tabs — those need real -->
-    <!-- data (virtual_tour_url etc.) this listing set doesn't have. -->
-    <div class="group relative overflow-hidden rounded-2xl bg-slate-100">
-      <img :src="property.images[activeImage]" :alt="property.title" class="h-80 w-full object-cover sm:h-[460px]" />
-      <template v-if="property.images.length > 1">
-        <button
-          type="button"
-          :aria-label="t('property.gallery_prev')"
-          class="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg text-slate-700 opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
-          @click="prevImage"
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          :aria-label="t('property.gallery_next')"
-          class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg text-slate-700 opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
-          @click="nextImage"
-        >
-          ›
-        </button>
+    <!-- Gallery: a main photo + up to 4 side thumbnails on desktop (cian-style -->
+    <!-- grid) when there are enough photos to fill it; a single hero image -->
+    <!-- otherwise. Any tile opens the fullscreen lightbox below. No floorplan/ -->
+    <!-- 3D-tour tabs — those need real data (virtual_tour_url etc.) this -->
+    <!-- listing set doesn't have. -->
+    <div
+      class="grid gap-2 overflow-hidden rounded-2xl"
+      :class="property.images.length >= 3 ? 'grid-cols-1 sm:grid-cols-4 sm:grid-rows-2' : 'grid-cols-1'"
+    >
+      <button
+        type="button"
+        class="group relative row-span-2 overflow-hidden bg-slate-100"
+        :class="property.images.length >= 3 ? 'sm:col-span-3' : ''"
+        @click="openLightbox(0)"
+      >
+        <img :src="property.images[0]" :alt="property.title" class="h-80 w-full object-cover transition group-hover:brightness-95 sm:h-[460px]" />
         <span class="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white">
-          {{ t('property.gallery_counter', { current: activeImage + 1, total: property.images.length }) }}
+          {{ t('property.gallery_counter', { current: 1, total: property.images.length }) }}
         </span>
-      </template>
+      </button>
+      <button
+        v-for="(img, i) in sideThumbnails"
+        :key="img"
+        type="button"
+        class="group relative hidden overflow-hidden bg-slate-100 sm:block"
+        @click="openLightbox(i + 1)"
+      >
+        <img :src="img" class="h-full max-h-[224px] w-full object-cover transition group-hover:brightness-95" :alt="`${property.title} ${i + 2}`" />
+        <span
+          v-if="i === 3 && property.images.length > 5"
+          class="absolute inset-0 flex items-center justify-center bg-black/50 text-lg font-semibold text-white"
+        >
+          +{{ property.images.length - 5 }}
+        </span>
+      </button>
     </div>
-    <div v-if="property.images.length > 1" class="mt-2 flex gap-2 overflow-x-auto pb-1">
+    <div v-if="property.images.length > 1" class="mt-2 flex gap-2 overflow-x-auto pb-1 sm:hidden">
       <button
         v-for="(img, i) in property.images"
         :key="img"
         type="button"
         class="h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2"
         :class="i === activeImage ? 'border-brand-600' : 'border-transparent'"
-        @click="activeImage = i"
+        @click="openLightbox(i)"
       >
         <img :src="img" class="h-full w-full object-cover" :alt="`${property.title} ${i + 1}`" />
       </button>
     </div>
+
+    <Teleport to="body">
+      <div
+        v-if="lightboxOpen"
+        ref="lightboxEl"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 outline-none"
+        tabindex="0"
+        @keydown="onLightboxKeydown"
+        @click.self="lightboxOpen = false"
+      >
+        <button
+          type="button"
+          :aria-label="t('property.gallery_close')"
+          class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+          @click="lightboxOpen = false"
+        >
+          ×
+        </button>
+        <img :src="property.images[activeImage]" :alt="property.title" class="max-h-[85vh] max-w-full rounded-lg object-contain" />
+        <template v-if="property.images.length > 1">
+          <button
+            type="button"
+            :aria-label="t('property.gallery_prev')"
+            class="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20 sm:left-6"
+            @click="prevImage"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            :aria-label="t('property.gallery_next')"
+            class="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20 sm:right-6"
+            @click="nextImage"
+          >
+            ›
+          </button>
+          <span class="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white">
+            {{ t('property.gallery_counter', { current: activeImage + 1, total: property.images.length }) }}
+          </span>
+        </template>
+      </div>
+    </Teleport>
 
     <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
       <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
@@ -288,8 +383,13 @@ useHead({
         <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
           <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
         </p>
-        <p v-if="property.viewsCount > 0" class="mt-1 flex items-center gap-1 text-sm text-slate-400 dark:text-slate-500">
-          <AppIcon name="eye" class="h-4 w-4" aria-hidden="true" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+        <p v-if="property.viewsCount > 0 || publishedLabel" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400 dark:text-slate-500">
+          <span v-if="publishedLabel" class="flex items-center gap-1">
+            <AppIcon name="calendar" class="h-4 w-4" aria-hidden="true" /> {{ publishedLabel }}
+          </span>
+          <span v-if="property.viewsCount > 0" class="flex items-center gap-1">
+            <AppIcon name="eye" class="h-4 w-4" aria-hidden="true" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+          </span>
         </p>
 
         <!-- Price shown here too (not only in the sidebar) so it reads on -->
@@ -332,22 +432,40 @@ useHead({
       </div>
 
       <aside class="h-fit space-y-4 lg:sticky lg:top-20">
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div ref="contactCardEl" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <div class="flex items-start justify-between gap-2">
             <div>
               <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
               <p v-if="formattedPriceUsd" class="mt-0.5 text-sm text-slate-400">≈ ${{ formattedPriceUsd }}</p>
               <p v-if="pricePerSqm" class="mt-0.5 text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
             </div>
-            <button
-              type="button"
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
-              :disabled="togglingFavorite"
-              :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
-              @click="onToggleFavorite"
-            >
-              <AppIcon name="favorite" class="h-5 w-5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
-            </button>
+            <div class="flex shrink-0 items-center gap-2">
+              <div class="relative">
+                <button
+                  type="button"
+                  class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+                  :aria-label="t('property.share')"
+                  @click="onShare"
+                >
+                  <AppIcon name="share" class="h-5 w-5 text-slate-400" />
+                </button>
+                <span
+                  v-if="shareCopied"
+                  class="absolute right-0 top-12 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1 text-xs text-white shadow dark:bg-slate-700"
+                >
+                  {{ t('property.share_copied') }}
+                </span>
+              </div>
+              <button
+                type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
+                :disabled="togglingFavorite"
+                :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
+                @click="onToggleFavorite"
+              >
+                <AppIcon name="favorite" class="h-5 w-5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
+              </button>
+            </div>
           </div>
 
           <template v-if="viewingState === 'success'">
@@ -443,6 +561,20 @@ useHead({
           <p class="mt-1 leading-relaxed">{{ t('property.safety_note') }}</p>
         </div>
       </aside>
+    </div>
+
+    <!-- Mobile-only sticky bar: the sidebar CTA above renders below the fold -->
+    <!-- on small screens, so price + primary action stay reachable while -->
+    <!-- scrolling, cian/avito-style. pb-20 on the page root leaves room for it. -->
+    <div class="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t border-slate-200 bg-white/95 p-3 backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-900/95">
+      <p class="truncate text-base font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
+      <button
+        type="button"
+        class="shrink-0 rounded-lg bg-accent-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
+        @click="onMobileBarCta"
+      >
+        {{ isBooking ? t('property.booking_cta') : t('property.contact_agent') }}
+      </button>
     </div>
 
     <section v-if="similar.length" class="mt-12">
