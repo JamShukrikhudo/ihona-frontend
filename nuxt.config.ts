@@ -37,6 +37,9 @@ export default defineNuxtConfig({
       // Yandex Maps JS API v3 key (https://developer.tech.yandex.ru/services).
       // PropertyMap renders a static placeholder when this is unset.
       yandexMapsApiKey: process.env.NUXT_PUBLIC_YANDEX_MAPS_API_KEY || '',
+      // Yandex Metrika counter id (https://metrika.yandex.ru). See
+      // app/plugins/yandex-metrika.client.ts — loads only when set.
+      yandexMetrikaId: process.env.NUXT_PUBLIC_YANDEX_METRIKA_ID || '',
       // Pre-launch guard: unset/false means the catalog isn't ready for
       // search traffic yet — every response gets a noindex header and
       // robots.txt disallows crawling entirely (see server/routes/robots.txt.ts
