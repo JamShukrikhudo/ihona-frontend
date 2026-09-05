@@ -8,6 +8,11 @@
     "logout": "Log out",
     "favorites": "Favorites"
   },
+  "geo": {
+    "banner_question": "Are you in {city}?",
+    "yes": "Yes",
+    "change_city": "Change city"
+  },
   "home": {
     "title": "Real estate & rentals in Tajikistan",
     "hero_title": "Find homes and stays across Tajikistan",

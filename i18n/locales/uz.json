@@ -8,6 +8,11 @@
     "logout": "Chiqish",
     "favorites": "Sevimlilar"
   },
+  "geo": {
+    "banner_question": "Siz {city} shahridamisiz?",
+    "yes": "Ha",
+    "change_city": "Shaharni almashtirish"
+  },
   "home": {
     "title": "Tojikistonda ko‘chmas mulk va ijara",
     "hero_title": "Tojikiston bo‘ylab uy va turar joy toping",
