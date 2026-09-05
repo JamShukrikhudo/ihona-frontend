@@ -76,10 +76,11 @@ const formattedPriceUsd = computed(() =>
   property.value?.priceUsd != null ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(property.value.priceUsd) : null,
 )
 
-// Price/m² reads oddly for a nightly rate (guesthouse/hostel), so it's
-// shown only for sale and monthly-rent listings, and only when area is known.
+// Price/m² only means something for a purchase (or a mortgage against one)
+// — a rental rate divided by area isn't a figure anyone shops by, whether
+// it's billed nightly (guesthouse/hostel) or monthly.
 const pricePerSqm = computed(() => {
-  if (!property.value || !property.value.area || property.value.rentPeriod === 'night') return null
+  if (!property.value || !property.value.area || property.value.dealType !== 'sale') return null
   return new Intl.NumberFormat('ru-RU').format(Math.round(property.value.price / property.value.area))
 })
 
