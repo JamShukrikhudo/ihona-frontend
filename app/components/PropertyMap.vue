@@ -63,7 +63,7 @@ async function renderMap() {
     const ymaps3 = (window as any).ymaps3
     await ymaps3.ready
 
-    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker } = ymaps3
+    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker, YMapListener } = ymaps3
 
     const centerLat = props.centerLat ?? props.points[0].lat
     const centerLng = props.centerLng ?? props.points[0].lng
@@ -96,15 +96,48 @@ async function renderMap() {
       map.addChild(new YMapMarker({ coordinates: [point.lng, point.lat] }, pin))
     }
 
-    map.events.add('actionend', () => {
-      const bounds = map.bounds as [[number, number], [number, number]] | undefined
-      if (!bounds) return
-      const [[minLng, maxLat], [maxLng, minLat]] = bounds
-      emit('bounds-change', { minLat, minLng, maxLat, maxLng })
-    })
+    // Best-effort "search this area" support — wrapped separately so a
+    // failure here (e.g. an API surface change) never takes the whole map
+    // down with it; the pins above have already rendered by this point.
+    try {
+      map.addChild(
+        new YMapListener({
+          onActionEnd: ({ location }: { location: { center: [number, number]; zoom: number } }) => {
+            const bounds = viewportBounds(location.center, location.zoom, container.value)
+            if (bounds) emit('bounds-change', bounds)
+          },
+        }),
+      )
+    } catch {
+      // "search this area" just won't appear — not worth failing the map for.
+    }
   } catch {
     failed.value = true
   }
+}
+
+/**
+ * ymaps3's YMap has no bounds getter and its action-end listener only
+ * reports center/zoom, not a viewport rectangle — so this approximates one
+ * from the standard Web Mercator tile math (256px tiles), using the
+ * container's actual rendered size. Good enough for a "search this area"
+ * convenience button; not pixel-exact at the poles, irrelevant at Tajik
+ * latitudes.
+ */
+function viewportBounds(
+  center: [number, number],
+  zoom: number,
+  container: HTMLElement | null,
+): { minLat: number; minLng: number; maxLat: number; maxLng: number } | null {
+  if (!container) return null
+  const [lng, lat] = center
+  const worldPx = 256 * 2 ** zoom
+  const lngPerPx = 360 / worldPx
+  const metersPerPxAtEquator = 40075016.686 / worldPx
+  const latPerPx = (metersPerPxAtEquator / 111320) * Math.cos((lat * Math.PI) / 180)
+  const lngDelta = (container.clientWidth / 2) * lngPerPx
+  const latDelta = (container.clientHeight / 2) * latPerPx
+  return { minLat: lat - latDelta, maxLat: lat + latDelta, minLng: lng - lngDelta, maxLng: lng + lngDelta }
 }
 
 onMounted(renderMap)

@@ -144,25 +144,16 @@ useSeoMeta({
       <FilterSidebar v-model="filters" />
 
       <div class="flex-1">
-        <!-- Below lg, the map renders as a block above the list (current -->
-        <!-- behaviour) — there's no room for a real side-by-side split on a -->
-        <!-- small screen. At lg+ with the map on, this becomes a genuine -->
-        <!-- synced split view: list | sticky map, same grid convention as -->
-        <!-- properties/[id].vue's content/aside layout. -->
-        <PropertyMap
-          v-if="showMap"
-          class="mb-6 lg:hidden"
-          :points="results.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
-          :active-id="activePropertyId"
-          height="360px"
-          @marker-click="onMarkerClick"
-          @marker-hover="activePropertyId = Number($event)"
-          @marker-leave="activePropertyId = null"
-          @bounds-change="onBoundsChange"
-        />
-
-        <div v-if="showMap" class="hidden gap-6 lg:grid lg:grid-cols-3">
-          <div class="lg:col-span-2">
+        <!-- Single map element, always mounted with real dimensions — the -->
+        <!-- earlier version toggled two separate PropertyMap instances -->
+        <!-- with lg:hidden/hidden-lg:grid, which mounts the CSS-hidden one -->
+        <!-- into a display:none (0×0) container; Yandex Maps measures its -->
+        <!-- container at construction time, so that instance never renders -->
+        <!-- pins even once it later becomes visible. `order` only changes -->
+        <!-- position, never display:none, so this map is always properly -->
+        <!-- sized: stacked above the list on mobile, sticky aside on lg+. -->
+        <div v-if="showMap" class="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div class="order-2 lg:order-1 lg:col-span-2">
             <PropertyList
               :properties="results"
               :active-id="activePropertyId"
@@ -170,11 +161,11 @@ useSeoMeta({
               @card-leave="activePropertyId = null"
             />
           </div>
-          <aside class="h-fit space-y-3 lg:sticky lg:top-20">
+          <aside class="order-1 h-fit space-y-3 lg:order-2 lg:sticky lg:top-20">
             <PropertyMap
               :points="results.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
               :active-id="activePropertyId"
-              height="520px"
+              height="420px"
               @marker-click="onMarkerClick"
               @marker-hover="activePropertyId = Number($event)"
               @marker-leave="activePropertyId = null"
@@ -191,7 +182,7 @@ useSeoMeta({
           </aside>
         </div>
 
-        <PropertyList v-if="!showMap" :properties="results" />
+        <PropertyList v-else :properties="results" />
 
         <nav v-if="pagination.lastPage > 1" class="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
           <button
