@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PropertyFilters } from '~/types/property'
+import type { Property, PropertyFilters } from '~/types/property'
 import type { DealTypeValue } from '~/data/territories'
 
 const { t } = useI18n()
@@ -39,8 +39,21 @@ const results = computed(() => filteredSorted.value.slice((page.value - 1) * PAG
 
 // Every filtered listing's pin, regardless of the current page — so panning/
 // zooming the map isn't limited to whatever page the list happens to be on.
+// Price is shown right on the pin, cian-style — the one thing worth knowing
+// before a click.
+function pinPrice(p: Property): string {
+  const amount = new Intl.NumberFormat('ru-RU', { notation: p.price >= 1_000_000 ? 'compact' : 'standard' }).format(p.price)
+  return `${amount} TJS`
+}
 const mapPoints = computed(() =>
-  filteredSorted.value.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' })),
+  filteredSorted.value.map((p) => ({
+    id: p.id,
+    lat: p.lat,
+    lng: p.lng,
+    label: p.title,
+    color: p.dealType === 'rent' ? '#2a80de' : '#37956E',
+    price: pinPrice(p),
+  })),
 )
 
 function syncQuery() {

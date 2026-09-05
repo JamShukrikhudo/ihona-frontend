@@ -9,11 +9,13 @@
  * One marker per point, no clustering — the ~cian.ru catalog map handles
  * 10,000+ Moscow listings and needs custom canvas rendering for that; our
  * listing count is tens to low hundreds, where plain DOM markers stay cheap
- * and keep click/hover wiring simple.
+ * and keep click/hover wiring simple. A point with a `price` renders as a
+ * cian-style price bubble; without one (e.g. the single-listing map on the
+ * property detail page) it's a plain dot.
  */
 const props = withDefaults(
   defineProps<{
-    points: { id?: number | string; lat: number; lng: number; label?: string; color?: string }[]
+    points: { id?: number | string; lat: number; lng: number; label?: string; color?: string; price?: string }[]
     centerLat?: number
     centerLng?: number
     zoom?: number
@@ -82,9 +84,17 @@ async function renderMap() {
 
     for (const point of props.points) {
       const isActive = point.id !== undefined && point.id === props.activeId
-      const size = isActive ? 20 : 14
+      const color = point.color ?? '#2E7D5C'
       const pin = document.createElement('div')
-      pin.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${point.color ?? '#2E7D5C'};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;`
+      if (point.price) {
+        // cian-style price bubble instead of a plain dot — the price is the
+        // one thing worth showing before a click, so show it.
+        pin.textContent = point.price
+        pin.style.cssText = `background:${color};color:#fff;font:${isActive ? '700 13px' : '600 12px'} system-ui, sans-serif;padding:${isActive ? '6px 10px' : '4px 8px'};border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;${isActive ? 'outline:2px solid white;outline-offset:1px;' : ''}`
+      } else {
+        const size = isActive ? 20 : 14
+        pin.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;`
+      }
       if (point.label) pin.title = point.label
       if (point.id !== undefined) {
         const id = point.id
