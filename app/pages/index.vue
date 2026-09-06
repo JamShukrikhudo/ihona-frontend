@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { territories, territoryName, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
-import { mockProperties } from '~/data/mockProperties'
 import type { DealTypeValue } from '~/data/territories'
 
 const { t } = useI18n()
@@ -26,6 +25,12 @@ const cityFeatured = computed(() =>
 const tourismFeatured = computed(() =>
   allFeatured.filter((p) => tourismPropertyTypes.some((t) => t.value === p.propertyType)).slice(0, 3),
 )
+
+// Off by default: loads the Yandex Maps script and renders a map, neither
+// of which the landing page needs before someone's actually asked for it —
+// same "don't pay for it until requested" toggle as the /rent, /buy and
+// /properties catalogs already use.
+const showHomeMap = ref(false)
 
 useHead({ title: t('home.title') })
 useSeoMeta({
@@ -120,9 +125,19 @@ useSeoMeta({
     </section>
 
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.map_title') }}</h2>
+      <div class="mb-4 flex items-center justify-between">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.map_title') }}</h2>
+        <button
+          type="button"
+          class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          @click="showHomeMap = !showHomeMap"
+        >
+          {{ showHomeMap ? t('properties.hide_map') : t('properties.show_map') }}
+        </button>
+      </div>
       <PropertyMap
-        :points="mockProperties.map((p) => ({ lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+        v-if="showHomeMap"
+        :points="allFeatured.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
         :center-lat="38.5598"
         :center-lng="68.787"
         :zoom="6"
