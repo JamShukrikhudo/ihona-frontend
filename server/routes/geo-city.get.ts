@@ -1,8 +1,16 @@
 // Silent IP-geolocation for the "Вы в Душанбе?" banner — no browser
 // permission prompt, unlike navigator.geolocation. Runs server-side rather
-// than calling ipapi.co from the browser: keeps the visitor's IP from being
-// sent to a third party client-side, and avoids the mixed-content issue of
-// most free geo-IP APIs' plain-HTTP endpoints on an HTTPS site.
+// than calling the geo-IP API from the browser: keeps the visitor's IP from
+// being sent to a third party client-side, and avoids the mixed-content
+// issue of most free geo-IP APIs' plain-HTTP endpoints on an HTTPS site.
+//
+// ipwho.is, not ipapi.co: ipapi.co returned 429 RateLimited from this
+// server's own outbound IP on every attempt (including a fresh one a day
+// later, so it's not a quota this traffic exhausted — ipapi.co's free tier
+// is ~1,000/day and we'd made a handful of calls total) — most likely that
+// IP/ASN is already blocked on their end, a known failure mode for free
+// geo-IP APIs on shared/VPS ranges. ipwho.is answered correctly on the
+// first try from the same IP.
 //
 // Mirrors app/data/territories.ts's 7 entries — duplicated rather than
 // imported since this list rarely changes and importing from app/ into
@@ -33,11 +41,11 @@ function nearestTerritory(lat: number, lng: number): string {
   return nearestSlug
 }
 
-interface IpApiResponse {
+interface IpWhoResponse {
+  success: boolean
   latitude?: number
   longitude?: number
   country_code?: string
-  error?: boolean
 }
 
 export default defineEventHandler(async (event): Promise<{ territorySlug: string | null }> => {
@@ -47,8 +55,8 @@ export default defineEventHandler(async (event): Promise<{ territorySlug: string
   }
 
   try {
-    const geo = await $fetch<IpApiResponse>(`https://ipapi.co/${ip}/json/`)
-    if (geo.error || geo.country_code !== 'TJ' || geo.latitude == null || geo.longitude == null) {
+    const geo = await $fetch<IpWhoResponse>(`https://ipwho.is/${ip}`)
+    if (!geo.success || geo.country_code !== 'TJ' || geo.latitude == null || geo.longitude == null) {
       return { territorySlug: null }
     }
     return { territorySlug: nearestTerritory(geo.latitude, geo.longitude) }
