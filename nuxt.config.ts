@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 import { ofetch } from 'ofetch'
 import { territories } from './app/data/territories'
+import { propertySlug } from './app/utils/slug'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -116,11 +117,11 @@ export default defineNuxtConfig({
         let page = 1
         let lastPage = 1
         do {
-          const res = await ofetch<{ data: { id: number }[]; meta: { last_page: number } }>(
+          const res = await ofetch<{ data: { id: number; title: string }[]; meta: { last_page: number } }>(
             `${apiBase}/v1/public/properties`,
             { query: { page, page_size: 60 } },
           )
-          propertyUrls.push(...res.data.map((p) => ({ loc: `/properties/${p.id}` })))
+          propertyUrls.push(...res.data.map((p) => ({ loc: `/properties/${propertySlug(p)}` })))
           lastPage = res.meta.last_page
           page += 1
         } while (page <= lastPage)

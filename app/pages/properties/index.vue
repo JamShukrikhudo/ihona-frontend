@@ -101,7 +101,8 @@ const activePropertyId = ref<number | null>(null)
 const localePath = useLocalePath()
 
 function onMarkerClick(id: number | string) {
-  router.push(localePath(`/properties/${id}`))
+  const property = allProperties.find((p) => p.id === id)
+  router.push(localePath(`/properties/${property ? propertySlug(property) : id}`))
 }
 
 // "Search this area": the map reports its viewport once panning/zooming
@@ -129,6 +130,36 @@ useSeoMeta({
   ogTitle: t('properties.title'),
   ogDescription: t('properties.meta_description'),
 })
+
+// Every filter combination is a real, server-renderable URL (?territory=,
+// ?type=, ?minPrice= ...), but they're all views of the same underlying
+// catalog rather than distinct pages worth ranking on their own — without
+// this they'd compete with each other and with /territories/{slug} for the
+// same searches. Overrides app.vue's global useLocaleHead() self-canonical
+// (Nuxt/Unhead dedupes rel=canonical to one tag, page-level wins).
+const activeFilterCount = computed(
+  () =>
+    [
+      filters.value.propertyType,
+      filters.value.dealType,
+      filters.value.minPrice,
+      filters.value.maxPrice,
+      filters.value.rooms?.length,
+      filters.value.hasGenerator,
+      filters.value.hasWifi,
+      filters.value.bbox,
+    ].filter(Boolean).length,
+)
+const hasOnlyTerritoryFilter = computed(() => Boolean(filters.value.territorySlug) && activeFilterCount.value === 0)
+const isFiltered = computed(() => hasOnlyTerritoryFilter.value || activeFilterCount.value > 0 || Boolean(filters.value.territorySlug))
+
+const canonicalHref = computed(() => {
+  const path = hasOnlyTerritoryFilter.value ? localePath(`/territories/${filters.value.territorySlug}`) : localePath('/properties')
+  return `https://ihona.tj${path}`
+})
+
+useHead({ link: [{ rel: 'canonical', href: canonicalHref }] })
+useSeoMeta({ robots: computed(() => (isFiltered.value ? 'noindex, follow' : 'index, follow')) })
 </script>
 
 <template>

@@ -53,7 +53,7 @@ async function onToggleFavorite() {
 
 <template>
   <NuxtLinkLocale
-    :to="`/properties/${property.id}`"
+    :to="`/properties/${propertySlug(property)}`"
     class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_8px_24px_rgba(0,0,0,.05)] transition hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(0,0,0,.09)] dark:bg-slate-900"
   >
     <div class="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">

@@ -7,10 +7,27 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const localePath = useLocalePath()
 
-const property = await usePropertyById(Number(route.params.id))
+const propertyId = extractPropertyId(String(route.params.slug))
+if (propertyId === null) {
+  throw createError({ statusCode: 404, statusMessage: 'Property not found' })
+}
+
+const property = await usePropertyById(propertyId)
 
 if (!property.value) {
   throw createError({ statusCode: 404, statusMessage: 'Property not found' })
+}
+
+// The URL's slug text is decorative — only the trailing id above was ever
+// trusted. If it doesn't match the current canonical slug (a stale link
+// from before a title edit, or a bare /properties/{id} link from before
+// this feature existed), 301 to the correct one so search engines and
+// visitors converge on a single URL per listing instead of the site's own
+// useLocaleHead() (app.vue) self-canonicalizing whatever slug happened to
+// be in the address bar.
+const canonicalSlug = propertySlug(property.value)
+if (route.params.slug !== canonicalSlug) {
+  await navigateTo(localePath(`/properties/${canonicalSlug}`), { redirectCode: 301 })
 }
 
 const territory = computed(() => findTerritoryBySlug(property.value!.territorySlug))
@@ -50,7 +67,7 @@ const publishedLabel = computed(() => formatPublishedAgo(property.value?.publish
 const shareCopied = ref(false)
 async function onShare() {
   if (!property.value) return
-  const shareData = { title: property.value.title, url: `https://ihona.tj/properties/${property.value.id}` }
+  const shareData = { title: property.value.title, url: `https://ihona.tj/properties/${canonicalSlug}` }
   if (navigator.share) {
     try {
       await navigator.share(shareData)
@@ -226,7 +243,7 @@ useHead({
         '@type': 'RealEstateListing',
         name: property.value?.title,
         description: property.value?.description,
-        url: `https://ihona.tj/properties/${property.value?.id}`,
+        url: `https://ihona.tj/properties/${canonicalSlug}`,
         image: property.value?.images,
         address: {
           '@type': 'PostalAddress',
