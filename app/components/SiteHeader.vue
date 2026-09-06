@@ -28,10 +28,10 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
       </NuxtLinkLocale>
 
       <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'sale' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.buy') }}</NuxtLinkLocale>
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'rent' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.rent') }}</NuxtLinkLocale>
+        <NuxtLinkLocale to="/buy" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.buy') }}</NuxtLinkLocale>
+        <NuxtLinkLocale to="/rent" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.rent') }}</NuxtLinkLocale>
         <NuxtLinkLocale :to="{ path: '/properties', query: { type: 'commercial' } }" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('nav.commercial') }}</NuxtLinkLocale>
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }" class="inline-flex items-center gap-1 text-slate-400 hover:text-brand-700 dark:text-slate-500 dark:hover:text-brand-400">
+        <NuxtLinkLocale :to="{ path: '/rent', query: { type: 'guesthouse' } }" class="inline-flex items-center gap-1 text-slate-400 hover:text-brand-700 dark:text-slate-500 dark:hover:text-brand-400">
           <AppIcon name="mountain-view" class="h-4 w-4" /> {{ t('nav.tourism') }}
         </NuxtLinkLocale>
       </nav>
@@ -78,10 +78,10 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
 
     <div v-if="mobileMenuOpen" class="border-t border-slate-200 px-4 py-4 dark:border-slate-800 md:hidden">
       <nav class="flex flex-col gap-3 text-sm font-medium text-slate-600 dark:text-slate-300">
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'sale' } }">{{ t('nav.buy') }}</NuxtLinkLocale>
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'rent' } }">{{ t('nav.rent') }}</NuxtLinkLocale>
+        <NuxtLinkLocale to="/buy">{{ t('nav.buy') }}</NuxtLinkLocale>
+        <NuxtLinkLocale to="/rent">{{ t('nav.rent') }}</NuxtLinkLocale>
         <NuxtLinkLocale :to="{ path: '/properties', query: { type: 'commercial' } }">{{ t('nav.commercial') }}</NuxtLinkLocale>
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }" class="inline-flex items-center gap-1 text-slate-400">
+        <NuxtLinkLocale :to="{ path: '/rent', query: { type: 'guesthouse' } }" class="inline-flex items-center gap-1 text-slate-400">
           <AppIcon name="mountain-view" class="h-4 w-4" /> {{ t('nav.tourism') }}
         </NuxtLinkLocale>
         <NuxtLinkLocale v-if="auth.isAuthenticated" to="/favorites" class="inline-flex items-center gap-1">

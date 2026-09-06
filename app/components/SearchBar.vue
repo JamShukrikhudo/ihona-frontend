@@ -28,9 +28,8 @@ function selectTerritory(slug: string, label: string) {
 
 function search() {
   router.push({
-    path: localePath('/properties'),
+    path: localePath(props.dealType === 'sale' ? '/buy' : '/rent'),
     query: {
-      deal: props.dealType,
       ...(selectedTerritorySlug.value ? { territory: selectedTerritorySlug.value } : {}),
       ...(propertyType.value ? { type: propertyType.value } : {}),
       ...(maxPrice.value ? { maxPrice: maxPrice.value } : {}),

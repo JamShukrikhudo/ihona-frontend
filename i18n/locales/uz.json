@@ -74,6 +74,14 @@
     "sort_price_desc": "Avval qimmatlari",
     "sort_area_desc": "Avval kattaroq maydon"
   },
+  "rent": {
+    "title": "Tojikistonda mulk ijaraga olish",
+    "meta_description": "Tojikistonda kvartira, uy va tijorat mulkini ijaraga olish — Dushanbe, Xo‘jand, Kulob, Boxtar, Pomir. Rasm, narx va xarita bilan joriy e'lonlar."
+  },
+  "buy": {
+    "title": "Tojikistonda mulk sotib olish",
+    "meta_description": "Tojikistonda kvartira, uy, yer va tijorat mulkini sotib olish — Dushanbe, Xo‘jand, Kulob, Boxtar, Pomir. Rasm, narx va xarita bilan joriy e'lonlar."
+  },
   "territory": {
     "listings_in": "{name} hududidagi obyektlar",
     "meta_description": "{name} hududida mulk sotib olish yoki ijaraga olish: kvartira, uy, yer, tijorat binolari. Rasm va xarita bilan joriy e'lonlar."

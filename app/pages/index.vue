@@ -57,7 +57,7 @@ useSeoMeta({
           <NuxtLinkLocale
             v-for="type in cityPropertyTypes"
             :key="type.value"
-            :to="{ path: '/properties', query: { deal: dealType, type: type.value } }"
+            :to="{ path: dealType === 'sale' ? '/buy' : '/rent', query: { type: type.value } }"
             class="flex items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-white/25"
           >
             <AppIcon :name="type.value" class="h-4 w-4" />{{ t(`property_type.${type.value}`) }}
@@ -80,7 +80,7 @@ useSeoMeta({
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div class="mb-6 flex items-center justify-between">
         <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.listings_title') }}</h2>
-        <NuxtLinkLocale :to="{ path: '/properties', query: { deal: dealType } }" class="text-sm font-medium text-accent-600 hover:underline">
+        <NuxtLinkLocale :to="dealType === 'sale' ? '/buy' : '/rent'" class="text-sm font-medium text-accent-600 hover:underline">
           {{ t('home.see_all') }}
         </NuxtLinkLocale>
       </div>
@@ -106,7 +106,7 @@ useSeoMeta({
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('home.tourism_subtitle') }}</p>
           </div>
           <NuxtLinkLocale
-            :to="{ path: '/properties', query: { deal: 'rent', type: 'guesthouse' } }"
+            :to="{ path: '/rent', query: { type: 'guesthouse' } }"
             class="text-sm font-medium text-accent-600 hover:underline"
           >
             {{ t('home.see_all') }}
