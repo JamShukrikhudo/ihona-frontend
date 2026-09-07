@@ -72,6 +72,8 @@ const mapPoints = computed(() =>
     label: p.title,
     color: p.dealType === 'rent' ? '#2a80de' : '#37956E',
     price: pinPrice(p),
+    image: p.images[0],
+    subtitle: p.address,
   })),
 )
 

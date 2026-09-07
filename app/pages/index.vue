@@ -146,7 +146,7 @@ useSeoMeta({
       </div>
       <PropertyMap
         v-if="showHomeMap"
-        :points="allFeatured.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E', price: pinPrice(p) }))"
+        :points="allFeatured.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E', price: pinPrice(p), image: p.images[0], subtitle: p.address }))"
         :center-lat="38.5598"
         :center-lng="68.787"
         :zoom="6"

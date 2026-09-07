@@ -11,11 +11,21 @@
  * listing count is tens to low hundreds, where plain DOM markers stay cheap
  * and keep click/hover wiring simple. A point with a `price` renders as a
  * cian-style price bubble; without one (e.g. the single-listing map on the
- * property detail page) it's a plain dot.
+ * property detail page) it's a plain dot. A point with an `image` additionally
+ * shows a cian-style hover-preview card (photo, price, title) above the pin.
  */
 const props = withDefaults(
   defineProps<{
-    points: { id?: number | string; lat: number; lng: number; label?: string; color?: string; price?: string }[]
+    points: {
+      id?: number | string
+      lat: number
+      lng: number
+      label?: string
+      color?: string
+      price?: string
+      image?: string
+      subtitle?: string
+    }[]
     centerLat?: number
     centerLng?: number
     zoom?: number
@@ -85,17 +95,94 @@ async function renderMap() {
     for (const point of props.points) {
       const isActive = point.id !== undefined && point.id === props.activeId
       const color = point.color ?? '#2E7D5C'
+      // Anchor for the hover card below (position:absolute inside it) —
+      // doesn't affect the pin's own map placement, YMapMarker positions
+      // this whole element by [lng,lat] regardless of its internal layout.
       const pin = document.createElement('div')
+      pin.style.position = 'relative'
+
+      const pinInner = document.createElement('div')
       if (point.price) {
         // cian-style price bubble instead of a plain dot — the price is the
         // one thing worth showing before a click, so show it.
-        pin.textContent = point.price
-        pin.style.cssText = `background:${color};color:#fff;font:${isActive ? '700 13px' : '600 12px'} system-ui, sans-serif;padding:${isActive ? '6px 10px' : '4px 8px'};border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;${isActive ? 'outline:2px solid white;outline-offset:1px;' : ''}`
+        pinInner.textContent = point.price
+        pinInner.style.cssText = `background:${color};color:#fff;font:${isActive ? '700 13px' : '600 12px'} system-ui, sans-serif;padding:${isActive ? '6px 10px' : '4px 8px'};border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;${isActive ? 'outline:2px solid white;outline-offset:1px;' : ''}`
       } else {
         const size = isActive ? 20 : 14
-        pin.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;`
+        pinInner.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;`
       }
-      if (point.label) pin.title = point.label
+      if (point.label) pinInner.title = point.label
+      pin.appendChild(pinInner)
+
+      // cian-style preview card, shown on hover — only built for points that
+      // carry enough to show (the single-marker property-detail-page map
+      // passes neither image nor price, and stays a plain dot with no
+      // card). Lives inside the pin element itself so YMapMarker's own
+      // geo-positioning places it for free; known limitation: the map's
+      // container clips overflow for its rounded corners, so a pin very
+      // near the top edge can have its card clipped rather than flipped
+      // below — acceptable for how sparse our maps actually are.
+      let card: HTMLDivElement | null = null
+      if (point.image) {
+        card = document.createElement('div')
+        card.style.cssText =
+          'position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:180px;' +
+          'background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.25);' +
+          'opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;z-index:20;'
+        const img = document.createElement('img')
+        img.loading = 'lazy'
+        img.style.cssText = 'display:block;width:100%;height:110px;object-fit:cover;'
+        img.alt = ''
+        card.appendChild(img)
+        const body = document.createElement('div')
+        body.style.cssText = 'padding:8px 10px;'
+        if (point.price) {
+          const priceEl = document.createElement('div')
+          priceEl.textContent = point.price
+          priceEl.style.cssText = 'font:700 13px system-ui, sans-serif;color:#0f172a;'
+          body.appendChild(priceEl)
+        }
+        if (point.label) {
+          const titleEl = document.createElement('div')
+          titleEl.textContent = point.label
+          titleEl.style.cssText = 'margin-top:2px;font:12px system-ui, sans-serif;color:#334155;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+          body.appendChild(titleEl)
+        }
+        if (point.subtitle) {
+          const subtitleEl = document.createElement('div')
+          subtitleEl.textContent = point.subtitle
+          subtitleEl.style.cssText = 'margin-top:1px;font:11px system-ui, sans-serif;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+          body.appendChild(subtitleEl)
+        }
+        card.appendChild(body)
+        pin.appendChild(card)
+
+        pin.addEventListener(
+          'mouseenter',
+          () => {
+            // Deferred until first hover so dozens of map pins don't all
+            // download their photo up front — most never get hovered.
+            if (!img.src) img.src = point.image!
+          },
+          { once: true },
+        )
+      }
+
+      pin.addEventListener('mouseenter', () => {
+        if (card) {
+          card.style.opacity = '1'
+          card.style.visibility = 'visible'
+        }
+        pin.style.zIndex = '30'
+      })
+      pin.addEventListener('mouseleave', () => {
+        if (card) {
+          card.style.opacity = '0'
+          card.style.visibility = 'hidden'
+        }
+        pin.style.zIndex = ''
+      })
+
       if (point.id !== undefined) {
         const id = point.id
         pin.addEventListener('click', () => emit('marker-click', id))
