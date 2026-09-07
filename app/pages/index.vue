@@ -32,6 +32,15 @@ const tourismFeatured = computed(() =>
 // /properties catalogs already use.
 const showHomeMap = ref(false)
 
+// Sale and rent pins sit side by side here (unlike /rent or /buy, where
+// every pin is already the same deal type) — "6 500 TJS" alone would be
+// ambiguous, so a rental price gets its "/мес"-or-"/ночь" suffix.
+function pinPrice(p: { price: number; dealType: DealTypeValue; rentPeriod?: 'night' | 'month' }): string {
+  const amount = new Intl.NumberFormat('ru-RU', { notation: p.price >= 1_000_000 ? 'compact' : 'standard' }).format(p.price)
+  const suffix = p.dealType === 'rent' ? t(p.rentPeriod === 'night' ? 'property.pin_suffix_night' : 'property.pin_suffix_month') : ''
+  return `${amount} TJS${suffix}`
+}
+
 useHead({ title: t('home.title') })
 useSeoMeta({
   description: t('home.hero_subtitle'),
@@ -137,7 +146,7 @@ useSeoMeta({
       </div>
       <PropertyMap
         v-if="showHomeMap"
-        :points="allFeatured.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E' }))"
+        :points="allFeatured.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.title, color: p.dealType === 'rent' ? '#2a80de' : '#37956E', price: pinPrice(p) }))"
         :center-lat="38.5598"
         :center-lng="68.787"
         :zoom="6"

@@ -52,10 +52,17 @@ const results = computed(() => filteredSorted.value.slice((page.value - 1) * PAG
 // Every filtered listing's pin, regardless of the current page — so panning/
 // zooming the map isn't limited to whatever page the list happens to be on.
 // Price is shown right on the pin, cian-style — the one thing worth knowing
-// before a click.
+// before a click. A bare "6 500 TJS" reads fine on /rent or /buy (every pin
+// there is already the same deal type), but is genuinely ambiguous on
+// /properties, where sale and rent pins sit side by side — so only there
+// does a rental price get its "/мес"-or-"/ночь" suffix.
 function pinPrice(p: Property): string {
   const amount = new Intl.NumberFormat('ru-RU', { notation: p.price >= 1_000_000 ? 'compact' : 'standard' }).format(p.price)
-  return `${amount} TJS`
+  const suffix =
+    !props.lockedDealType && p.dealType === 'rent'
+      ? t(p.rentPeriod === 'night' ? 'property.pin_suffix_night' : 'property.pin_suffix_month')
+      : ''
+  return `${amount} TJS${suffix}`
 }
 const mapPoints = computed(() =>
   filteredSorted.value.map((p) => ({

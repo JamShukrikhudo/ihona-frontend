@@ -108,6 +108,8 @@
     "gallery_close": "Закрыть",
     "share": "Поделиться",
     "share_copied": "Ссылка скопирована",
+    "pin_suffix_month": "/мес",
+    "pin_suffix_night": "/ночь",
     "published_today": "Опубликовано сегодня",
     "published_yesterday": "Опубликовано вчера",
     "published_days_ago": "Опубликовано {count} дн. назад",

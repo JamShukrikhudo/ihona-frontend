@@ -108,6 +108,8 @@
     "gallery_close": "Yopish",
     "share": "Ulashish",
     "share_copied": "Havola nusxalandi",
+    "pin_suffix_month": "/oy",
+    "pin_suffix_night": "/kecha",
     "published_today": "Bugun joylandi",
     "published_yesterday": "Kecha joylandi",
     "published_days_ago": "{count} kun oldin joylandi",

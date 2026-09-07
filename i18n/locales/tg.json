@@ -108,6 +108,8 @@
     "gallery_close": "Пӯшидан",
     "share": "Мубодила",
     "share_copied": "Пайванд нусхабардорӣ шуд",
+    "pin_suffix_month": "/моҳ",
+    "pin_suffix_night": "/шаб",
     "published_today": "Имрӯз нашр шуд",
     "published_yesterday": "Дирӯз нашр шуд",
     "published_days_ago": "{count} рӯз пеш нашр шуд",

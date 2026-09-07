@@ -108,6 +108,8 @@
     "gallery_close": "Close",
     "share": "Share",
     "share_copied": "Link copied",
+    "pin_suffix_month": "/mo",
+    "pin_suffix_night": "/night",
     "published_today": "Published today",
     "published_yesterday": "Published yesterday",
     "published_days_ago": "Published {count} days ago",
