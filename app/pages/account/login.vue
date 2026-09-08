@@ -67,6 +67,8 @@ useHead({ title: t('auth.login_title') })
       </button>
     </form>
 
+    <SocialLogin />
+
     <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
       {{ t('auth.no_account') }}
       <NuxtLinkLocale to="/account/register" class="font-medium text-accent-700 hover:underline dark:text-accent-400">{{ t('auth.register_link') }}</NuxtLinkLocale>

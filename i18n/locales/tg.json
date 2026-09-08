@@ -94,9 +94,9 @@
     "deal_rent": "Иҷора",
     "price_per_sqm": "барои як м²",
     "bathrooms": "Ҳаммомхонаҳо",
-  "floor": "Ошён",
-  "floor_of_total": "{floor} аз {total}",
-  "ceiling_height": "Баландии шифт",
+    "floor": "Ошён",
+    "floor_of_total": "{floor} аз {total}",
+    "ceiling_height": "Баландии шифт",
     "characteristics_title": "Хусусиятҳо",
     "description_title": "Тавсиф",
     "amenities_title": "Шароит",
@@ -185,7 +185,10 @@
     "have_account": "Ҳисоб доред?",
     "login_link": "Воридшавӣ",
     "toast_welcome_back": "Хуш омадед, {name}!",
-    "toast_welcome_new": "Хуш омадед, {name}!"
+    "toast_welcome_new": "Хуш омадед, {name}!",
+    "or_continue_with": "Ё тавассути инҳо идома диҳед",
+    "continue_with_google": "Бо Google идома диҳед",
+    "oauth_error": "Воридшавӣ муваффақ нашуд — пайванд нодуруст ё кӯҳна аст. Аз нав кӯшиш кунед."
   },
   "footer": {
     "tagline": "Амволи ғайриманқул ва иҷораи сайёҳӣ дар саросари Тоҷикистон.",

@@ -48,6 +48,10 @@ export default defineNuxtConfig({
       // `Environment=NUXT_PUBLIC_LAUNCHED=true` in the systemd unit + restart
       // once the site is ready to be found.
       launched: process.env.NUXT_PUBLIC_LAUNCHED === 'true',
+      // Telegram Login Widget bot username (@BotFather). Unset hides the
+      // widget in SocialLogin.vue — the backend's identity-socialstream
+      // module verifies the callback independently of this.
+      telegramBotUsername: process.env.NUXT_PUBLIC_TELEGRAM_BOT_USERNAME || '',
     },
   },
 

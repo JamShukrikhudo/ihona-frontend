@@ -94,9 +94,9 @@
     "deal_rent": "Аренда",
     "price_per_sqm": "за м²",
     "bathrooms": "Санузлов",
-  "floor": "Этаж",
-  "floor_of_total": "{floor} из {total}",
-  "ceiling_height": "Высота потолков",
+    "floor": "Этаж",
+    "floor_of_total": "{floor} из {total}",
+    "ceiling_height": "Высота потолков",
     "characteristics_title": "Характеристики",
     "description_title": "Описание",
     "amenities_title": "Удобства",
@@ -185,7 +185,10 @@
     "have_account": "Уже есть аккаунт?",
     "login_link": "Войти",
     "toast_welcome_back": "С возвращением, {name}!",
-    "toast_welcome_new": "Добро пожаловать, {name}!"
+    "toast_welcome_new": "Добро пожаловать, {name}!",
+    "or_continue_with": "Или продолжите через",
+    "continue_with_google": "Продолжить с Google",
+    "oauth_error": "Не удалось войти. Ссылка недействительна или устарела — попробуйте снова."
   },
   "footer": {
     "tagline": "Недвижимость и туристическая аренда по всему Таджикистану.",

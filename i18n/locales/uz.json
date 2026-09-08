@@ -94,9 +94,9 @@
     "deal_rent": "Ijara",
     "price_per_sqm": "m² uchun",
     "bathrooms": "Hammomlar",
-  "floor": "Qavat",
-  "floor_of_total": "{floor} / {total}",
-  "ceiling_height": "Shift balandligi",
+    "floor": "Qavat",
+    "floor_of_total": "{floor} / {total}",
+    "ceiling_height": "Shift balandligi",
     "characteristics_title": "Xususiyatlar",
     "description_title": "Tavsif",
     "amenities_title": "Qulayliklar",
@@ -185,7 +185,10 @@
     "have_account": "Hisobingiz bormi?",
     "login_link": "Kirish",
     "toast_welcome_back": "Xush kelibsiz, {name}!",
-    "toast_welcome_new": "Xush kelibsiz, {name}!"
+    "toast_welcome_new": "Xush kelibsiz, {name}!",
+    "or_continue_with": "Yoki quyidagilar orqali davom eting",
+    "continue_with_google": "Google orqali davom etish",
+    "oauth_error": "Kirib bo‘lmadi — havola yaroqsiz yoki eskirgan. Qayta urinib ko‘ring."
   },
   "footer": {
     "tagline": "Tojikiston bo‘ylab ko‘chmas mulk va sayyohlik ijarasi.",
