@@ -18,7 +18,7 @@ onMounted(() => {
   script.setAttribute('data-telegram-login', telegramBotUsername)
   script.setAttribute('data-size', 'large')
   script.setAttribute('data-radius', '10')
-  script.setAttribute('data-auth-url', '/oauth/telegram/callback?spa=1')
+  script.setAttribute('data-auth-url', '/oauth/telegram/verify?spa=1')
   script.setAttribute('data-request-access', 'write')
   telegramWidget.value.appendChild(script)
 })
