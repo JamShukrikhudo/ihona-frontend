@@ -87,6 +87,13 @@ async function renderMap() {
 
     const map = new YMap(container.value, {
       location: { center: [centerLng, centerLat], zoom: props.zoom },
+      // Yandex's branding mark defaults to bottom-left, separate from the
+      // "© Яндекс / условия использования" copyright text (bottom-right
+      // already). Moving it to join the copyright text is an official,
+      // documented option — not hiding anything — so it stays ToS-compliant
+      // while matching the single-corner layout cian.ru uses.
+      copyrightsPosition: 'bottom right',
+      distributionPosition: 'bottom right',
     })
     mapInstance = map
     map.addChild(new YMapDefaultSchemeLayer())
