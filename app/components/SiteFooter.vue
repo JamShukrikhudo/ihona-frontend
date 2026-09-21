@@ -40,13 +40,19 @@ function scrollToTop() {
           </ul>
         </div>
         <div>
-          <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.currency') }}</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">TJS — Сомони</p>
+          <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.legal') }}</h3>
+          <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-400">
+            <li><NuxtLinkLocale to="/privacy" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.privacy') }}</NuxtLinkLocale></li>
+            <li><NuxtLinkLocale to="/terms" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.terms') }}</NuxtLinkLocale></li>
+          </ul>
         </div>
       </div>
-      <p class="mt-8 flex items-center gap-1.5 border-t border-slate-100 pt-6 text-xs text-slate-400 dark:border-slate-800">
-        <AppMark class="h-3.5" /> © {{ new Date().getFullYear() }} ihona.tj
-      </p>
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-6 dark:border-slate-800">
+        <p class="text-xs text-slate-400">TJS — {{ t('footer.currency') }}</p>
+        <p class="flex items-center gap-1.5 text-xs text-slate-400">
+          <AppMark class="h-3.5" /> © {{ new Date().getFullYear() }} ihona.tj
+        </p>
+      </div>
     </div>
   </footer>
 </template>

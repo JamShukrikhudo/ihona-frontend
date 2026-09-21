@@ -17,4 +17,5 @@ useHead({ htmlAttrs: { class: computed(() => (theme.dark ? 'dark' : '')) } })
     <NuxtPage />
   </NuxtLayout>
   <AppToast />
+  <CookieNotice />
 </template>

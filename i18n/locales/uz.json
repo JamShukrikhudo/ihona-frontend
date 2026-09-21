@@ -206,6 +206,60 @@
     "about": "Biz haqimizda",
     "contacts": "Aloqa",
     "currency": "Valyuta",
-    "scroll_to_top": "Yuqoriga"
+    "scroll_to_top": "Yuqoriga",
+    "legal": "Hujjatlar",
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Foydalanish shartlari"
+  },
+  "cookie_notice": {
+    "text": "Sayt tashrifini tahlil qilish uchun cookie va Google Analytics ishlatamiz.",
+    "accept": "Tushunarli",
+    "learn_more": "Batafsil"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Maxfiylik siyosati",
+      "updated": "Oxirgi yangilanish: 2026-yil sentyabr",
+      "intro": "Ushbu siyosat ihona.tj qanday ma’lumot to‘playotgani va undan qanday foydalanilishini tavsiflaydi. Biz faqat xizmat uchun zarur bo‘lgan ma’lumotni yig‘ishga harakat qilamiz.",
+      "s1_title": "1. Biz nimalarni to‘playmiz",
+      "s1_body": "Ro‘yxatdan o‘tishda: ism va email. Ko‘rikga yozilish yoki narx taklif qilishda: sana, summa, izoh. Saytdan foydalanishda: Google Analytics orqali anonim foydalanish ma’lumotlari (sahifalar, qurilma, IP bo‘yicha taxminiy joylashuv, cookie).",
+      "s2_title": "2. Ma’lumotdan qanday foydalanamiz",
+      "s2_body": "Hisob ma’lumotlari — tizimga kirish, ko‘rik so‘rovlari va narx takliflarini qayta ishlash, agentning xaridor bilan bog‘lanishi uchun. Tahlil ma’lumotlari — qaysi sahifalar va obyektlar tashrif buyuruvchilarga qiziq ekanini tushunish uchun.",
+      "s3_title": "3. Uchinchi shaxslarga berish",
+      "s3_body": "Obyekt bo‘yicha ko‘rik so‘rovlari va narx takliflari uni joylashtirgan agentlikka beriladi. Anonim foydalanish ma’lumotlari Google Analytics tomonidan o‘z siyosatiga muvofiq qayta ishlanadi. Biz shaxsiy ma’lumotni uchinchi shaxslarga sotmaymiz.",
+      "s4_title": "4. Saqlash va himoya",
+      "s4_body": "Parollar shifrlangan holda saqlanadi. Shaxsiy ma’lumotlarga kirish faqat ishi uchun zarur bo‘lgan xodimlar bilan cheklangan.",
+      "s5_title": "5. Sizning huquqlaringiz",
+      "s5_body": "Saytning aloqa email’iga yozib, o‘z ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin.",
+      "s6_title": "6. Cookie",
+      "s6_body": "Sayt tizimga kirish va tashrif tahlili (Google Analytics) uchun cookie ishlatadi. Cookie’ni brauzer sozlamalarida o‘chirib qo‘yishingiz mumkin — bunda ayrim funksiyalar ishlamay qolishi mumkin.",
+      "s7_title": "7. Siyosatdagi o‘zgarishlar",
+      "s7_body": "Biz ushbu siyosatni vaqti-vaqti bilan yangilashimiz mumkin. Joriy versiya doim shu sahifada mavjud.",
+      "disclaimer": "Ushbu hujjat bizning ma’lumotlarni qayta ishlash amaliyotimizning oddiy tavsifi bo‘lib, muayyan qonunchilik talablariga muvofiqlik uchun yuridik maslahat o‘rnini bosmaydi."
+    },
+    "terms": {
+      "title": "Foydalanish shartlari",
+      "updated": "Oxirgi yangilanish: 2026-yil sentyabr",
+      "intro": "ihona.tj’dan foydalanish orqali siz quyidagi shartlarga rozilik bildirasiz.",
+      "s1_title": "1. Umumiy qoidalar",
+      "s1_body": "ihona.tj — Tojikiston hududida ko‘chmas mulk e’lonlarini joylashtirish va qidirish platformasi: sotish, uzoq muddatli va kunlik ijara.",
+      "s2_title": "2. Hisobingiz",
+      "s2_body": "Hisobingiz paroli xavfsizligi va u orqali qilingan barcha harakatlar uchun siz javobgarsiz.",
+      "s3_title": "3. Sharhlar va moderatsiya",
+      "s3_body": "Obyektlar haqidagi sharhlar chop etilishidan oldin tekshiriladi. Haqoratli, noto‘g‘ri ma’lumot yoki spam bo‘lgan sharhni rad etishimiz yoki o‘chirishimiz mumkin.",
+      "s4_title": "4. E’lonlar aniqligi",
+      "s4_body": "Obyektlar haqidagi ma’lumotlar ularni joylashtirgan agentlik tomonidan taqdim etiladi. Sayt bu ma’lumotning aniqligi, to‘liqligi yoki dolzarbligini kafolatlamaydi va ko‘rik yoki bitimdan oldin tafsilotlarni shaxsan tekshirishni tavsiya qiladi.",
+      "s5_title": "5. Ko‘riklar va narx takliflari",
+      "s5_body": "Sayt orqali ko‘rikka yozilish va narx taklif qilish faqat ma’lumot uchun bo‘lib, sotish yoki ijara shartnomasi hisoblanmaydi.",
+      "s6_title": "6. Taqiqlangan harakatlar",
+      "s6_body": "Bila turib yolg‘on sharh qoldirish, saytdan firibgarlik yoki spam uchun foydalanish, boshqa foydalanuvchilar ma’lumotiga ruxsatsiz kirishga urinish taqiqlanadi.",
+      "s7_title": "7. Javobgarlikni cheklash",
+      "s7_body": "Sayt platformadan tashqarida amalga oshirilgan bitimlar natijasida xaridorlar, ijarachilar va agentliklar o‘rtasidagi nizolar uchun javobgar emas.",
+      "s8_title": "8. Amaldagi qonunchilik",
+      "s8_body": "Ushbu shartlar Tojikiston Respublikasi qonunchiligiga muvofiq tartibga solinadi.",
+      "s9_title": "9. Shartlardagi o‘zgarishlar",
+      "s9_body": "Biz ushbu shartlarni vaqti-vaqti bilan yangilashimiz mumkin. Joriy versiya doim shu sahifada mavjud.",
+      "disclaimer": "Ushbu hujjat saytdan foydalanish qoidalarining oddiy tavsifi bo‘lib, muayyan qonunchilik talablariga muvofiqlik uchun yuridik maslahat o‘rnini bosmaydi."
+    }
   }
 }

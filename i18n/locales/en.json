@@ -206,6 +206,60 @@
     "about": "About",
     "contacts": "Contact",
     "currency": "Currency",
-    "scroll_to_top": "Back to top"
+    "scroll_to_top": "Back to top",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "cookie_notice": {
+    "text": "We use cookies and Google Analytics to understand how the site is used.",
+    "accept": "Got it",
+    "learn_more": "Learn more"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "updated": "Last updated: September 2026",
+      "intro": "This policy describes what data ihona.tj collects and how it is used. We aim to collect only what the service actually needs.",
+      "s1_title": "1. What we collect",
+      "s1_body": "On registration: name and email. When booking a viewing or submitting a price offer: date, amount, comment. While browsing: anonymized usage data via Google Analytics (pages visited, device, approximate location from IP, cookies).",
+      "s2_title": "2. How we use it",
+      "s2_body": "Account data is used to sign you in, process viewing requests and price offers, and let an agent reach the buyer. Analytics data helps us understand which pages and properties visitors care about, and improve the site.",
+      "s3_title": "3. Sharing with third parties",
+      "s3_body": "Viewing requests and price offers on a property are shared with the agency that listed it. Anonymized usage data is processed by Google Analytics under its own privacy policy. We do not sell personal data to third parties.",
+      "s4_title": "4. Storage and security",
+      "s4_body": "Passwords are stored encrypted. Access to personal data is limited to staff who need it to do their job.",
+      "s5_title": "5. Your rights",
+      "s5_body": "You can request to view, correct, or delete your data by writing to the site's contact email.",
+      "s6_title": "6. Cookies",
+      "s6_body": "The site uses cookies for authentication and for traffic analytics (Google Analytics). You can disable cookies in your browser settings, though some features may stop working.",
+      "s7_title": "7. Changes to this policy",
+      "s7_body": "We may update this policy from time to time. The current version is always available on this page.",
+      "disclaimer": "This document is a plain-language description of our data practices and doesn't replace legal advice for compliance with a specific jurisdiction's requirements."
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "updated": "Last updated: September 2026",
+      "intro": "By using ihona.tj, you agree to the terms below.",
+      "s1_title": "1. General",
+      "s1_body": "ihona.tj is a platform for listing and finding real estate in Tajikistan: sale, long-term rental, and short-term (daily) rental.",
+      "s2_title": "2. Your account",
+      "s2_body": "You're responsible for keeping your account password safe and for everything done under your account.",
+      "s3_title": "3. Reviews and moderation",
+      "s3_body": "Property reviews are checked before publishing. We may reject or remove a review that contains abuse, false claims, or spam.",
+      "s4_title": "4. Listing accuracy",
+      "s4_body": "Property information is provided by the listing agency. The site does not guarantee its accuracy, completeness, or currency, and recommends verifying details in person before a viewing or transaction.",
+      "s5_title": "5. Viewings and price offers",
+      "s5_body": "Booking a viewing or submitting a price offer through the site is informational only and does not constitute a sale or rental contract.",
+      "s6_title": "6. Prohibited conduct",
+      "s6_body": "You may not post knowingly false reviews, use the site for fraud or spam, or attempt unauthorized access to other users' data.",
+      "s7_title": "7. Limitation of liability",
+      "s7_body": "The site is not responsible for disputes between buyers, tenants, and agencies arising from transactions conducted outside the platform.",
+      "s8_title": "8. Governing law",
+      "s8_body": "These terms are governed by the laws of the Republic of Tajikistan.",
+      "s9_title": "9. Changes to these terms",
+      "s9_body": "We may update these terms from time to time. The current version is always available on this page.",
+      "disclaimer": "This document is a plain-language description of the site's usage rules and doesn't replace legal advice for compliance with a specific jurisdiction's requirements."
+    }
   }
 }
