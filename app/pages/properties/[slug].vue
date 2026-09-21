@@ -224,6 +224,28 @@ async function submitViewingRequest() {
   }
 }
 
+// Reviews — GET is anonymous and only ever returns already-approved
+// comments (see useComments.ts); a submitted one is pending until an
+// agent moderates it, so it never appears in this same list right after
+// posting — reviewSubmitted just swaps the form for a thank-you message.
+const comments = await useComments(property.value.id)
+const reviewBody = ref('')
+const reviewRating = ref<number | null>(null)
+const reviewState = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
+
+async function submitReview() {
+  if (!property.value || !reviewBody.value.trim()) return
+  reviewState.value = 'submitting'
+  try {
+    await submitComment(property.value.id, reviewBody.value.trim(), reviewRating.value ?? undefined)
+    reviewState.value = 'success'
+    reviewBody.value = ''
+    reviewRating.value = null
+  } catch {
+    reviewState.value = 'error'
+  }
+}
+
 useHead({ title: property.value?.title })
 useSeoMeta({
   description: property.value?.description,
@@ -594,6 +616,64 @@ useHead({
         {{ isBooking ? t('property.booking_cta') : t('property.contact_agent') }}
       </button>
     </div>
+
+    <section class="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
+      <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('property.reviews') }}</h2>
+
+      <ul v-if="comments && comments.length" class="mb-6 space-y-4">
+        <li
+          v-for="comment in comments"
+          :key="comment.id"
+          class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ comment.author ?? '—' }}</span>
+            <span v-if="comment.rating" class="text-amber-500" aria-hidden="true">{{ '★'.repeat(comment.rating) }}{{ '☆'.repeat(5 - comment.rating) }}</span>
+          </div>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{{ comment.body }}</p>
+        </li>
+      </ul>
+      <p v-else class="mb-6 text-sm text-slate-500 dark:text-slate-400">{{ t('property.reviews_empty') }}</p>
+
+      <div v-if="!auth.isAuthenticated" class="rounded-xl border border-slate-200 p-4 text-sm dark:border-slate-800">
+        <NuxtLinkLocale :to="{ path: '/account/login', query: { redirect: route.fullPath } }" class="font-medium text-accent-600 hover:underline">
+          {{ t('property.review_login_required') }}
+        </NuxtLinkLocale>
+      </div>
+      <form v-else-if="reviewState !== 'success'" class="space-y-3 rounded-xl border border-slate-200 p-4 dark:border-slate-800" @submit.prevent="submitReview">
+        <div class="flex items-center gap-1" role="radiogroup" :aria-label="t('property.review_rating')">
+          <button
+            v-for="star in 5"
+            :key="star"
+            type="button"
+            class="text-2xl leading-none"
+            :class="reviewRating && star <= reviewRating ? 'text-amber-500' : 'text-slate-300 dark:text-slate-600'"
+            :aria-pressed="reviewRating === star"
+            @click="reviewRating = reviewRating === star ? null : star"
+          >
+            ★
+          </button>
+        </div>
+        <textarea
+          v-model="reviewBody"
+          rows="3"
+          required
+          :placeholder="t('property.review_placeholder')"
+          class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        />
+        <p v-if="reviewState === 'error'" class="text-sm text-red-600">{{ t('property.review_error') }}</p>
+        <button
+          type="submit"
+          :disabled="reviewState === 'submitting' || !reviewBody.trim()"
+          class="rounded-lg bg-accent-600 px-4 py-2 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+        >
+          {{ reviewState === 'submitting' ? t('property.review_submitting') : t('property.review_submit') }}
+        </button>
+      </form>
+      <p v-else class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 dark:border-emerald-900/40 dark:bg-emerald-900/20 dark:text-emerald-200">
+        {{ t('property.review_success') }}
+      </p>
+    </section>
 
     <section v-if="similar.length" class="mt-12">
       <h2 class="mb-4 text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('property.similar') }}</h2>

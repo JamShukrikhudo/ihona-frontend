@@ -150,7 +150,16 @@
     "booking_submit": "Send booking request",
     "booking_success": "Booking request sent — the host will confirm it shortly.",
     "favorite": "Add to favorites",
-    "unfavorite": "Remove from favorites"
+    "unfavorite": "Remove from favorites",
+    "reviews": "Reviews",
+    "reviews_empty": "No reviews for this property yet.",
+    "review_rating": "Rating",
+    "review_placeholder": "Share your impression of this property…",
+    "review_submit": "Submit review",
+    "review_submitting": "Sending…",
+    "review_success": "Thanks! Your review is pending moderation and will appear once approved.",
+    "review_error": "Couldn't submit your review. Please try again.",
+    "review_login_required": "Log in to leave a review"
   },
   "favorites": {
     "title": "Favorites",

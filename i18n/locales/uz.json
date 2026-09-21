@@ -150,7 +150,16 @@
     "booking_submit": "Bron so‘rovini yuborish",
     "booking_success": "Bron so‘rovi yuborildi — uy egasi tez orada tasdiqlaydi.",
     "favorite": "Sevimlilarga qo‘shish",
-    "unfavorite": "Sevimlilardan olib tashlash"
+    "unfavorite": "Sevimlilardan olib tashlash",
+    "reviews": "Sharhlar",
+    "reviews_empty": "Bu obyekt haqida hali sharhlar yo‘q.",
+    "review_rating": "Baho",
+    "review_placeholder": "Bu obyekt haqidagi taassurotingizni yozing…",
+    "review_submit": "Sharhni yuborish",
+    "review_submitting": "Yuborilmoqda…",
+    "review_success": "Rahmat! Sharhingiz moderatsiyaga yuborildi va tasdiqlangandan so‘ng ko‘rinadi.",
+    "review_error": "Sharhni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
+    "review_login_required": "Sharh qoldirish uchun tizimga kiring"
   },
   "favorites": {
     "title": "Sevimlilar",
