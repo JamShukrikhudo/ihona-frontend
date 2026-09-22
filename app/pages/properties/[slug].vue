@@ -105,15 +105,17 @@ const dealTypeLabel = computed(() => (property.value?.dealType === 'rent' ? t('p
 
 // Primary "at a glance" facts — icon-card row shown right under the
 // gallery, cian/avito-style. Living/kitchen area still has no column on
-// the host (see docs/handoffs); floor/total floors/ceiling height are
-// apartment-only and mock-data-only for now (no column either, see
-// useProperties.ts's mapApiProperty).
+// the host (see docs/handoffs); ceiling height is apartment-only and
+// mock-data-only for now (no column either, see useProperties.ts's
+// mapApiProperty). Floor is real; area respects the authoritative
+// area_unit field (sqm/sotka/hectare) instead of assuming м².
 const vitals = computed(() => {
   if (!property.value) return []
   const p = property.value
   const isApartment = p.propertyType === 'apartment'
+  const areaUnitLabel = p.areaUnit === 'sqm' ? 'м²' : t(`property.${p.areaUnit}`)
   return [
-    { icon: 'area', label: t('property.area'), value: `${p.area} м²` },
+    { icon: 'area', label: t('property.area'), value: `${p.area.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} ${areaUnitLabel}` },
     p.rooms ? { icon: 'bedroom', label: t('filters.rooms'), value: String(p.rooms) } : null,
     isApartment && p.bathrooms ? { icon: 'bathroom', label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
     isApartment && p.floor ? { icon: 'floor', label: t('property.floor'), value: t('property.floor_of_total', { floor: p.floor, total: p.totalFloors ?? '—' }) } : null,
@@ -123,27 +125,55 @@ const vitals = computed(() => {
   ].filter(Boolean) as { icon: string; label: string; value: string }[]
 })
 
-// Remaining metadata that doesn't fit the icon-card row above.
+// Remaining metadata that doesn't fit the icon-card row above. Land-only
+// fields (category/tenure/cadastral number/road/terrain/utilities) only
+// render when propertyType === 'land' — every other type has them null.
 const characteristics = computed(() => {
   if (!property.value) return []
   const p = property.value
+  const isLand = p.propertyType === 'land'
   return [
     { label: t('property.deal_type_label'), value: dealTypeLabel.value },
     { label: t('filters.type'), value: propertyTypeLabel(p.propertyType, t) },
     territory.value ? { label: t('filters.territory'), value: territoryName(territory.value.slug, t) } : null,
     { label: t('property.id_label'), value: p.reference },
+    isLand && p.landCategory ? { label: t('property.land_category_label'), value: t(`property.land_category_${p.landCategory}`) } : null,
+    isLand && p.tenureType ? { label: t('property.tenure_type_label'), value: t(`property.tenure_${p.tenureType}`) } : null,
+    isLand && p.cadastralNumber ? { label: t('property.cadastral_number'), value: p.cadastralNumber } : null,
+    isLand && p.roadAccess
+      ? {
+          label: t('property.road_access_label'),
+          value: p.roadSeasonal
+            ? `${t(`property.road_access_${p.roadAccess}`)} (${t('property.road_seasonal')})`
+            : t(`property.road_access_${p.roadAccess}`),
+        }
+      : null,
+    isLand && p.terrain ? { label: t('property.terrain_label'), value: t(`property.terrain_${p.terrain}`) } : null,
+    isLand && p.electricityStatus
+      ? {
+          label: t('property.electricity_label'),
+          value:
+            p.electricityStatus === 'nearby' && p.electricityDistanceM
+              ? t('property.electricity_nearby', { distance: p.electricityDistanceM })
+              : t(`property.electricity_${p.electricityStatus}`),
+        }
+      : null,
+    isLand && p.sewage ? { label: t('property.sewage_label'), value: t(`property.sewage_${p.sewage}`) } : null,
   ].filter(Boolean) as { label: string; value: string }[]
 })
 
 const amenities = computed(() => {
   if (!property.value) return []
   const p = property.value
+  const isLand = p.propertyType === 'land'
   return [
     p.hasWifi && { icon: 'wifi', label: 'Wi-Fi' },
     p.hasGenerator && { icon: 'generator', label: t('property.generator') },
     p.hasParking && { icon: 'parking', label: t('property.parking') },
     p.mountainView && { icon: 'mountain-view', label: t('property.mountain_view') },
     p.waterSource && { icon: 'water-source', label: t(`property.water_${p.waterSource}`) },
+    isLand && p.hasGas && { icon: 'land', label: t('property.has_gas') },
+    isLand && p.fenced && { icon: 'security', label: t('property.fenced') },
   ].filter(Boolean) as { icon: string; label: string }[]
 })
 

@@ -17,9 +17,11 @@ export interface Property {
   priceUsd: number | null
   rentPeriod?: 'night' | 'month'
   area: number
+  /** Only meaningful together with `area` — land plots are quoted in sotka/hectare locally, not always m². */
+  areaUnit: 'sqm' | 'sotka' | 'hectare'
   rooms: number | null
   bathrooms: number | null
-  /** Apartment-only, mock data only — no `floor`/`total_floors` column on the host yet. */
+  /** Apartment-only. */
   floor: number | null
   totalFloors: number | null
   /** Apartment-only, mock data only — no `ceiling_height` column on the host yet. */
@@ -30,10 +32,20 @@ export interface Property {
   hasGenerator: boolean
   hasParking: boolean
   mountainView: boolean
-  // mains/delivered: mock data only. well/river/spring/other match the
-  // Filament PropertyResource's actual water_source Select options — the
-  // set live listings can carry.
-  waterSource: 'mains' | 'well' | 'river' | 'spring' | 'delivered' | 'other' | null
+  waterSource: 'mains' | 'well' | 'river' | 'spring' | 'arik' | 'delivered' | 'other' | null
+  // Land-plot-only fields — null/false for every other property type.
+  electricityStatus: 'on_site' | 'nearby' | 'none' | null
+  electricityDistanceM: number | null
+  hasGas: boolean
+  sewage: 'central' | 'septic' | 'none' | null
+  roadAccess: 'paved' | 'dirt' | 'none' | null
+  roadSeasonal: boolean
+  terrain: 'flat' | 'slope' | 'terraced' | null
+  fenced: boolean
+  landCategory: 'residential' | 'agricultural' | 'commercial' | 'garden' | null
+  /** Descriptive only, not a legal determination — see the admin form's own comment on this field. */
+  tenureType: 'use_right' | 'long_term_lease' | 'building_right' | null
+  cadastralNumber: string | null
   description: string
   images: string[]
   /** ISO 8601, from the API's published_at — null for mock data. */

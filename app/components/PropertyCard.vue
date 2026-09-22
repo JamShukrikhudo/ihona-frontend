@@ -20,17 +20,12 @@ const formattedPriceUsd = computed(() =>
   props.property.priceUsd !== null ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(props.property.priceUsd) : null,
 )
 
-// Land has no separate building — area_sqft *is* the plot, so a sotka
-// (100 m², the unit Tajik land listings actually use) is a real, direct
-// conversion. House/cottage area_sqft is the building only; we have no
-// plot-size column for those, so no sotka figure is shown for them
-// rather than making one up.
-const isLandType = computed(() => props.property.propertyType === 'land')
-const areaLabel = computed(() =>
-  isLandType.value
-    ? `${(props.property.area / 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 })} ${t('property.sotka')}`
-    : `${props.property.area.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} м²`,
-)
+// area_unit is authoritative from the backend now (an agent picks it when
+// entering the listing) — no more guessing sotka-vs-m² from propertyType.
+const areaLabel = computed(() => {
+  const unit = props.property.areaUnit === 'sqm' ? 'м²' : t(`property.${props.property.areaUnit}`)
+  return `${props.property.area.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} ${unit}`
+})
 
 const publishedLabel = computed(() => formatPublishedAgo(props.property.publishedAt, t))
 

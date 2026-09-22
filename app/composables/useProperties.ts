@@ -33,6 +33,7 @@ interface ApiProperty {
   floor: number | null
   total_floors: number | null
   area_sqft: string | number | null
+  area_unit: string
   latitude: number | null
   longitude: number | null
   features: string[] | null
@@ -43,6 +44,17 @@ interface ApiProperty {
   altitude: number | null
   water_source: string | null
   max_guests: number | null
+  electricity_status: string | null
+  electricity_distance_m: number | null
+  has_gas: boolean
+  sewage: string | null
+  road_access: string | null
+  road_seasonal: boolean
+  terrain: string | null
+  fenced: boolean
+  land_category: string | null
+  tenure_type: string | null
+  cadastral_number: string | null
   views_count: number
   published_at: string | null
   gallery: { url: string }[]
@@ -71,6 +83,7 @@ function mapApiProperty(api: ApiProperty): Property {
     currency: 'TJS',
     priceUsd: api.price_usd,
     area: Number(api.area_sqft ?? 0),
+    areaUnit: (api.area_unit as Property['areaUnit']) ?? 'sqm',
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
     floor: api.floor,
@@ -84,6 +97,17 @@ function mapApiProperty(api: ApiProperty): Property {
     hasParking: api.has_parking,
     mountainView: api.mountain_view !== null,
     waterSource: api.water_source as Property['waterSource'],
+    electricityStatus: api.electricity_status as Property['electricityStatus'],
+    electricityDistanceM: api.electricity_distance_m,
+    hasGas: api.has_gas,
+    sewage: api.sewage as Property['sewage'],
+    roadAccess: api.road_access as Property['roadAccess'],
+    roadSeasonal: api.road_seasonal,
+    terrain: api.terrain as Property['terrain'],
+    fenced: api.fenced,
+    landCategory: api.land_category as Property['landCategory'],
+    tenureType: api.tenure_type as Property['tenureType'],
+    cadastralNumber: api.cadastral_number,
     description: api.description ?? '',
     images: api.gallery.length ? api.gallery.map((g) => g.url) : [placeholderImage(api.property_type)],
     publishedAt: api.published_at,
