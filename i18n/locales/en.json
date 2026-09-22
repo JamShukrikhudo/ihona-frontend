@@ -252,22 +252,11 @@
     "privacy": {
       "title": "Privacy Policy",
       "updated": "Last updated: September 2026",
-      "intro": "This policy describes what data ihona.tj collects and how it is used. We aim to collect only what the service actually needs.",
-      "s1_title": "1. What we collect",
-      "s1_body": "On registration: name and email. When booking a viewing or submitting a price offer: date, amount, comment. While browsing: anonymized usage data via Google Analytics (pages visited, device, approximate location from IP, cookies).",
-      "s2_title": "2. How we use it",
-      "s2_body": "Account data is used to sign you in, process viewing requests and price offers, and let an agent reach the buyer. Analytics data helps us understand which pages and properties visitors care about, and improve the site.",
-      "s3_title": "3. Sharing with third parties",
-      "s3_body": "Viewing requests and price offers on a property are shared with the agency that listed it. Anonymized usage data is processed by Google Analytics under its own privacy policy. We do not sell personal data to third parties.",
-      "s4_title": "4. Storage and security",
-      "s4_body": "Passwords are stored encrypted. Access to personal data is limited to staff who need it to do their job.",
-      "s5_title": "5. Your rights",
-      "s5_body": "You can request to view, correct, or delete your data by writing to the site's contact email.",
-      "s6_title": "6. Cookies",
-      "s6_body": "The site uses cookies for authentication and for traffic analytics (Google Analytics). You can disable cookies in your browser settings, though some features may stop working.",
-      "s7_title": "7. Changes to this policy",
-      "s7_body": "We may update this policy from time to time. The current version is always available on this page.",
-      "disclaimer": "This document is a plain-language description of our data practices and doesn't replace legal advice for compliance with a specific jurisdiction's requirements."
+      "intro": "In short: we only collect what the site needs to work, we use cookies to sign you in and for basic analytics, and we don't sell your data to third parties.",
+      "body1": "On registration we store your name and email. When you book a viewing or submit a price offer, we store the request details so we can pass them to the agency that listed the property.",
+      "body2": "The site uses cookies to keep you signed in and for anonymous traffic analytics. You can disable cookies in your browser settings, though some features may stop working.",
+      "body3": "You can request to view, correct, or delete your data at any time by writing to info@ihona.tj. We may update this policy — the current version is always available on this page.",
+      "disclaimer": "This document is a brief description of our data practices and doesn't replace legal advice."
     },
     "terms": {
       "title": "Terms of Use",

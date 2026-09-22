@@ -252,22 +252,11 @@
     "privacy": {
       "title": "Maxfiylik siyosati",
       "updated": "Oxirgi yangilanish: 2026-yil sentyabr",
-      "intro": "Ushbu siyosat ihona.tj qanday ma’lumot to‘playotgani va undan qanday foydalanilishini tavsiflaydi. Biz faqat xizmat uchun zarur bo‘lgan ma’lumotni yig‘ishga harakat qilamiz.",
-      "s1_title": "1. Biz nimalarni to‘playmiz",
-      "s1_body": "Ro‘yxatdan o‘tishda: ism va email. Ko‘rikga yozilish yoki narx taklif qilishda: sana, summa, izoh. Saytdan foydalanishda: Google Analytics orqali anonim foydalanish ma’lumotlari (sahifalar, qurilma, IP bo‘yicha taxminiy joylashuv, cookie).",
-      "s2_title": "2. Ma’lumotdan qanday foydalanamiz",
-      "s2_body": "Hisob ma’lumotlari — tizimga kirish, ko‘rik so‘rovlari va narx takliflarini qayta ishlash, agentning xaridor bilan bog‘lanishi uchun. Tahlil ma’lumotlari — qaysi sahifalar va obyektlar tashrif buyuruvchilarga qiziq ekanini tushunish uchun.",
-      "s3_title": "3. Uchinchi shaxslarga berish",
-      "s3_body": "Obyekt bo‘yicha ko‘rik so‘rovlari va narx takliflari uni joylashtirgan agentlikka beriladi. Anonim foydalanish ma’lumotlari Google Analytics tomonidan o‘z siyosatiga muvofiq qayta ishlanadi. Biz shaxsiy ma’lumotni uchinchi shaxslarga sotmaymiz.",
-      "s4_title": "4. Saqlash va himoya",
-      "s4_body": "Parollar shifrlangan holda saqlanadi. Shaxsiy ma’lumotlarga kirish faqat ishi uchun zarur bo‘lgan xodimlar bilan cheklangan.",
-      "s5_title": "5. Sizning huquqlaringiz",
-      "s5_body": "Saytning aloqa email’iga yozib, o‘z ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin.",
-      "s6_title": "6. Cookie",
-      "s6_body": "Sayt tizimga kirish va tashrif tahlili (Google Analytics) uchun cookie ishlatadi. Cookie’ni brauzer sozlamalarida o‘chirib qo‘yishingiz mumkin — bunda ayrim funksiyalar ishlamay qolishi mumkin.",
-      "s7_title": "7. Siyosatdagi o‘zgarishlar",
-      "s7_body": "Biz ushbu siyosatni vaqti-vaqti bilan yangilashimiz mumkin. Joriy versiya doim shu sahifada mavjud.",
-      "disclaimer": "Ushbu hujjat bizning ma’lumotlarni qayta ishlash amaliyotimizning oddiy tavsifi bo‘lib, muayyan qonunchilik talablariga muvofiqlik uchun yuridik maslahat o‘rnini bosmaydi."
+      "intro": "Qisqacha: biz faqat sayt ishlashi uchun zarur bo‘lgan ma’lumotni yig‘amiz, hisobga kirish va oddiy tahlil uchun cookie ishlatamiz va ma’lumotlaringizni uchinchi shaxslarga sotmaymiz.",
+      "body1": "Ro‘yxatdan o‘tishda ism va email saqlanadi. Ko‘rikka yozilish yoki narx taklif qilishda — so‘rov tafsilotlarini uni joylashtirgan agentlikka yetkazish uchun saqlaymiz.",
+      "body2": "Sayt hisobga kirish va anonim tashrif tahlili uchun cookie ishlatadi. Cookie'ni brauzer sozlamalarida o‘chirishingiz mumkin — ayrim funksiyalar ishlamay qolishi mumkin.",
+      "body3": "Istalgan vaqtda info@ihona.tj manziliga yozib, ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin. Ushbu siyosatni yangilashimiz mumkin — joriy versiya doim shu sahifada mavjud.",
+      "disclaimer": "Ushbu hujjat ma’lumotlarni qayta ishlash amaliyotimizning qisqacha tavsifi bo‘lib, yuridik maslahat o‘rnini bosmaydi."
     },
     "terms": {
       "title": "Foydalanish shartlari",
