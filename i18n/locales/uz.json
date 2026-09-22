@@ -252,11 +252,16 @@
     "privacy": {
       "title": "Maxfiylik siyosati",
       "updated": "Oxirgi yangilanish: 2026-yil sentyabr",
-      "intro": "Qisqacha: biz faqat sayt ishlashi uchun zarur bo‘lgan ma’lumotni yig‘amiz, hisobga kirish va oddiy tahlil uchun cookie ishlatamiz va ma’lumotlaringizni uchinchi shaxslarga sotmaymiz.",
-      "body1": "Ro‘yxatdan o‘tishda ism va email saqlanadi. Ko‘rikka yozilish yoki narx taklif qilishda — so‘rov tafsilotlarini uni joylashtirgan agentlikka yetkazish uchun saqlaymiz.",
-      "body2": "Sayt hisobga kirish va anonim tashrif tahlili uchun cookie ishlatadi. Cookie'ni brauzer sozlamalarida o‘chirishingiz mumkin — ayrim funksiyalar ishlamay qolishi mumkin.",
-      "body3": "Istalgan vaqtda {email} manziliga yozib, ma’lumotlaringizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin. Ushbu siyosatni yangilashimiz mumkin — joriy versiya doim shu sahifada mavjud.",
-      "disclaimer": "Ushbu hujjat ma’lumotlarni qayta ishlash amaliyotimizning qisqacha tavsifi bo‘lib, yuridik maslahat o‘rnini bosmaydi."
+      "intro": "Oddiy so‘zlar bilan — ihona.tj qanday ma’lumotlardan foydalanadi va biz ular bilan qanday munosabatda bo‘lamiz.",
+      "s1_title": "Biz nimani saqlaymiz",
+      "s1_body": "Ro‘yxatdan o‘tishda — ism va email. Ko‘rikka yozilsangiz yoki obyekt bo‘yicha so‘rov yuborsangiz — so‘rov tafsilotlari uni joylashtirgan agentlikka yetkaziladi: bandlashning mohiyati shu.",
+      "s2_title": "Cookie",
+      "s2_body": "Hisobga kirish va umumiy anonim tashrif statistikasi uchun kerak. Ularni brauzer sozlamalarida o‘chirishingiz mumkin — saytning o‘zida bu ba’zi funksiyalarni, masalan hisobga kirishni cheklashi mumkin.",
+      "s3_title": "Sizning ma’lumotlaringiz — sizning tanlovingiz",
+      "s3_body": "{email} manziliga yozib, istalgan vaqtda ma’lumotlaringizni ko‘rishingiz, o‘zgartirishingiz yoki o‘chirishingiz mumkin.",
+      "s4_title": "Yangilanishlar",
+      "s4_body": "Biz ushbu sahifani vaqti-vaqti bilan yangilashimiz mumkin — joriy versiya doim shu yerda mavjud.",
+      "disclaimer": "Bu bizning amaliyotimizning qisqa va tushunarli tavsifi, yuridik hujjat emas — rasmiy masalalar bo‘yicha yuristga murojaat qiling."
     },
     "terms": {
       "title": "Foydalanish shartlari",

@@ -252,11 +252,16 @@
     "privacy": {
       "title": "Privacy Policy",
       "updated": "Last updated: September 2026",
-      "intro": "In short: we only collect what the site needs to work, we use cookies to sign you in and for basic analytics, and we don't sell your data to third parties.",
-      "body1": "On registration we store your name and email. When you book a viewing or submit a price offer, we store the request details so we can pass them to the agency that listed the property.",
-      "body2": "The site uses cookies to keep you signed in and for anonymous traffic analytics. You can disable cookies in your browser settings, though some features may stop working.",
-      "body3": "You can request to view, correct, or delete your data at any time by writing to {email}. We may update this policy — the current version is always available on this page.",
-      "disclaimer": "This document is a brief description of our data practices and doesn't replace legal advice."
+      "intro": "In plain language — what data ihona.tj uses and how we handle it.",
+      "s1_title": "What we store",
+      "s1_body": "On registration — your name and email. If you book a viewing or submit a property inquiry, the request details are shared with the agency that listed the property — that's the whole point of booking.",
+      "s2_title": "Cookies",
+      "s2_body": "Used to keep you signed in and for general anonymous traffic stats. You can disable them in your browser settings — on the site itself, this may limit some features, like signing in.",
+      "s3_title": "Your data, your choice",
+      "s3_body": "Write to {email} and you can view, change, or delete your data at any time.",
+      "s4_title": "Updates",
+      "s4_body": "We may update this page from time to time — the current version is always here.",
+      "disclaimer": "This is a short, plain-language description of our practices, not a legal document — for official matters, consult a lawyer."
     },
     "terms": {
       "title": "Terms of Use",
