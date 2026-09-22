@@ -18,6 +18,8 @@ interface ApiFavoriteProperty {
   price_usd: number | null
   bedrooms: number | null
   bathrooms: number | null
+  floor: number | null
+  total_floors: number | null
   area_sqft: string | number | null
   latitude: number | null
   longitude: number | null
@@ -69,9 +71,9 @@ export async function fetchFavorites(): Promise<Property[]> {
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
-    // Not returned by this endpoint's resource yet — mock data only, see useProperties.ts.
-    floor: null,
-    totalFloors: null,
+    floor: api.floor,
+    totalFloors: api.total_floors,
+    // No ceiling_height column on properties — mock data only.
     ceilingHeight: null,
     maxGuests: api.max_guests,
     altitude: api.altitude,

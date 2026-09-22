@@ -30,6 +30,8 @@ interface ApiProperty {
   price_usd: number | null
   bedrooms: number | null
   bathrooms: number | null
+  floor: number | null
+  total_floors: number | null
   area_sqft: string | number | null
   latitude: number | null
   longitude: number | null
@@ -71,10 +73,9 @@ function mapApiProperty(api: ApiProperty): Property {
     area: Number(api.area_sqft ?? 0),
     rooms: api.bedrooms,
     bathrooms: api.bathrooms,
-    // Not returned by PublicPropertyResource yet — no floor/total_floors/
-    // ceiling_height column on real_estate_properties. Mock data only.
-    floor: null,
-    totalFloors: null,
+    floor: api.floor,
+    totalFloors: api.total_floors,
+    // No ceiling_height column on properties — mock data only.
     ceilingHeight: null,
     maxGuests: api.max_guests,
     altitude: api.altitude,
