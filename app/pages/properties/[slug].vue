@@ -44,12 +44,9 @@ function prevImage() {
   activeImage.value = (activeImage.value - 1 + property.value.images.length) % property.value.images.length
 }
 
-const sideThumbnails = computed(() => (property.value && property.value.images.length >= 3 ? property.value.images.slice(1, 5) : []))
-
-// The desktop grid's side thumbnails have no equivalent on mobile (only the
-// horizontal thumbnail strip below), so the main photo itself needs to be
-// swipeable there — the natural gesture on a touch device, matching the
-// lightbox's own arrow-key navigation.
+// The hero photo is a single tile (no side-thumbnail grid — see the
+// template's own comment), so it needs to be swipeable itself on touch
+// devices, matching the lightbox's own arrow-key navigation.
 const mainPhotoTouchStartX = ref<number | null>(null)
 const mainPhotoTouchDeltaX = ref(0)
 const mainPhotoSwiped = ref(false)
@@ -369,19 +366,18 @@ useHead({
       <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType, t) }}</span>
     </nav>
 
-    <!-- Gallery: a main photo + up to 4 side thumbnails on desktop (cian-style -->
-    <!-- grid) when there are enough photos to fill it; a single hero image -->
-    <!-- otherwise. Any tile opens the fullscreen lightbox below. No floorplan/ -->
-    <!-- 3D-tour tabs — those need real data (virtual_tour_url etc.) this -->
-    <!-- listing set doesn't have. -->
-    <div
-      class="grid gap-2 overflow-hidden rounded-2xl"
-      :class="property.images.length >= 3 ? 'grid-cols-1 sm:grid-cols-4 sm:grid-rows-2' : 'grid-cols-1'"
-    >
+    <!-- Gallery: one large hero photo with a horizontal thumbnail filmstrip -->
+    <!-- below it (cian-style) rather than a side grid — a side grid forces -->
+    <!-- mismatched tile proportions once the photo count isn't a clean -->
+    <!-- multiple of the grid (5 photos left an oddly short bottom row). -->
+    <!-- Clicking the hero opens the fullscreen lightbox; clicking a -->
+    <!-- thumbnail just swaps the hero's photo in place. No floorplan/3D-tour -->
+    <!-- tabs — those need real data (virtual_tour_url etc.) this listing set -->
+    <!-- doesn't have. -->
+    <div class="overflow-hidden rounded-2xl bg-slate-100">
       <button
         type="button"
-        class="group relative row-span-2 overflow-hidden bg-slate-100"
-        :class="property.images.length >= 3 ? 'sm:col-span-3' : ''"
+        class="group relative block w-full"
         @touchstart.passive="onMainPhotoTouchStart"
         @touchmove.passive="onMainPhotoTouchMove"
         @touchend="onMainPhotoTouchEnd"
@@ -390,36 +386,24 @@ useHead({
         <img
           :src="property.images[activeImage] ?? property.images[0]"
           :alt="property.title"
-          class="h-80 w-full object-cover transition group-hover:brightness-95 sm:h-[460px]"
+          class="h-80 w-full object-cover transition group-hover:brightness-95 sm:h-[500px]"
         />
-        <span class="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white">
+        <span
+          v-if="property.images.length > 1"
+          class="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white"
+        >
           {{ t('property.gallery_counter', { current: activeImage + 1, total: property.images.length }) }}
         </span>
       </button>
-      <button
-        v-for="(img, i) in sideThumbnails"
-        :key="img"
-        type="button"
-        class="group relative hidden overflow-hidden bg-slate-100 sm:block"
-        @click="openLightbox(i + 1)"
-      >
-        <img :src="img" class="h-full max-h-[224px] w-full object-cover transition group-hover:brightness-95" :alt="`${property.title} ${i + 2}`" />
-        <span
-          v-if="i === 3 && property.images.length > 5"
-          class="absolute inset-0 flex items-center justify-center bg-black/50 text-lg font-semibold text-white"
-        >
-          +{{ property.images.length - 5 }}
-        </span>
-      </button>
     </div>
-    <div v-if="property.images.length > 1" class="mt-2 flex gap-2 overflow-x-auto pb-1 sm:hidden">
+    <div v-if="property.images.length > 1" class="mt-2 flex gap-2 overflow-x-auto pb-1">
       <button
         v-for="(img, i) in property.images"
         :key="img"
         type="button"
-        class="h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2"
-        :class="i === activeImage ? 'border-brand-600' : 'border-transparent'"
-        @click="openLightbox(i)"
+        class="h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition sm:h-20 sm:w-28"
+        :class="i === activeImage ? 'border-brand-600' : 'border-transparent hover:border-slate-300'"
+        @click="activeImage = i"
       >
         <img :src="img" class="h-full w-full object-cover" :alt="`${property.title} ${i + 1}`" />
       </button>
