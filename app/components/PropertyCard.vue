@@ -29,10 +29,26 @@ const isLandType = computed(() => props.property.propertyType === 'land')
 const areaLabel = computed(() =>
   isLandType.value
     ? `${(props.property.area / 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 })} ${t('property.sotka')}`
-    : `${props.property.area} м²`,
+    : `${props.property.area.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} м²`,
 )
 
 const publishedLabel = computed(() => formatPublishedAgo(props.property.publishedAt, t))
+
+// cian-style single compact line ("1-комн. · 36,5 м² · 4/11 этаж") instead
+// of one icon+label badge per fact — with several of these stacked in a
+// catalog grid, the repeated icons read as clutter rather than as useful
+// affordances (the property-type icon on the photo already establishes
+// what kind of listing this is, so it isn't repeated here as text).
+const specsLine = computed(() => {
+  const parts: string[] = []
+  if (props.property.rooms) parts.push(`${props.property.rooms}-${t('property.rooms')}`)
+  parts.push(areaLabel.value)
+  if (props.property.propertyType === 'apartment' && props.property.floor && props.property.totalFloors) {
+    parts.push(t('property.floor_slash', { floor: props.property.floor, total: props.property.totalFloors }))
+  }
+  if (props.property.maxGuests) parts.push(`${props.property.maxGuests} ${t('property.max_guests_short')}`)
+  return parts
+})
 
 async function onToggleFavorite() {
   if (!auth.isAuthenticated) {
@@ -94,20 +110,11 @@ async function onToggleFavorite() {
 
       <h3 class="line-clamp-2 text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200">{{ property.title }}</h3>
 
-      <div class="flex flex-wrap gap-3 border-y border-slate-100 py-2.5 text-[13px] text-slate-600 dark:border-slate-800 dark:text-slate-300">
-        <span v-if="property.rooms" class="inline-flex items-center gap-1.5">
-          <AppIcon name="bedroom" class="h-3.5 w-3.5" /> {{ property.rooms }} {{ t('property.rooms') }}
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <AppIcon name="area" class="h-3.5 w-3.5" /> {{ areaLabel }}
-        </span>
-        <span v-if="property.maxGuests" class="inline-flex items-center gap-1.5">
-          <AppIcon name="max-guests" class="h-3.5 w-3.5" /> {{ property.maxGuests }}
-        </span>
-        <span v-if="property.propertyType === 'apartment' && property.floor" class="inline-flex items-center gap-1.5">
-          <AppIcon name="floor" class="h-3.5 w-3.5" /> {{ t('property.floor_of_total', { floor: property.floor, total: property.totalFloors ?? '—' }) }}
-        </span>
-      </div>
+      <p class="border-y border-slate-100 py-2.5 text-[13px] text-slate-600 dark:border-slate-800 dark:text-slate-300">
+        <template v-for="(part, index) in specsLine" :key="index">
+          <span v-if="index > 0" class="px-1.5 text-slate-300 dark:text-slate-600">·</span>{{ part }}
+        </template>
+      </p>
 
       <!-- Location/published/views grouped tightly as one "meta" cluster,
            distinct from the sections around it, instead of every line

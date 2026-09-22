@@ -121,6 +121,8 @@
     "mountain_view": "mountain view",
     "area": "Area",
     "max_guests": "Guests",
+    "max_guests_short": "guests",
+    "floor_slash": "floor {floor}/{total}",
     "altitude": "Altitude",
     "meters_above_sea": "m above sea level",
     "generator": "generator",

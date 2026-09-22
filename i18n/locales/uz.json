@@ -121,6 +121,8 @@
     "mountain_view": "tog‘ manzarasi",
     "area": "Maydon",
     "max_guests": "Mehmonlar",
+    "max_guests_short": "mehmon",
+    "floor_slash": "{floor}/{total}-qavat",
     "altitude": "Balandlik",
     "meters_above_sea": "dengiz sathidan m",
     "generator": "generator",

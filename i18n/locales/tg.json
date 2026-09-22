@@ -121,6 +121,8 @@
     "mountain_view": "манзараи кӯҳ",
     "area": "Масоҳат",
     "max_guests": "Меҳмонон",
+    "max_guests_short": "меҳмон",
+    "floor_slash": "ошёни {floor}/{total}",
     "altitude": "Баландӣ",
     "meters_above_sea": "м аз сатҳи баҳр",
     "generator": "генератор",

@@ -121,6 +121,8 @@
     "mountain_view": "вид на горы",
     "area": "Площадь",
     "max_guests": "Гостей",
+    "max_guests_short": "гостей",
+    "floor_slash": "{floor}/{total} этаж",
     "altitude": "Высота",
     "meters_above_sea": "м над уровнем моря",
     "generator": "генератор",
