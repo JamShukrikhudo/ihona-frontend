@@ -19,7 +19,7 @@ useSeoMeta({
 
     <div class="mt-6 space-y-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
       <p class="font-medium text-slate-800 dark:text-slate-100">{{ t('legal.privacy.intro') }}</p>
-      <p v-for="n in paragraphs" :key="n">{{ t(`legal.privacy.body${n}`) }}</p>
+      <p v-for="n in paragraphs" :key="n">{{ t(`legal.privacy.body${n}`, { email: 'info@ihona.tj' }) }}</p>
     </div>
 
     <p class="mt-10 border-t border-slate-200 pt-4 text-xs text-slate-400 dark:border-slate-800">{{ t('legal.privacy.disclaimer') }}</p>
