@@ -46,6 +46,45 @@ function prevImage() {
 
 const sideThumbnails = computed(() => (property.value && property.value.images.length >= 3 ? property.value.images.slice(1, 5) : []))
 
+// The desktop grid's side thumbnails have no equivalent on mobile (only the
+// horizontal thumbnail strip below), so the main photo itself needs to be
+// swipeable there — the natural gesture on a touch device, matching the
+// lightbox's own arrow-key navigation.
+const mainPhotoTouchStartX = ref<number | null>(null)
+const mainPhotoTouchDeltaX = ref(0)
+const mainPhotoSwiped = ref(false)
+
+function onMainPhotoTouchStart(e: TouchEvent) {
+  mainPhotoTouchStartX.value = e.touches[0]!.clientX
+  mainPhotoTouchDeltaX.value = 0
+}
+
+function onMainPhotoTouchMove(e: TouchEvent) {
+  if (mainPhotoTouchStartX.value === null) return
+  mainPhotoTouchDeltaX.value = e.touches[0]!.clientX - mainPhotoTouchStartX.value
+}
+
+function onMainPhotoTouchEnd() {
+  if (Math.abs(mainPhotoTouchDeltaX.value) > 40) {
+    mainPhotoSwiped.value = true
+    if (mainPhotoTouchDeltaX.value < 0) nextImage()
+    else prevImage()
+  }
+  mainPhotoTouchStartX.value = null
+  mainPhotoTouchDeltaX.value = 0
+}
+
+// A swipe shouldn't also open the lightbox as if it were a tap — only a
+// plain tap (no preceding swipe) does that, and it opens on whichever
+// photo the swipe just landed on.
+function onMainPhotoClick() {
+  if (mainPhotoSwiped.value) {
+    mainPhotoSwiped.value = false
+    return
+  }
+  openLightbox(activeImage.value)
+}
+
 function openLightbox(index: number) {
   activeImage.value = index
   lightboxOpen.value = true
@@ -343,11 +382,18 @@ useHead({
         type="button"
         class="group relative row-span-2 overflow-hidden bg-slate-100"
         :class="property.images.length >= 3 ? 'sm:col-span-3' : ''"
-        @click="openLightbox(0)"
+        @touchstart.passive="onMainPhotoTouchStart"
+        @touchmove.passive="onMainPhotoTouchMove"
+        @touchend="onMainPhotoTouchEnd"
+        @click="onMainPhotoClick"
       >
-        <img :src="property.images[0]" :alt="property.title" class="h-80 w-full object-cover transition group-hover:brightness-95 sm:h-[460px]" />
+        <img
+          :src="property.images[activeImage] ?? property.images[0]"
+          :alt="property.title"
+          class="h-80 w-full object-cover transition group-hover:brightness-95 sm:h-[460px]"
+        />
         <span class="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white">
-          {{ t('property.gallery_counter', { current: 1, total: property.images.length }) }}
+          {{ t('property.gallery_counter', { current: activeImage + 1, total: property.images.length }) }}
         </span>
       </button>
       <button
