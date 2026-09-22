@@ -36,7 +36,11 @@ function scrollToTop() {
           <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.company') }}</h3>
           <ul class="space-y-1 text-sm text-slate-500 dark:text-slate-400">
             <li><NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.about') }}</NuxtLinkLocale></li>
-            <li><NuxtLinkLocale to="/" class="hover:text-brand-700 dark:hover:text-brand-400">{{ t('footer.contacts') }}</NuxtLinkLocale></li>
+            <li>
+              <a href="mailto:info@ihona.tj" class="inline-flex items-center gap-1.5 hover:text-brand-700 dark:hover:text-brand-400">
+                <AppIcon name="mail" class="h-3.5 w-3.5 shrink-0" /> info@ihona.tj
+              </a>
+            </li>
           </ul>
         </div>
         <div>
