@@ -507,7 +507,7 @@ useHead({
         <!-- odd empty gaps) — same width as the characteristics box right
         -->
         <!-- below it. -->
-        <div v-if="vitals.length" class="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
+        <div v-if="vitals.length" class="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
           <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
             <AppIcon :name="stat.icon" class="h-8 w-8 shrink-0 text-slate-400 dark:text-slate-500" />
             <div class="min-w-0">
