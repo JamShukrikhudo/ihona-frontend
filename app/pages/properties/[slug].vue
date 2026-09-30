@@ -156,6 +156,7 @@ const vitals = computed(() => {
   const areaUnitLabel = p.areaUnit === 'sqm' ? 'м²' : t(`property.${p.areaUnit}`)
   return [
     { icon: 'area', label: t('property.area'), value: `${p.area.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} ${areaUnitLabel}` },
+    p.kitchenArea ? { icon: 'kitchen', label: t('property.kitchen_area'), value: `${p.kitchenArea.toLocaleString('ru-RU', { maximumFractionDigits: 1 })} м²` } : null,
     p.rooms ? { icon: 'bedroom', label: t('filters.rooms'), value: String(p.rooms) } : null,
     isApartment && p.bathrooms ? { icon: 'bathroom', label: t('property.bathrooms'), value: String(p.bathrooms) } : null,
     isApartment && p.floor ? { icon: 'floor', label: t('property.floor'), value: t('property.floor_of_total', { floor: p.floor, total: p.totalFloors ?? '—' }) } : null,

@@ -194,7 +194,8 @@
     "review_error": "Couldn't submit your review. Please try again.",
     "review_login_required": "Log in to leave a review",
     "on_map": "View on map",
-    "year_built": "Year built"
+    "year_built": "Year built",
+    "kitchen_area": "Kitchen area"
   },
   "favorites": {
     "title": "Favorites",

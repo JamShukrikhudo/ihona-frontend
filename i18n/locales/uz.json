@@ -194,7 +194,8 @@
     "review_error": "Sharhni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     "review_login_required": "Sharh qoldirish uchun tizimga kiring",
     "on_map": "Xaritada",
-    "year_built": "Qurilgan yili"
+    "year_built": "Qurilgan yili",
+    "kitchen_area": "Oshxona maydoni"
   },
   "favorites": {
     "title": "Sevimlilar",
