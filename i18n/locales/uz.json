@@ -193,7 +193,8 @@
     "review_success": "Rahmat! Sharhingiz moderatsiyaga yuborildi va tasdiqlangandan so‘ng ko‘rinadi.",
     "review_error": "Sharhni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
     "review_login_required": "Sharh qoldirish uchun tizimga kiring",
-    "on_map": "Xaritada"
+    "on_map": "Xaritada",
+    "year_built": "Qurilgan yili"
   },
   "favorites": {
     "title": "Sevimlilar",

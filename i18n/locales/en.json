@@ -193,7 +193,8 @@
     "review_success": "Thanks! Your review is pending moderation and will appear once approved.",
     "review_error": "Couldn't submit your review. Please try again.",
     "review_login_required": "Log in to leave a review",
-    "on_map": "View on map"
+    "on_map": "View on map",
+    "year_built": "Year built"
   },
   "favorites": {
     "title": "Favorites",

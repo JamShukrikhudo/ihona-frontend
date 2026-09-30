@@ -162,6 +162,7 @@ const vitals = computed(() => {
     isApartment && p.ceilingHeight ? { icon: 'ceiling-height', label: t('property.ceiling_height'), value: `${p.ceilingHeight} м` } : null,
     p.maxGuests ? { icon: 'max-guests', label: t('property.max_guests'), value: String(p.maxGuests) } : null,
     p.altitude ? { icon: 'altitude', label: t('property.altitude'), value: `${p.altitude} ${t('property.meters_above_sea')}` } : null,
+    p.yearBuilt ? { icon: 'calendar', label: t('property.year_built'), value: String(p.yearBuilt) } : null,
   ].filter(Boolean) as { icon: string; label: string; value: string }[]
 })
 
@@ -496,7 +497,7 @@ useHead({
       </div>
     </Teleport>
 
-    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
+    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
       <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
         <AppIcon :name="stat.icon" class="h-8 w-8 shrink-0 text-slate-400 dark:text-slate-500" />
         <div class="min-w-0">

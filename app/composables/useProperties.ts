@@ -34,6 +34,7 @@ interface ApiProperty {
   bathrooms: number | null
   floor: number | null
   total_floors: number | null
+  year_built: number | null
   area_sqft: string | number | null
   area_unit: string
   latitude: number | null
@@ -91,6 +92,7 @@ function mapApiProperty(api: ApiProperty): Property {
     bathrooms: api.bathrooms,
     floor: api.floor,
     totalFloors: api.total_floors,
+    yearBuilt: api.year_built,
     // No ceiling_height column on properties — mock data only.
     ceilingHeight: null,
     maxGuests: api.max_guests,

@@ -27,6 +27,8 @@ export interface Property {
   /** Apartment-only. */
   floor: number | null
   totalFloors: number | null
+  /** Absent on mock data. */
+  yearBuilt?: number | null
   /** Apartment-only, mock data only — no `ceiling_height` column on the host yet. */
   ceilingHeight: number | null
   maxGuests: number | null
