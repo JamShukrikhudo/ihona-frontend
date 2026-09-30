@@ -498,18 +498,25 @@ useHead({
       </div>
     </Teleport>
 
-    <div v-if="vitals.length" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
-      <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
-        <AppIcon :name="stat.icon" class="h-8 w-8 shrink-0 text-slate-400 dark:text-slate-500" />
-        <div class="min-w-0">
-          <p class="truncate text-sm text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
-          <p class="truncate text-lg font-bold text-slate-900 dark:text-slate-100">{{ stat.value }}</p>
-        </div>
-      </div>
-    </div>
-
     <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div class="lg:col-span-2">
+        <!-- Constrained to this column's own width (not the full page,
+        -->
+        <!-- which used to stretch it out past the price card and leave
+        -->
+        <!-- odd empty gaps) — same width as the characteristics box right
+        -->
+        <!-- below it. -->
+        <div v-if="vitals.length" class="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
+          <div v-for="stat in vitals" :key="stat.label" class="flex items-center gap-3">
+            <AppIcon :name="stat.icon" class="h-8 w-8 shrink-0 text-slate-400 dark:text-slate-500" />
+            <div class="min-w-0">
+              <p class="truncate text-sm text-slate-500 dark:text-slate-400">{{ stat.label }}</p>
+              <p class="truncate text-lg font-bold text-slate-900 dark:text-slate-100">{{ stat.value }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Price shown here too (not only in the sidebar) so it reads on -->
         <!-- mobile, where the sidebar renders below the fold. -->
         <div class="mt-4 flex items-baseline gap-3 lg:hidden">
