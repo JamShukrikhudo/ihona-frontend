@@ -1,5 +1,6 @@
 import { mockProperties, findPropertyById } from '~/data/mockProperties'
 import { findTerritoryBySlug, placeholderImage, territories } from '~/data/territories'
+import { commercialSubtypes } from '~/data/commercial'
 import type { Property, PropertyFilters, PropertyTypeValue } from '~/types/property'
 
 interface PropertiesResult {
@@ -24,6 +25,7 @@ interface ApiProperty {
   address: string | null
   territory_code: string | null
   property_type: string
+  commercial_subtype: string | null
   deal_type: string | null
   price: string | number
   currency: string
@@ -73,6 +75,7 @@ function mapApiProperty(api: ApiProperty): Property {
     reference: api.reference,
     title: api.title,
     propertyType: api.property_type as PropertyTypeValue,
+    commercialSubtype: api.commercial_subtype as Property['commercialSubtype'],
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',
     rentPeriod: api.deal_type === 'rent' ? (NIGHTLY_TYPES.includes(api.property_type) ? 'night' : 'month') : undefined,
     territorySlug: territory?.slug ?? api.territory_code?.toLowerCase() ?? '',
@@ -127,6 +130,7 @@ export async function useProperties(filters: PropertyFilters = {}): Promise<Prop
       query: {
         territory: filters.territorySlug,
         type: filters.propertyType || undefined,
+        commercial_subtype: filters.commercialSubtype || undefined,
         deal_type: filters.dealType || undefined,
         min_price: filters.minPrice,
         max_price: filters.maxPrice,
@@ -232,6 +236,7 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
   return properties.filter((property) => {
     if (filters.territorySlug && property.territorySlug !== filters.territorySlug) return false
     if (filters.propertyType && property.propertyType !== filters.propertyType) return false
+    if (filters.commercialSubtype && property.commercialSubtype !== filters.commercialSubtype) return false
     if (filters.dealType && property.dealType !== filters.dealType) return false
     if (filters.rooms?.length) {
       const rooms = property.rooms ?? 0
@@ -251,4 +256,22 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
     }
     return true
   })
+}
+
+export type CommercialStats = Record<string, { sale: number; rent: number }>
+
+/**
+ * Backs the /commercial landing page's category tiles — wraps GET
+ * /v1/public/properties/commercial-stats (see PublicPropertyController::
+ * commercialStats on the host). Falls back to all-zero counts (not mock
+ * data — there's no mock equivalent for this) so the tiles still render,
+ * just with nothing to show yet, if the API is unreachable.
+ */
+export async function useCommercialStats(): Promise<CommercialStats> {
+  try {
+    const res = await apiFetch<{ data: CommercialStats }>('/v1/public/properties/commercial-stats')
+    return res.data
+  } catch {
+    return Object.fromEntries(commercialSubtypes.map((s) => [s.value, { sale: 0, rent: 0 }]))
+  }
 }

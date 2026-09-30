@@ -287,5 +287,25 @@
       "s9_body": "We may update these terms from time to time. The current version is always available on this page.",
       "disclaimer": "This document is a plain-language description of the site's usage rules and doesn't replace legal advice for compliance with a specific jurisdiction's requirements."
     }
+  },
+  "commercial": {
+    "title": "Commercial real estate",
+    "hero_subtitle": "Offices, warehouses, retail space and ready-made businesses across Tajikistan.",
+    "rent_label": "Rent",
+    "sale_label": "Sale",
+    "no_listings": "No listings yet",
+    "popular_title": "Popular listings",
+    "see_all": "See all"
+  },
+  "commercial_subtype": {
+    "office": "Offices",
+    "warehouse": "Warehouses",
+    "retail": "Retail space",
+    "production": "Production",
+    "building": "Building",
+    "free_purpose": "Free-purpose space",
+    "business": "Ready-made business",
+    "commercial_land": "Commercial land",
+    "garage": "Garage"
   }
 }

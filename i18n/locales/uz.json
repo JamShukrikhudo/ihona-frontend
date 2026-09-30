@@ -287,5 +287,25 @@
       "s9_body": "Biz ushbu shartlarni vaqti-vaqti bilan yangilashimiz mumkin. Joriy versiya doim shu sahifada mavjud.",
       "disclaimer": "Ushbu hujjat saytdan foydalanish qoidalarining oddiy tavsifi bo‘lib, muayyan qonunchilik talablariga muvofiqlik uchun yuridik maslahat o‘rnini bosmaydi."
     }
+  },
+  "commercial": {
+    "title": "Tijorat ko’chmas mulki",
+    "hero_subtitle": "Ofislar, omborlar, savdo maydonchalari va tayyor biznes butun Tojikiston bo’ylab.",
+    "rent_label": "Ijara",
+    "sale_label": "Sotuv",
+    "no_listings": "Hozircha e’lonlar yo’q",
+    "popular_title": "Ommabop takliflar",
+    "see_all": "Barchasini ko’rish"
+  },
+  "commercial_subtype": {
+    "office": "Ofislar",
+    "warehouse": "Omborlar",
+    "retail": "Savdo maydoni",
+    "production": "Ishlab chiqarish",
+    "building": "Bino",
+    "free_purpose": "Erkin maqsadli",
+    "business": "Tayyor biznes",
+    "commercial_land": "Tijorat yeri",
+    "garage": "Garaj"
   }
 }

@@ -1,4 +1,5 @@
 import type { DealTypeValue, PropertyTypeValue } from '~/data/territories'
+import type { CommercialSubtypeValue } from '~/data/commercial'
 
 export interface Property {
   id: number
@@ -6,6 +7,8 @@ export interface Property {
   reference: string
   title: string
   propertyType: PropertyTypeValue
+  /** Only set when propertyType === 'commercial'; absent on mock data. */
+  commercialSubtype?: CommercialSubtypeValue | null
   dealType: DealTypeValue
   territorySlug: string
   address: string
@@ -61,6 +64,7 @@ export interface Property {
 export interface PropertyFilters {
   territorySlug?: string
   propertyType?: PropertyTypeValue | ''
+  commercialSubtype?: CommercialSubtypeValue | ''
   dealType?: DealTypeValue | ''
   minPrice?: number
   maxPrice?: number

@@ -21,6 +21,7 @@ const localePath = useLocalePath()
 const filters = ref<PropertyFilters>({
   territorySlug: (route.query.territory as string) || undefined,
   propertyType: (route.query.type as any) || undefined,
+  commercialSubtype: (route.query.commercialSubtype as any) || undefined,
   dealType: props.lockedDealType ?? ((route.query.deal as DealTypeValue) || undefined),
   minPrice: route.query.minPrice ? Number(route.query.minPrice) : undefined,
   maxPrice: route.query.maxPrice ? Number(route.query.maxPrice) : undefined,
@@ -82,6 +83,7 @@ function syncQuery() {
     query: {
       ...(filters.value.territorySlug ? { territory: filters.value.territorySlug } : {}),
       ...(filters.value.propertyType ? { type: filters.value.propertyType } : {}),
+      ...(filters.value.commercialSubtype ? { commercialSubtype: filters.value.commercialSubtype } : {}),
       // dealType isn't a query param at all on /rent or /buy — it's implicit
       // in the path there, and locked so the user can never change it away.
       ...(!props.lockedDealType && filters.value.dealType ? { deal: filters.value.dealType } : {}),
@@ -168,6 +170,7 @@ useSeoMeta({
 const hasExtraFilters = computed(
   () =>
     Boolean(filters.value.propertyType) ||
+    Boolean(filters.value.commercialSubtype) ||
     Boolean(filters.value.minPrice) ||
     Boolean(filters.value.maxPrice) ||
     Boolean(filters.value.rooms?.length) ||
