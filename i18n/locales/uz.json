@@ -192,7 +192,8 @@
     "review_submitting": "Yuborilmoqda…",
     "review_success": "Rahmat! Sharhingiz moderatsiyaga yuborildi va tasdiqlangandan so‘ng ko‘rinadi.",
     "review_error": "Sharhni yuborib bo‘lmadi. Qayta urinib ko‘ring.",
-    "review_login_required": "Sharh qoldirish uchun tizimga kiring"
+    "review_login_required": "Sharh qoldirish uchun tizimga kiring",
+    "on_map": "Xaritada"
   },
   "favorites": {
     "title": "Sevimlilar",

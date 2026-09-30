@@ -35,6 +35,10 @@ const activeImage = ref(0)
 const lightboxOpen = ref(false)
 const similar = property.value ? await useSimilarProperties(property.value) : []
 
+function scrollToMap() {
+  document.getElementById('location-map')?.scrollIntoView({ behavior: 'smooth' })
+}
+
 function nextImage() {
   if (!property.value) return
   activeImage.value = (activeImage.value + 1) % property.value.images.length
@@ -366,6 +370,47 @@ useHead({
       <span class="truncate text-slate-400 dark:text-slate-500">{{ propertyTypeLabel(property.propertyType, t) }}</span>
     </nav>
 
+    <!-- Title + address first, photos below (cian-style: name → location →
+    -->
+    <!-- gallery, not the other way round) — the reader confirms this is the
+    -->
+    <!-- right listing before spending time on photos. -->
+    <div class="flex flex-wrap items-center gap-2">
+      <span
+        class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
+        :class="property.dealType === 'rent'
+          ? 'bg-accent-50 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300'
+          : 'bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300'"
+      >
+        {{ dealTypeLabel }}
+      </span>
+      <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+        {{ propertyTypeLabel(property.propertyType, t) }}
+      </span>
+    </div>
+
+    <h1 class="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
+      {{ propertyTypeLabel(property.propertyType, t) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
+    </h1>
+    <p class="mt-1 flex flex-wrap items-center gap-1 text-slate-500 dark:text-slate-400">
+      <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
+      <button
+        type="button"
+        class="ml-1 font-medium text-brand-700 hover:underline dark:text-brand-400"
+        @click="scrollToMap"
+      >
+        {{ t('property.on_map') }}
+      </button>
+    </p>
+    <p v-if="property.viewsCount > 0 || publishedLabel" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400 dark:text-slate-500">
+      <span v-if="publishedLabel" class="flex items-center gap-1">
+        <AppIcon name="calendar" class="h-4 w-4" aria-hidden="true" /> {{ publishedLabel }}
+      </span>
+      <span v-if="property.viewsCount > 0" class="flex items-center gap-1">
+        <AppIcon name="eye" class="h-4 w-4" aria-hidden="true" /> {{ t('property.views_count', { count: property.viewsCount }) }}
+      </span>
+    </p>
+
     <!-- Gallery: one large hero photo with a horizontal thumbnail filmstrip -->
     <!-- below it (cian-style) rather than a side grid — a side grid forces -->
     <!-- mismatched tile proportions once the photo count isn't a clean -->
@@ -374,7 +419,7 @@ useHead({
     <!-- thumbnail just swaps the hero's photo in place. No floorplan/3D-tour -->
     <!-- tabs — those need real data (virtual_tour_url etc.) this listing set -->
     <!-- doesn't have. -->
-    <div class="overflow-hidden rounded-2xl bg-slate-100">
+    <div class="mt-6 overflow-hidden rounded-2xl bg-slate-100">
       <button
         type="button"
         class="group relative block w-full"
@@ -463,35 +508,6 @@ useHead({
 
     <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div class="lg:col-span-2">
-        <div class="flex flex-wrap items-center gap-2">
-          <span
-            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
-            :class="property.dealType === 'rent'
-              ? 'bg-accent-50 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300'
-              : 'bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300'"
-          >
-            {{ dealTypeLabel }}
-          </span>
-          <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-            {{ propertyTypeLabel(property.propertyType, t) }}
-          </span>
-        </div>
-
-        <h1 class="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
-          {{ propertyTypeLabel(property.propertyType, t) }}<span v-if="property.rooms">, {{ property.rooms }} {{ t('property.rooms') }}</span>, {{ property.area }} м²
-        </h1>
-        <p class="mt-1 flex items-center gap-1 text-slate-500 dark:text-slate-400">
-          <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
-        </p>
-        <p v-if="property.viewsCount > 0 || publishedLabel" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400 dark:text-slate-500">
-          <span v-if="publishedLabel" class="flex items-center gap-1">
-            <AppIcon name="calendar" class="h-4 w-4" aria-hidden="true" /> {{ publishedLabel }}
-          </span>
-          <span v-if="property.viewsCount > 0" class="flex items-center gap-1">
-            <AppIcon name="eye" class="h-4 w-4" aria-hidden="true" /> {{ t('property.views_count', { count: property.viewsCount }) }}
-          </span>
-        </p>
-
         <!-- Price shown here too (not only in the sidebar) so it reads on -->
         <!-- mobile, where the sidebar renders below the fold. -->
         <div class="mt-4 flex items-baseline gap-3 lg:hidden">
@@ -525,7 +541,7 @@ useHead({
           </div>
         </template>
 
-        <div class="mt-8">
+        <div id="location-map" class="mt-8 scroll-mt-20">
           <h2 class="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ t('property.location') }}</h2>
           <PropertyMap :points="[{ lat: property.lat, lng: property.lng, label: property.title }]" :zoom="14" height="280px" />
         </div>
@@ -537,7 +553,6 @@ useHead({
             <div>
               <p class="text-2xl font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
               <p v-if="formattedPriceUsd" class="mt-0.5 text-sm text-slate-400">≈ ${{ formattedPriceUsd }}</p>
-              <p v-if="pricePerSqm" class="mt-0.5 text-sm text-slate-400">{{ pricePerSqm }} TJS {{ t('property.price_per_sqm') }}</p>
             </div>
             <div class="flex shrink-0 items-center gap-2">
               <div class="relative">
@@ -566,6 +581,15 @@ useHead({
                 <AppIcon name="favorite" class="h-5 w-5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
               </button>
             </div>
+          </div>
+
+          <!-- Cian-style labeled stat row under the price — just price/m²,
+          the only per-unit figure this listing set actually has (no VAT/tax
+          field on a Property, unlike cian's "Налог" row, so it isn't faked
+          here). -->
+          <div v-if="pricePerSqm" class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-sm dark:border-slate-800">
+            <span class="text-slate-400">{{ t('property.price_per_sqm') }}</span>
+            <span class="font-medium text-slate-700 dark:text-slate-200">{{ pricePerSqm }} TJS</span>
           </div>
 
           <template v-if="viewingState === 'success'">
