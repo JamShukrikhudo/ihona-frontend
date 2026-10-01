@@ -244,7 +244,10 @@
     "scroll_to_top": "Back to top",
     "legal": "Legal",
     "privacy": "Privacy Policy",
-    "terms": "Terms of Use"
+    "terms": "Terms of Use",
+    "social_instagram": "Follow us on Instagram",
+    "social_facebook": "Follow us on Facebook",
+    "social_whatsapp": "Message us on WhatsApp"
   },
   "cookie_notice": {
     "text": "We use cookies to make the site work better.",

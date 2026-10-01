@@ -244,7 +244,10 @@
     "scroll_to_top": "Ба боло",
     "legal": "Ҳуҷҷатҳо",
     "privacy": "Сиёсати махфият",
-    "terms": "Шартҳои истифода"
+    "terms": "Шартҳои истифода",
+    "social_instagram": "Мо дар Instagram",
+    "social_facebook": "Мо дар Facebook",
+    "social_whatsapp": "Дар WhatsApp нависед"
   },
   "cookie_notice": {
     "text": "Мо cookie-ро истифода мебарем, то сомона беҳтар кор кунад.",

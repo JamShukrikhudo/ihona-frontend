@@ -244,7 +244,10 @@
     "scroll_to_top": "Наверх страницы",
     "legal": "Документы",
     "privacy": "Политика конфиденциальности",
-    "terms": "Условия использования"
+    "terms": "Условия использования",
+    "social_instagram": "Мы в Instagram",
+    "social_facebook": "Мы в Facebook",
+    "social_whatsapp": "Написать в WhatsApp"
   },
   "cookie_notice": {
     "text": "Мы используем файлы cookie, чтобы сайт работал лучше.",

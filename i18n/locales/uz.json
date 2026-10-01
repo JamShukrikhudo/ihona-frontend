@@ -244,7 +244,10 @@
     "scroll_to_top": "Yuqoriga",
     "legal": "Hujjatlar",
     "privacy": "Maxfiylik siyosati",
-    "terms": "Foydalanish shartlari"
+    "terms": "Foydalanish shartlari",
+    "social_instagram": "Bizni Instagram'da kuzating",
+    "social_facebook": "Bizni Facebook'da kuzating",
+    "social_whatsapp": "WhatsApp'da yozing"
   },
   "cookie_notice": {
     "text": "Sayt yaxshiroq ishlashi uchun cookie fayllaridan foydalanamiz.",

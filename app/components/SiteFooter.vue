@@ -42,6 +42,35 @@ function scrollToTop() {
               </a>
             </li>
           </ul>
+          <div class="mt-3 flex items-center gap-3">
+            <a
+              href="https://instagram.com/ihona.tj"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="t('footer.social_instagram')"
+              class="text-slate-400 hover:text-brand-700 dark:hover:text-brand-400"
+            >
+              <AppIcon name="instagram" class="h-5 w-5" />
+            </a>
+            <a
+              href="https://www.facebook.com/ihona.tj"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="t('footer.social_facebook')"
+              class="text-slate-400 hover:text-brand-700 dark:hover:text-brand-400"
+            >
+              <AppIcon name="facebook" class="h-5 w-5" />
+            </a>
+            <a
+              href="https://wa.me/992401318888"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="t('footer.social_whatsapp')"
+              class="text-slate-400 hover:text-brand-700 dark:hover:text-brand-400"
+            >
+              <AppIcon name="whatsapp" class="h-5 w-5" />
+            </a>
+          </div>
         </div>
         <div>
           <h3 class="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">{{ t('footer.legal') }}</h3>
