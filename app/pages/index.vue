@@ -51,8 +51,17 @@ useSeoMeta({
 
 <template>
   <div>
-    <section class="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 py-16 text-white sm:py-24">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      class="relative overflow-hidden bg-cover bg-center py-16 text-white sm:py-24"
+      style="background-image: url('/images/hero-dushanbe.webp')"
+    >
+      <!-- Dushanbe's own sunset-over-the-park photo, not a flat
+           brand-color fill — a neutral dark scrim (not a green tint,
+           which would fight the photo's warm gold tones and wash out the
+           flag) just for text contrast, darkest at the bottom where the
+           h1/search content sits. -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-black/50 to-brand-900/85" />
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 class="max-w-2xl text-3xl font-bold sm:text-5xl">{{ t('home.hero_title') }}</h1>
         <p class="mt-4 max-w-xl text-brand-100">{{ t('home.hero_subtitle') }}</p>
 
