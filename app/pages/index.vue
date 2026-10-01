@@ -41,7 +41,14 @@ function pinPrice(p: { price: number; dealType: DealTypeValue; rentPeriod?: 'nig
   return `${amount} TJS${suffix}`
 }
 
-useHead({ title: t('home.title') })
+useHead({
+  title: t('home.title'),
+  // Belt-and-suspenders with the <img fetchpriority="high"> below: a
+  // preload hint works even in browsers that don't honor fetchpriority.
+  // Scoped to this page only (not nuxt.config's global head) — every
+  // other page would otherwise preload a hero image it never renders.
+  link: [{ rel: 'preload', as: 'image', href: '/images/hero-dushanbe-b654d33f-1243.webp', fetchpriority: 'high' }],
+})
 useSeoMeta({
   description: t('home.hero_subtitle'),
   ogTitle: t('home.title'),
@@ -51,10 +58,21 @@ useSeoMeta({
 
 <template>
   <div>
-    <section
-      class="relative overflow-hidden bg-cover bg-center py-16 text-white sm:py-24"
-      style="background-image: url('/images/hero-dushanbe.webp')"
-    >
+    <section class="relative overflow-hidden py-16 text-white sm:py-24">
+      <!-- A real <img>, not a CSS background-image: this is the page's
+           LCP element (first meaningful paint), and a background-image
+           is invisible to the browser's preload scanner until it parses
+           the CSS — a plain <img fetchpriority="high"> gets discovered
+           and fetched immediately instead. srcset lets a phone pull the
+           640w file instead of the full 1243w one. -->
+      <img
+        src="/images/hero-dushanbe-b654d33f-1243.webp"
+        srcset="/images/hero-dushanbe-b654d33f-640.webp 640w, /images/hero-dushanbe-b654d33f-1024.webp 1024w, /images/hero-dushanbe-b654d33f-1243.webp 1243w"
+        sizes="100vw"
+        alt=""
+        fetchpriority="high"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
       <!-- Dushanbe's own sunset-over-the-park photo, not a flat
            brand-color fill — a neutral dark scrim (not a green tint,
            which would fight the photo's warm gold tones and wash out the

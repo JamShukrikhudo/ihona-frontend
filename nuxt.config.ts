@@ -61,6 +61,16 @@ export default defineNuxtConfig({
         'X-Robots-Tag': process.env.NUXT_PUBLIC_LAUNCHED === 'true' ? 'all' : 'noindex, nofollow',
       },
     },
+    // Static files under public/images/ are content-hashed by filename
+    // (we rename on change, never overwrite in place), so a year-long
+    // immutable cache is safe — nginx just proxies everything to this
+    // Nitro server (no nginx `root`/static location for this path), so
+    // this is the only place that can set it.
+    '/images/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
   },
 
   i18n: {
