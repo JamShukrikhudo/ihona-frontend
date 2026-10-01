@@ -27,6 +27,13 @@ interface ApiProperty {
   property_type: string
   commercial_subtype: string | null
   deal_type: string | null
+  rent_period: string | null
+  security_deposit: string | number | null
+  minimum_lease_months: number | null
+  furnished: boolean | null
+  pets_allowed: boolean | null
+  utilities_included_in_rent: boolean | null
+  available_from: string | null
   price: string | number
   currency: string
   price_usd: number | null
@@ -64,8 +71,10 @@ interface ApiProperty {
   gallery: { url: string }[]
 }
 
-// Tourism types always price nightly rather than monthly — used both for
-// rentPeriod below and could grow to gate other nightly-only UI later.
+// Fallback only: older rows (or mock data) without a real rent_period
+// column infer it from property_type — tourism types always priced
+// nightly. The real column (Property::rent_period, added once deal_type's
+// old third 'daily' value was retired) takes priority whenever it's set.
 const NIGHTLY_TYPES = ['guesthouse', 'hostel', 'hunting-lodge']
 
 /** Maps the API's real, storefront-facing shape onto the frontend's Property type. */
@@ -79,7 +88,16 @@ function mapApiProperty(api: ApiProperty): Property {
     propertyType: api.property_type as PropertyTypeValue,
     commercialSubtype: api.commercial_subtype as Property['commercialSubtype'],
     dealType: (api.deal_type as Property['dealType']) ?? 'sale',
-    rentPeriod: api.deal_type === 'rent' ? (NIGHTLY_TYPES.includes(api.property_type) ? 'night' : 'month') : undefined,
+    rentPeriod:
+      api.deal_type === 'rent'
+        ? ((api.rent_period as Property['rentPeriod']) ?? (NIGHTLY_TYPES.includes(api.property_type) ? 'night' : 'month'))
+        : undefined,
+    securityDeposit: api.security_deposit !== null ? Number(api.security_deposit) : null,
+    minimumLeaseMonths: api.minimum_lease_months,
+    furnished: api.furnished,
+    petsAllowed: api.pets_allowed,
+    utilitiesIncludedInRent: api.utilities_included_in_rent,
+    availableFrom: api.available_from,
     territorySlug: territory?.slug ?? api.territory_code?.toLowerCase() ?? '',
     address: api.address ?? '',
     lat: api.latitude ?? territory?.lat ?? 38.5598,

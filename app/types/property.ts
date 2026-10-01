@@ -19,6 +19,13 @@ export interface Property {
   /** Live-converted USD equivalent (see currency-context's OpenExchangeRateApiProvider on the host) — null if the rate was unreachable. */
   priceUsd: number | null
   rentPeriod?: 'night' | 'month'
+  /** Rent-only terms — absent on mock data and on sale listings. */
+  securityDeposit?: number | null
+  minimumLeaseMonths?: number | null
+  furnished?: boolean | null
+  petsAllowed?: boolean | null
+  utilitiesIncludedInRent?: boolean | null
+  availableFrom?: string | null
   area: number
   /** Only meaningful together with `area` — land plots are quoted in sotka/hectare locally, not always m². */
   areaUnit: 'sqm' | 'sotka' | 'hectare'
