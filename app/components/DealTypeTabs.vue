@@ -22,17 +22,19 @@ function onClick(value: DealTypeValue) {
 </script>
 
 <template>
-  <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+  <div class="inline-flex rounded-xl bg-muted p-1">
     <component
       :is="nav ? 'NuxtLinkLocale' : 'button'"
       v-for="deal in dealTypes"
       :key="deal.value"
       :type="nav ? undefined : 'button'"
       :to="nav ? dealTypePath(deal.value) : undefined"
+      role="tab"
+      :aria-selected="modelValue === deal.value"
       class="rounded-lg px-5 py-2 text-sm font-semibold transition"
       :class="modelValue === deal.value
-        ? 'bg-white text-brand-700 shadow dark:bg-slate-950 dark:text-brand-400'
-        : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
+        ? 'bg-background text-brand-700 shadow-sm dark:text-brand-400'
+        : 'text-muted-foreground hover:text-foreground'"
       @click="onClick(deal.value)"
     >
       {{ dealTypeLabel(deal.value) }}

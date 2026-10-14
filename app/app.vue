@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Toaster } from '~/components/ui/sonner'
+
 // Emits canonical + hreflang alternate <link> tags on every page from the
 // current route and the 4 configured locales (ru/tg/uz/en) — needs
 // i18n.baseUrl set in nuxt.config.ts to produce absolute URLs.
@@ -16,6 +18,6 @@ useHead({ htmlAttrs: { class: computed(() => (theme.dark ? 'dark' : '')) } })
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <AppToast />
+  <Toaster position="bottom-center" />
   <CookieNotice />
 </template>

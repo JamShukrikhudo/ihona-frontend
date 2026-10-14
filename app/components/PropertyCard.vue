@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { findTerritoryBySlug, propertyTypeLabel, territoryName } from '~/data/territories'
 import type { Property } from '~/types/property'
+import { Badge } from '~/components/ui/badge'
 
 const props = withDefaults(defineProps<{ property: Property; initialFavorited?: boolean }>(), {
   initialFavorited: false,
@@ -184,15 +185,16 @@ async function onToggleFavorite() {
         </div>
       </template>
       <div class="absolute left-2.5 top-2.5 flex flex-wrap gap-1.5">
-        <span class="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow">
+        <Badge variant="secondary" class="gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow hover:bg-white/95">
           <AppIcon :name="property.propertyType" class="h-3.5 w-3.5 text-brand-600" /> {{ propertyTypeLabel(property.propertyType, t) }}
-        </span>
-        <span
+        </Badge>
+        <Badge
           v-if="property.mountainView"
-          class="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1.5 text-xs font-medium text-brand-700 shadow"
+          variant="secondary"
+          class="gap-1 rounded-full bg-white/95 px-2.5 py-1.5 text-xs font-medium text-brand-700 shadow hover:bg-white/95"
         >
           <AppIcon name="mountain-view" class="h-3.5 w-3.5" /> {{ t('property.mountain_view') }}
-        </span>
+        </Badge>
       </div>
       <button
         type="button"

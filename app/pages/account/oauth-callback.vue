@@ -5,9 +5,10 @@
 // user fields arrive once, in the URL, exactly like a password-reset link;
 // they're consumed immediately and the URL is replaced so they don't linger
 // in browser history past this render.
+import { toast } from 'vue-sonner'
+
 const { t } = useI18n()
 const auth = useAuthStore()
-const toast = useToastStore()
 const router = useRouter()
 const route = useRoute()
 const localePath = useLocalePath()
@@ -26,7 +27,7 @@ onMounted(() => {
   }
 
   auth.setSession(token, { id: Number(id), name, email })
-  toast.show(t('auth.toast_welcome_back', { name }))
+  toast(t('auth.toast_welcome_back', { name }))
 
   const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : localePath('/')
   router.replace(redirect)

@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
+import { Input } from '~/components/ui/input'
+import { Label } from '~/components/ui/label'
+import { Button } from '~/components/ui/button'
+
 const { t } = useI18n()
 const auth = useAuthStore()
-const toast = useToastStore()
 const router = useRouter()
 const route = useRoute()
 const localePath = useLocalePath()
@@ -16,7 +20,7 @@ async function submit() {
   loading.value = true
   try {
     await auth.login(email.value, password.value)
-    toast.show(t('auth.toast_welcome_back', { name: auth.user?.name ?? email.value }))
+    toast(t('auth.toast_welcome_back', { name: auth.user?.name ?? email.value }))
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : localePath('/')
     router.push(redirect)
   } catch {
@@ -35,36 +39,20 @@ useHead({ title: t('auth.login_title') })
     <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ t('auth.login_subtitle') }}</p>
 
     <form class="mt-8 flex flex-col gap-4" @submit.prevent="submit">
-      <div>
-        <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('auth.email') }}</label>
-        <input
-          v-model="email"
-          type="email"
-          autocomplete="email"
-          required
-          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
+      <div class="flex flex-col gap-1.5">
+        <Label>{{ t('auth.email') }}</Label>
+        <Input v-model="email" type="email" autocomplete="email" required />
       </div>
-      <div>
-        <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('auth.password') }}</label>
-        <input
-          v-model="password"
-          type="password"
-          autocomplete="current-password"
-          required
-          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
+      <div class="flex flex-col gap-1.5">
+        <Label>{{ t('auth.password') }}</Label>
+        <Input v-model="password" type="password" autocomplete="current-password" required />
       </div>
 
       <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
 
-      <button
-        type="submit"
-        :disabled="loading"
-        class="mt-2 rounded-lg bg-brand-600 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60"
-      >
+      <Button type="submit" size="lg" :disabled="loading" class="mt-2 bg-brand-600 text-white hover:bg-brand-700">
         {{ loading ? t('auth.loading') : t('auth.submit_login') }}
-      </button>
+      </Button>
     </form>
 
     <SocialLogin />

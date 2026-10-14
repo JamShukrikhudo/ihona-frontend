@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Button } from '~/components/ui/button'
+
 const { t } = useI18n()
 
 // Disclosure only, not a consent gate — GA4 already fires regardless (see
@@ -35,13 +37,9 @@ function dismiss() {
           {{ t('cookie_notice.text') }}
           <NuxtLinkLocale to="/privacy" class="font-medium text-accent-600 hover:underline">{{ t('cookie_notice.learn_more') }}</NuxtLinkLocale>
         </p>
-        <button
-          type="button"
-          class="shrink-0 rounded-lg bg-accent-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-accent-700"
-          @click="dismiss"
-        >
+        <Button size="sm" class="shrink-0 bg-accent-600 text-white hover:bg-accent-700" @click="dismiss">
           {{ t('cookie_notice.accept') }}
-        </button>
+        </Button>
       </div>
     </div>
   </Transition>

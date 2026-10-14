@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { findTerritoryBySlug, propertyTypeLabel, territoryName, isTourismType } from '~/data/territories'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Label } from '~/components/ui/label'
+import { Textarea } from '~/components/ui/textarea'
 
 const route = useRoute()
 const router = useRouter()
@@ -402,13 +406,9 @@ useHead({
     </h1>
     <p class="mt-1 flex flex-wrap items-center gap-1 text-slate-500 dark:text-slate-400">
       <AppIcon name="location-pin" class="h-4 w-4" aria-hidden="true" /> {{ territoryName(territory?.slug, t) }}, {{ property.address }}
-      <button
-        type="button"
-        class="ml-1 font-medium text-brand-700 hover:underline dark:text-brand-400"
-        @click="scrollToMap"
-      >
+      <Button variant="link" class="h-auto p-0 ml-1 font-medium text-brand-700 dark:text-brand-400" @click="scrollToMap">
         {{ t('property.on_map') }}
-      </button>
+      </Button>
     </p>
     <p v-if="property.viewsCount > 0 || publishedLabel" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400 dark:text-slate-500">
       <span v-if="publishedLabel" class="flex items-center gap-1">
@@ -571,14 +571,15 @@ useHead({
             </div>
             <div class="flex shrink-0 items-center gap-2">
               <div class="relative">
-                <button
-                  type="button"
-                  class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+                <Button
+                  variant="outline"
+                  size="icon"
+                  class="rounded-full border-slate-200 dark:border-slate-700"
                   :aria-label="t('property.share')"
                   @click="onShare"
                 >
                   <AppIcon name="share" class="h-5 w-5 text-slate-400" />
-                </button>
+                </Button>
                 <span
                   v-if="shareCopied"
                   class="absolute right-0 top-12 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1 text-xs text-white shadow dark:bg-slate-700"
@@ -586,15 +587,16 @@ useHead({
                   {{ t('property.share_copied') }}
                 </span>
               </div>
-              <button
-                type="button"
-                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:hover:bg-slate-800"
+              <Button
+                variant="outline"
+                size="icon"
+                class="rounded-full border-slate-200 dark:border-slate-700"
                 :disabled="togglingFavorite"
                 :aria-label="favorited ? t('property.unfavorite') : t('property.favorite')"
                 @click="onToggleFavorite"
               >
                 <AppIcon name="favorite" class="h-5 w-5" :class="favorited ? 'text-red-500 [&>svg]:fill-current' : 'text-slate-400'" />
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -618,79 +620,47 @@ useHead({
               <template v-if="isBooking">
                 <div class="grid grid-cols-2 gap-2">
                   <div>
-                    <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkin') }}</label>
-                    <input
-                      v-model="checkIn"
-                      type="date"
-                      required
-                      :min="new Date().toISOString().split('T')[0]"
-                      class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                    />
+                    <Label class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkin') }}</Label>
+                    <Input v-model="checkIn" type="date" required :min="new Date().toISOString().split('T')[0]" />
                   </div>
                   <div>
-                    <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkout') }}</label>
-                    <input
-                      v-model="checkOut"
-                      type="date"
-                      required
-                      :min="checkIn || new Date().toISOString().split('T')[0]"
-                      class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                    />
+                    <Label class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_checkout') }}</Label>
+                    <Input v-model="checkOut" type="date" required :min="checkIn || new Date().toISOString().split('T')[0]" />
                   </div>
                 </div>
                 <div>
-                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_guests') }}</label>
-                  <input
-                    v-model.number="guestsCount"
-                    type="number"
-                    min="1"
-                    :max="property.maxGuests ?? 100"
-                    required
-                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
+                  <Label class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.booking_guests') }}</Label>
+                  <Input v-model.number="guestsCount" type="number" min="1" :max="property.maxGuests ?? 100" required />
                 </div>
               </template>
               <template v-else>
                 <div>
-                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</label>
-                  <input
-                    v-model="viewingDate"
-                    type="date"
-                    required
-                    :min="new Date().toISOString().split('T')[0]"
-                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
+                  <Label class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_date') }}</Label>
+                  <Input v-model="viewingDate" type="date" required :min="new Date().toISOString().split('T')[0]" />
                 </div>
                 <div>
-                  <label class="mb-1 block text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</label>
-                  <input
-                    v-model="viewingTime"
-                    type="time"
-                    required
-                    class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
+                  <Label class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('property.viewing_time') }}</Label>
+                  <Input v-model="viewingTime" type="time" required />
                 </div>
               </template>
               <p v-if="viewingState === 'error'" class="text-sm text-red-600">{{ viewingError }}</p>
-              <button
+              <Button
                 type="submit"
+                size="lg"
                 :disabled="viewingState === 'submitting'"
-                class="w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+                class="w-full bg-accent-600 text-white hover:bg-accent-700"
               >
                 {{ viewingState === 'submitting'
                   ? t('property.viewing_submitting')
                   : (isBooking ? t('property.booking_submit') : t('property.viewing_submit')) }}
-              </button>
+              </Button>
             </form>
           </template>
 
           <template v-else>
-            <button
-              class="mt-4 w-full rounded-lg bg-accent-600 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
-              @click="openViewingForm"
-            >
+            <Button size="lg" class="mt-4 w-full bg-accent-600 text-white hover:bg-accent-700" @click="openViewingForm">
               {{ isBooking ? t('property.booking_cta') : t('property.contact_agent') }}
-            </button>
+            </Button>
             <p class="mt-3 text-center text-xs text-slate-400">{{ isBooking ? t('property.booking_note') : t('property.contact_note') }}</p>
           </template>
         </div>
@@ -707,13 +677,9 @@ useHead({
     <!-- scrolling, cian/avito-style. pb-20 on the page root leaves room for it. -->
     <div class="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t border-slate-200 bg-white/95 p-3 backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-900/95">
       <p class="truncate text-base font-bold text-slate-900 dark:text-slate-50">{{ formattedPrice }}</p>
-      <button
-        type="button"
-        class="shrink-0 rounded-lg bg-accent-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
-        @click="onMobileBarCta"
-      >
+      <Button class="shrink-0 bg-accent-600 text-white hover:bg-accent-700" @click="onMobileBarCta">
         {{ isBooking ? t('property.booking_cta') : t('property.contact_agent') }}
-      </button>
+      </Button>
     </div>
 
     <section class="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
@@ -753,21 +719,15 @@ useHead({
             ★
           </button>
         </div>
-        <textarea
-          v-model="reviewBody"
-          rows="3"
-          required
-          :placeholder="t('property.review_placeholder')"
-          class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-        />
+        <Textarea v-model="reviewBody" rows="3" required :placeholder="t('property.review_placeholder')" />
         <p v-if="reviewState === 'error'" class="text-sm text-red-600">{{ t('property.review_error') }}</p>
-        <button
+        <Button
           type="submit"
           :disabled="reviewState === 'submitting' || !reviewBody.trim()"
-          class="rounded-lg bg-accent-600 px-4 py-2 text-sm font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+          class="bg-accent-600 text-white hover:bg-accent-700"
         >
           {{ reviewState === 'submitting' ? t('property.review_submitting') : t('property.review_submit') }}
-        </button>
+        </Button>
       </form>
       <p v-else class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 dark:border-emerald-900/40 dark:bg-emerald-900/20 dark:text-emerald-200">
         {{ t('property.review_success') }}

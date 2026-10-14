@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { territoryName } from '~/data/territories'
+import { Button } from '~/components/ui/button'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -46,20 +47,17 @@ function confirmCity() {
   >
     <span>{{ t('geo.banner_question', { city: territoryName(detectedSlug, t) }) }}</span>
     <div class="flex items-center gap-2">
-      <button
-        type="button"
-        class="rounded-lg bg-brand-600 px-3 py-1 font-semibold text-white hover:bg-brand-700"
-        @click="confirmCity"
-      >
+      <Button size="sm" class="bg-brand-600 text-white hover:bg-brand-700" @click="confirmCity">
         {{ t('geo.yes') }}
-      </button>
-      <button
-        type="button"
-        class="rounded-lg border border-brand-300 px-3 py-1 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:text-brand-200 dark:hover:bg-brand-900/50"
+      </Button>
+      <Button
+        size="sm"
+        variant="outline"
+        class="border-brand-300 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:text-brand-200 dark:hover:bg-brand-900/50"
         @click="dismiss"
       >
         {{ t('geo.change_city') }}
-      </button>
+      </Button>
     </div>
   </div>
 </template>

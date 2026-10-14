@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Button } from '~/components/ui/button'
+
 const auth = useAuthStore()
 const { t } = useI18n()
 const route = useRoute()
@@ -46,24 +48,17 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
         </NuxtLinkLocale>
         <ThemeToggle />
         <LocaleSwitcher />
-        <NuxtLinkLocale
-          v-if="!auth.isAuthenticated"
-          to="/account/login"
-          class="hidden rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 md:inline-block"
-        >
-          {{ t('nav.login') }}
-        </NuxtLinkLocale>
-        <button
-          v-else
-          class="hidden rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 md:inline-block"
-          @click="auth.logout()"
-        >
+        <Button v-if="!auth.isAuthenticated" as-child class="hidden md:inline-flex">
+          <NuxtLinkLocale to="/account/login">{{ t('nav.login') }}</NuxtLinkLocale>
+        </Button>
+        <Button v-else variant="outline" class="hidden md:inline-flex" @click="auth.logout()">
           {{ t('nav.logout') }}
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 md:hidden"
+        <Button
+          variant="outline"
+          size="icon"
+          class="md:hidden"
           :aria-label="mobileMenuOpen ? 'Закрыть меню' : 'Открыть меню'"
           :aria-expanded="mobileMenuOpen"
           @click="mobileMenuOpen = !mobileMenuOpen"
@@ -72,7 +67,7 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
             <path v-if="!mobileMenuOpen" d="M4 7h16M4 12h16M4 17h16" />
             <path v-else d="M6 6l12 12M18 6L6 18" />
           </svg>
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -90,20 +85,10 @@ watch(() => route.fullPath, () => (mobileMenuOpen.value = false))
       </nav>
 
       <div class="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
-        <NuxtLinkLocale
-          v-if="!auth.isAuthenticated"
-          to="/account/login"
-          class="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
-        >
-          {{ t('nav.login') }}
-        </NuxtLinkLocale>
-        <button
-          v-else
-          class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-          @click="auth.logout()"
-        >
-          {{ t('nav.logout') }}
-        </button>
+        <Button v-if="!auth.isAuthenticated" as-child>
+          <NuxtLinkLocale to="/account/login">{{ t('nav.login') }}</NuxtLinkLocale>
+        </Button>
+        <Button v-else variant="outline" @click="auth.logout()">{{ t('nav.logout') }}</Button>
       </div>
     </div>
   </header>

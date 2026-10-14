@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { territories, territoryName, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
 import type { DealTypeValue } from '~/data/territories'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '~/components/ui/select'
 
 const props = defineProps<{ dealType: DealTypeValue }>()
 const { t } = useI18n()
@@ -44,11 +47,11 @@ function search() {
     @submit.prevent="search"
   >
     <div class="relative">
-      <input
+      <Input
         v-model="query"
         type="text"
         :placeholder="t('search.territory_placeholder')"
-        class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        class="h-auto py-2.5"
         @focus="showSuggestions = true"
         @blur="() => setTimeout(() => (showSuggestions = false), 150)"
       />
@@ -67,32 +70,30 @@ function search() {
       </ul>
     </div>
 
-    <select
-      v-model="propertyType"
-      class="rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-    >
-      <option value="">{{ t('search.all_types') }}</option>
-      <optgroup :label="t('search.city_types')">
-        <option v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
-      </optgroup>
-      <optgroup :label="t('search.tourism_types')">
-        <option v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">{{ type.icon }} {{ t(`property_type.${type.value}`) }}</option>
-      </optgroup>
-    </select>
+    <Select v-model="propertyType">
+      <SelectTrigger class="h-auto w-full py-2.5">
+        <SelectValue :placeholder="t('search.all_types')" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>{{ t('search.city_types') }}</SelectLabel>
+          <SelectItem v-for="type in cityPropertyTypes" :key="type.value" :value="type.value">
+            {{ type.icon }} {{ t(`property_type.${type.value}`) }}
+          </SelectItem>
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>{{ t('search.tourism_types') }}</SelectLabel>
+          <SelectItem v-for="type in tourismPropertyTypes" :key="type.value" :value="type.value">
+            {{ type.icon }} {{ t(`property_type.${type.value}`) }}
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
 
-    <input
-      v-model="maxPrice"
-      type="number"
-      min="0"
-      :placeholder="t('search.max_price')"
-      class="rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-    />
+    <Input v-model="maxPrice" type="number" min="0" :placeholder="t('search.max_price')" class="h-auto py-2.5" />
 
-    <button
-      type="submit"
-      class="rounded-lg bg-accent-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-700"
-    >
+    <Button type="submit" size="lg" class="bg-accent-600 text-white hover:bg-accent-700">
       {{ t('search.submit') }}
-    </button>
+    </Button>
   </form>
 </template>

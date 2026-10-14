@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { territories, territoryName, cityPropertyTypes, tourismPropertyTypes } from '~/data/territories'
 import type { DealTypeValue } from '~/data/territories'
+import { Button } from '~/components/ui/button'
 
 const { t } = useI18n()
 
@@ -163,13 +164,9 @@ useSeoMeta({
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div class="mb-4 flex items-center justify-between">
         <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ t('home.map_title') }}</h2>
-        <button
-          type="button"
-          class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-          @click="showHomeMap = !showHomeMap"
-        >
+        <Button variant="outline" size="lg" @click="showHomeMap = !showHomeMap">
           {{ showHomeMap ? t('properties.hide_map') : t('properties.show_map') }}
-        </button>
+        </Button>
       </div>
       <PropertyMap
         v-if="showHomeMap"

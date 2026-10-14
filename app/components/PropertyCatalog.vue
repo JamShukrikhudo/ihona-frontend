@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Property, PropertyFilters } from '~/types/property'
 import type { DealTypeValue } from '~/data/territories'
+import { Button } from '~/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 
 // Shared by /properties, /rent and /buy — the only difference between them
 // is whether dealType is locked to one value (and, correspondingly, which
@@ -212,22 +214,20 @@ useSeoMeta({ robots: computed(() => (isIndexable.value ? 'index, follow' : 'noin
         </p>
       </div>
       <div class="flex items-center gap-2">
-        <select
-          v-model="filters.sort"
-          class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-        >
-          <option value="newest">{{ t('properties.sort_newest') }}</option>
-          <option value="price_asc">{{ t('properties.sort_price_asc') }}</option>
-          <option value="price_desc">{{ t('properties.sort_price_desc') }}</option>
-          <option value="area_desc">{{ t('properties.sort_area_desc') }}</option>
-        </select>
-        <button
-          type="button"
-          class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-          @click="showMap = !showMap"
-        >
+        <Select v-model="filters.sort">
+          <SelectTrigger class="h-auto w-auto py-2">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="newest">{{ t('properties.sort_newest') }}</SelectItem>
+            <SelectItem value="price_asc">{{ t('properties.sort_price_asc') }}</SelectItem>
+            <SelectItem value="price_desc">{{ t('properties.sort_price_desc') }}</SelectItem>
+            <SelectItem value="area_desc">{{ t('properties.sort_area_desc') }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button variant="outline" @click="showMap = !showMap">
           {{ showMap ? t('properties.hide_map') : t('properties.show_map') }}
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -262,48 +262,31 @@ useSeoMeta({ robots: computed(() => (isIndexable.value ? 'index, follow' : 'noin
               @marker-leave="activePropertyId = null"
               @bounds-change="onBoundsChange"
             />
-            <button
-              v-if="boundsChanged"
-              type="button"
-              class="w-full rounded-lg bg-brand-600 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
-              @click="searchThisArea"
-            >
+            <Button v-if="boundsChanged" size="lg" class="w-full bg-brand-600 text-white hover:bg-brand-700" @click="searchThisArea">
               {{ t('properties.search_this_area') }}
-            </button>
+            </Button>
           </aside>
         </div>
 
         <PropertyList v-else :properties="results" />
 
         <nav v-if="pagination.lastPage > 1" class="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
-          <button
-            type="button"
-            class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-            :disabled="pagination.currentPage <= 1"
-            @click="goToPage(pagination.currentPage - 1)"
-          >
+          <Button variant="outline" size="icon" :disabled="pagination.currentPage <= 1" @click="goToPage(pagination.currentPage - 1)">
             ←
-          </button>
-          <button
+          </Button>
+          <Button
             v-for="p in pagination.lastPage"
             :key="p"
-            type="button"
-            class="h-9 w-9 rounded-lg text-sm"
-            :class="p === pagination.currentPage
-              ? 'bg-brand-600 font-semibold text-white'
-              : 'border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'"
+            size="icon"
+            :variant="p === pagination.currentPage ? 'default' : 'outline'"
+            :class="p === pagination.currentPage ? 'bg-brand-600 hover:bg-brand-700' : ''"
             @click="goToPage(p)"
           >
             {{ p }}
-          </button>
-          <button
-            type="button"
-            class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-            :disabled="pagination.currentPage >= pagination.lastPage"
-            @click="goToPage(pagination.currentPage + 1)"
-          >
+          </Button>
+          <Button variant="outline" size="icon" :disabled="pagination.currentPage >= pagination.lastPage" @click="goToPage(pagination.currentPage + 1)">
             →
-          </button>
+          </Button>
         </nav>
       </div>
     </div>
